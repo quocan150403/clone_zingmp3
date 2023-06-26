@@ -1,1 +1,20 @@
+.app__content {
+  position: relative;
+  top: 0;
+  flex: 1;
+  left: 0;
+  right: 0;
 
+  width: 100%;
+  height: 100%;
+
+  padding: 70px 4vw 0;
+
+  scroll-behavior: smooth;
+  overflow: hidden overlay;
+  will-change: scroll-position;
+  overflow-anchor: none !important;
+  scroll-snap-stop: normal !important;
+  scroll-behavior: unset !important;
+  overscroll-behavior: unset !important;
+}

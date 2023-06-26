@@ -1,0 +1,26 @@
+.zingchart__heading {
+  margin: 0;
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 4.9rem;
+  color: var(--text-item-hover);
+
+  .small {
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 2.4rem;
+    color: var(--text-item-hover);
+  }
+}
+
+.zingchart__icon {
+  display: flex;
+  cursor: pointer;
+  margin-left: 5px;
+  border-radius: 50%;
+  background-color: var(--purple-primary);
+  font-size: 43px;
+  padding: 5px;
+  padding-right: 3px;
+  color: var(--white-color);
+}

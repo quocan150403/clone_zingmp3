@@ -3,10 +3,9 @@ const images = {
   logoSmall: require('assets/images/logos/small-logo.svg').default,
   avatar: require('assets/images/avatars/avatar.jpg'),
 
-  playlist: require('assets/images/music/listSong1/song1.jpg'),
-
   song: require('assets/images/music/listSong1/song1.jpg'),
-  playing: require('assets/images/SongActiveAnimation/icon-playing.gif'),
+  iconPlaying: require('assets/images/SongActiveAnimation/icon-playing.gif'),
+  theme: require('assets/images/modalThemes/modalTheme1/theme1.jpg'),
 
   slide: [
     {
