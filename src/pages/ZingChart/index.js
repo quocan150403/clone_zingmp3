@@ -17,7 +17,7 @@ function ZingChart() {
         </Col>
         <Col md={12} lg={12} xl={12}>
           {Array.from({ length: 5 }).map((item, index) => (
-            <MediaItem key={index} index={index} media={item} full isBorderBottom />
+            <MediaItem key={index} index={index} media={item} full indexChart isBorderBottom />
           ))}
         </Col>
         <div className="text-center mt-5">

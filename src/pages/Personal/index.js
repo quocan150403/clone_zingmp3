@@ -32,7 +32,7 @@ function Personal() {
             <div className="tabs__item">MV</div>
           </div>
           <div>
-            <div className="d-flex align-items-center gap-4">
+            <div className="d-flex align-items-center gap-4 mb-4">
               <Button medium uppercase primary>
                 Yêu thích
               </Button>
@@ -40,7 +40,7 @@ function Personal() {
                 Đã tải lên
               </Button>
             </div>
-            {/* <MediaWrapper MediaList={albumList} /> */}
+            <MediaWrapper MediaList={albumList} />
           </div>
         </div>
       </div>

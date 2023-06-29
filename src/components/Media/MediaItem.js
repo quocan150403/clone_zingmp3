@@ -15,53 +15,73 @@ import {
   BsShare,
   BsPlusLg,
   BsLink,
+  BsMusicNoteBeamed,
 } from 'react-icons/bs';
 import { useState } from 'react';
 import Tippy from '@tippyjs/react';
+import classNames from 'classnames';
 
 import Wrapper from 'components/Wrapper';
 import Button from 'components/Button';
 import images from 'assets/images';
+
 import './Media.scss';
 
 function MediaItem({
   media,
-  index = false,
   large,
+  index = '',
+  checkbox = false,
   full = false,
   indexChart = false,
   isBorderBottom = false,
   ignore = false,
 }) {
   const [isShowOption, setIsShowOption] = useState(false);
+  const [checked, setChecked] = useState(false);
+
   const handleClickOutside = () => {
     setIsShowOption(false);
-    console.log('click outside');
   };
 
-  const classes = `
-    media-item
-    ${indexChart && 'is-index-chart'}
-    ${isBorderBottom && 'is-border-bottom'}
-    ${large && 'is-large'}
-    ${ignore && 'is-ignore'}
-  `;
+  const classes = classNames('media-item', {
+    checked,
+    'is-index-chart': indexChart,
+    'is-border-bottom': isBorderBottom,
+    'is-large': large,
+    'is-ignore': ignore,
+    'is-checkbox': checkbox,
+    'is-full': full,
+  });
+
+  const classNameRank = classNames({
+    'is-outline--blue': index === 0,
+    'is-outline--green': index === 1,
+    'is-outline--red': index === 2,
+    'is-outline--text': index > 2,
+  });
 
   return (
     <div className={classes}>
       <div className="media-left">
-        {(full || indexChart) && (
+        {full && indexChart && (
           <div className="media-left__rank">
-            <h2
-              className={`
-              ${index === 0 && 'is-outline--blue'}
-              ${index === 1 && 'is-outline--green'}
-              ${index === 2 && 'is-outline--red'}
-              ${index > 2 && 'is-outline--text'}`}
-            >
-              {index + 1}
-            </h2>
+            <h2 className={classNameRank}>{index + 1}</h2>
             <BsDashLg />
+          </div>
+        )}
+        {checkbox && (
+          <div className="media-left__box">
+            <div className="media-checkbox">
+              <input
+                type="checkbox"
+                id={`checkbox-${index}`}
+                className="media-checkbox__input"
+                onChange={() => setChecked(!checked)}
+              />
+              <label className="media-checkbox__label" htmlFor={`checkbox-${index}`} />
+            </div>
+            <BsMusicNoteBeamed className="media-left__music" />
           </div>
         )}
         <div className="media-left__wrapper me-3">
@@ -74,7 +94,6 @@ function MediaItem({
             <img src={images.iconPlaying} alt="" />
           </div>
         </div>
-
         <div className="media-left__info">
           <h4 className="media-title">Chưa Bao Giờ Em Quên</h4>
           <div className="media-description">
