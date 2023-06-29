@@ -1,34 +1,59 @@
-.media__item {
+.media-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  height: 61px;
   width: 100%;
   padding: 10px;
-
   border-radius: 5px;
 
   cursor: pointer;
   box-shadow: 0 1px 1px var(--bg-color);
   -webkit-tap-highlight-color: transparent;
 
-  &:hover .media__item-play {
-    display: flex;
+  &.active {
+    background-color: var(--bg-content-color);
+    cursor: pointer;
   }
 
-  &.active.playing:hover .media__item-play {
-    display: none;
+  &.playing {
+    .media-left__icon--play {
+      display: none;
+    }
+    .media-left__overlay {
+      visibility: visible;
+    }
+    .media-left__icon--playing {
+      display: block;
+    }
   }
 
-  &.active.playing .media__item-animate {
-    display: flex;
-  }
-
-  &.active,
   &:hover {
     background-color: var(--bg-content-color);
     cursor: pointer;
+
+    .media-left__icon--play {
+      display: block;
+    }
+
+    .media-left__overlay {
+      visibility: visible;
+    }
+  }
+
+  &.playing:hover {
+    .media-left__icon--play {
+      display: none;
+    }
+  }
+
+  &.is-ignore:hover {
+    background-color: transparent;
+  }
+
+  &.is-ignore .media-left__icon,
+  &.is-ignore .media-left__overlay {
+    display: none !important;
   }
 
   &.is-border-bottom {
@@ -36,16 +61,23 @@
   }
 
   &.is-index-chart {
-    .media__item-rank {
+    .media-item__rank {
       margin-right: 15px;
       h2 {
         width: 40px;
       }
     }
   }
+
+  &.is-large {
+    .media-left__wrapper {
+      width: 64px;
+      height: 64px;
+    }
+  }
 }
 
-.media__item-left {
+.media-left {
   display: flex;
   flex-wrap: wrap;
   flex-basis: auto;
@@ -57,7 +89,7 @@
   margin-right: 15px;
   align-items: center;
 
-  .media__item-rank {
+  &__rank {
     height: 100%;
     display: flex;
     cursor: default;
@@ -80,32 +112,34 @@
     }
   }
 
-  .media__item-thumb {
+  &__wrapper {
     position: relative;
     width: 40px;
     height: 40px;
     border-radius: 4px;
+    overflow: hidden;
   }
 
-  .media__item-animate {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-
-    div {
-      width: 18px;
-      height: 18px;
-      margin: auto;
-    }
-  }
-
-  .media__item-play {
+  &__overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    display: none;
-    align-items: center;
-    justify-content: center;
+    visibility: hidden;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &--play,
+    &--playing {
+      display: none;
+    }
 
     svg {
       flex: 1;
@@ -124,7 +158,7 @@
     }
   }
 
-  .media__item-info {
+  &__info {
     width: 50%;
     height: 100%;
     max-width: 100%;
@@ -136,7 +170,7 @@
   }
 }
 
-.media__item-middle {
+.media-middle {
   flex: 1;
   align-self: center;
   color: #999;
@@ -144,13 +178,13 @@
   text-align: center;
 }
 
-.media__item-right {
+.media-right {
   display: flex;
   flex-basis: auto;
   margin-left: 10px;
   justify-content: flex-end;
 
-  .media__item-option {
+  &__option {
     width: 32px;
     height: 32px;
     padding: 9px 10px;
@@ -177,7 +211,7 @@
   }
 }
 
-.media__item-title {
+.media-title {
   max-width: 100%;
   font-size: 1.4rem;
   font-weight: 500;
@@ -191,7 +225,7 @@
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
-.media__item-description {
+.media-description {
   height: 17px;
   margin: 3px 0 0;
   font-weight: 400;
@@ -215,27 +249,28 @@
   }
 }
 
-.media__item-popper {
+.media-item__wrapper {
   width: 280px;
 }
-.media__popper-group {
+
+.media-popper__group {
   border-radius: 8px;
   font-size: 10px;
   background-color: var(--bg-content-color);
   color: var(--text-color);
+}
 
-  .media__popper-item {
-    border-radius: 8px;
-    padding: 8px 0;
+.media-popper__item {
+  border-radius: 8px;
+  padding: 8px 0;
 
-    &:hover {
-      color: var(--text-item-hover);
-      background: var(--bg-content-color);
-    }
+  &:hover {
+    color: var(--text-item-hover);
+    background: var(--bg-content-color);
+  }
 
-    > svg {
-      font-size: 16px;
-      margin-bottom: 3px;
-    }
+  > svg {
+    font-size: 16px;
+    margin-bottom: 3px;
   }
 }

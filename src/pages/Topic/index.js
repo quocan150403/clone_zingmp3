@@ -1,49 +1,37 @@
+import Section from 'components/Section';
 import './Topic.scss';
+import { Col, Row } from 'reactstrap';
+import { useState } from 'react';
+import TopicItem from 'components/TopicItem';
+import images from 'assets/images';
 
 function Topic() {
+  const [topic, setTopic] = useState(Array.from(Array(4)));
   return (
-    // Following
-    <div className="app__container tab--following">
-      <div className="app__container-content">
-        <div className="following__container">
-          <div className="grid">
-            {/* Following Navbar */}
-            <div className="following__navbar">
-              <div className="following__navbar-container">
-                <ul className="following__navbar-menu">
-                  <li className="following__navbar-item active hide-on-tablet">
-                    <span>Việt Nam</span>
-                  </li>
-                  <li className="following__navbar-item">
-                    <span>US-UK</span>
-                  </li>
-                  <li className="following__navbar-item">
-                    <span>K-Pop</span>
-                  </li>
-                  <li className="following__navbar-item">
-                    <span>Hoa Ngữ</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            {/* Singer slide */}
-            <div className="row container__section mb-50">
-              <div className="col l-12 m-12 c-12 singer__slide-row">
-                <div className="row no-wrap singer-slide--container" />
-              </div>
-            </div>
-            {/* Story posts */}
-            <div className="row container__section">
-              <div className="col l-12 m-12 c-12">
-                <div className="row">
-                  <div className="col l-6 m-6 c-12 story--container" />
-                  <div className="col l-6 m-6 c-12 story--container" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="topic">
+      <section className="mb-5 topic__banner">
+        <img className="w-100 rounded-3" src={images.bannerTopic} alt="" />
+      </section>
+
+      <Section title="Topic">
+        <Row className="g-5">
+          {topic.map((item, index) => (
+            <Col key={index} xs="12" sm="6" md="4" lg="3">
+              <TopicItem {...item} />
+            </Col>
+          ))}
+        </Row>
+      </Section>
+
+      <Section title="Topic">
+        <Row className="g-5">
+          {topic.map((item, index) => (
+            <Col key={index} xs="12" sm="6" md="4" lg="3">
+              <TopicItem {...item} />
+            </Col>
+          ))}
+        </Row>
+      </Section>
     </div>
   );
 }

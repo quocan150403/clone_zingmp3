@@ -1,6 +1,6 @@
-import React from 'react';
-import { BsChevronRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import { BsChevronRight } from 'react-icons/bs';
+
 import './Section.scss';
 
 function Section({ title, to, children, info }) {
@@ -10,15 +10,7 @@ function Section({ title, to, children, info }) {
         {info ? (
           <div className="d-flex align-items-center">
             <div className="section__wrap me-3">
-              <div
-                className="section__img"
-                style={{
-                  backgroundImage: `url(${info.image})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center center',
-                  backgroundSize: 'cover',
-                }}
-              ></div>
+              <img src={info.image} alt="" />
             </div>
             <div className="d-flex flex-column section__info">
               <span>{info.name}</span>
@@ -27,7 +19,7 @@ function Section({ title, to, children, info }) {
           </div>
         ) : (
           <div className="section__title">
-            <h3>{title}</h3>
+            <h3>{title} </h3>
           </div>
         )}
         <div className="section__action">

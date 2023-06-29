@@ -1,0 +1,30 @@
+.topicItem {
+  position: relative;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.09);
+
+  &:hover .topicItem__image {
+    transform: scale(1.1);
+  }
+
+  &__image {
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.7s;
+  }
+
+  &__title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 26px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: var(--white-color);
+  }
+}

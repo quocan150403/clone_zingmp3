@@ -1,7 +1,6 @@
-import images from 'assets/images';
-import config from 'config';
-import './Sidebar.scss';
+import { BsPencil, BsPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+
 import {
   ExploreIcon,
   MVIcon,
@@ -15,133 +14,134 @@ import {
   PlaylistIcon,
   HistoryIcon,
 } from 'components/Icons';
+import images from 'assets/images';
+import config from 'config';
+import './Sidebar.scss';
 
 function Sidebar() {
   return (
-    <div className="app__sidebar">
-      <div className="sidebar__logo hide-on-mobile">
-        <a href="/" className="sidebar__logo-link">
-          <img src={images.logo} alt="Logo" className="sidebar__logo-img" />
-          <img src={images.logoSmall} alt="Logo" className="sidebar__small-logo" />
+    <div className="app-sidebar">
+      <div className="sidebar-logo hide-on-mobile">
+        <a href="/" className="sidebar-logo__link">
+          <img src={images.logo} alt="Logo" className="sidebar-logo__main" />
+          <img src={images.logoSmall} alt="Logo" className="sidebar-logo__sub" />
         </a>
       </div>
-      <div className="sidebar__nav">
-        <ul className="sidebar__nav-list sidebar__nav-list--separate">
-          <li data-name="explore" className="sidebar__nav-item active">
-            <Link to={config.routes.home} className="sidebar__item-link">
+
+      <div className="sidebar-nav">
+        <ul className="sidebar-list">
+          <li data-name="explore" className="sidebar-item active">
+            <Link to={config.routes.home} className="sidebar-item__link">
               <ExploreIcon />
               <span>Khám Phá</span>
             </Link>
           </li>
-          <li data-name="zingchart" className="sidebar__nav-item">
-            <Link to={config.routes.zingChart} className="sidebar__item-link">
+          <li data-name="zingchart" className="sidebar-item">
+            <Link to={config.routes.zingChart} className="sidebar-item__link">
               <ZingChartIcon />
               <span>#zingchart</span>
             </Link>
           </li>
-          <li data-name="radio" className="sidebar__nav-item">
-            <Link to={config.routes.radio} className="sidebar__item-link">
+          <li data-name="radio" className="sidebar-item">
+            <Link to={config.routes.radio} className="sidebar-item__link">
               <RadioIcon />
               <span>Radio</span>
               <div className="sidebar__nav-label">LIVE</div>
             </Link>
           </li>
-          <li data-name="personal" className="sidebar__nav-item">
-            <Link to={config.routes.personal} className="sidebar__item-link">
+          <li data-name="personal" className="sidebar-item">
+            <Link to={config.routes.personal} className="sidebar-item__link">
               <PersonalIcon />
               <span>Cá Nhân</span>
             </Link>
           </li>
         </ul>
       </div>
-      <div className="sidebar__subnav hide-on-mobile">
-        <ul className="sidebar__nav-list">
-          <li className="sidebar__nav-item subnab--item">
-            <Link to={config.routes.newMusic} className="sidebar__item-link">
+      <div className="sidebar-separate" />
+      <div className="sidebar-subnav hide-on-mobile">
+        <ul className="sidebar-list">
+          <li className="sidebar-item">
+            <Link to={config.routes.newMusic} className="sidebar-item__link">
               <NewMusicIcon />
               <span>Nhạc Mới</span>
             </Link>
           </li>
-          <li className="sidebar__nav-item subnab--item">
-            <Link to={config.routes.topic} className="sidebar__item-link">
+          <li className="sidebar-item">
+            <Link to={config.routes.topic} className="sidebar-item__link">
               <TopicIcon />
               <span>Thể Loại</span>
             </Link>
           </li>
-          <li className="sidebar__nav-item subnab--item">
-            <Link to={config.routes.top100} className="sidebar__item-link">
+          <li className="sidebar-item">
+            <Link to={config.routes.top100} className="sidebar-item__link">
               <Top100Icon />
               <span>Top 100</span>
             </Link>
           </li>
-          <li className="sidebar__nav-item subnab--item">
-            <Link to={config.routes.mv} className="sidebar__item-link">
+          <li className="sidebar-item">
+            <Link to={config.routes.mv} className="sidebar-item__link">
               <MVIcon />
               <span>MV</span>
             </Link>
           </li>
         </ul>
-        <div className="sidebar__login">
-          <p className="sidebar__login-description">Nghe nhạc không quảng cáo cùng kho nhạc VIP</p>
-          <a href="/" className="sidebar__login-btn button is-small button-gold">
-            Mua vip
-          </a>
-        </div>
-        <ul className="sidebar__subnav-menu">
-          <li className="sidebar__menu-item menu-header">
-            <h2 className="sidebar__menu-title">THƯ VIỆN</h2>
-            <i className="bi bi-pencil hide-on-tablet" />
+        <ul className="sidebar-menu">
+          <li className="sidebar-menu__item sidebar-menu__item--header">
+            <h2>THƯ VIỆN</h2>
+            <BsPencil className="hide-on-tablet" />
           </li>
-          <li className="sidebar__menu-item">
-            <a href="/" className="sidebar__menu-link">
+          <li className="sidebar-menu__item">
+            <a href="/" className="sidebar-menu__link">
               <MusicIcon />
               <span>Bài hát</span>
             </a>
           </li>
-          <li className="sidebar__menu-item">
-            <a href="/" className="sidebar__menu-link">
+          <li className="sidebar-menu__item">
+            <a href="/" className="sidebar-menu__link">
               <PlaylistIcon />
               <span>Playlist</span>
             </a>
           </li>
-          <li className="sidebar__menu-item">
-            <a href="/" className="sidebar__menu-link">
+          <li className="sidebar-menu__item">
+            <a href="/" className="sidebar-menu__link">
               <HistoryIcon />
               <span>Gần đây</span>
             </a>
           </li>
         </ul>
-        <ul className="sidebar__nav-list hide-on-tablet-mobile">
-          <li className="sidebar__nav-item">
-            <a href="/" className="sidebar__item-link">
+        <div className="sidebar-separate"></div>
+        <ul className="sidebar-list hide-on-tablet-mobile">
+          <li className="sidebar-item">
+            <a href="/" className="sidebar-item__link">
               <span className="sidebar__link-topic">Tháng 1</span>
             </a>
           </li>
-          <li className="sidebar__nav-item">
-            <a href="/" className="sidebar__item-link">
+          <li className="sidebar-item">
+            <a href="/" className="sidebar-item__link">
               <span className="sidebar__link-topic">Nhạc Quốc Tế</span>
             </a>
           </li>
-          <li className="sidebar__nav-item">
-            <a href="/" className="sidebar__item-link">
+          <li className="sidebar-item">
+            <a href="/" className="sidebar-item__link">
               <span className="sidebar__link-topic">Sky Ơi</span>
             </a>
           </li>
         </ul>
       </div>
-      <div className="sidebar__create-playlist">
-        <div className="sidebar__create-container hide-on-tablet-mobile">
-          <i className="bi bi-plus-lg" />
-          <h2 className="sidebar__create-title">Tạo playlist mới</h2>
+
+      <div className="sidebar-playlist">
+        <div className="sidebar-playlist__inner hide-on-tablet-mobile">
+          <BsPlus />
+          <h2 className="sidebar-playlist__title ms-3">Tạo playlist mới</h2>
         </div>
-        <div className="sidebar__expand">
+        {/* <div className="sidebar__expand">
           <div className="sidebar__expand-btn btn--expand">
-            <i className="bi bi-chevron-right" />
+            <BsChevronRight />
           </div>
           <div className="sidebar__expand-btn btn--shrink">
-            <i className="bi bi-chevron-left" />
+            <BsChevronLeft />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

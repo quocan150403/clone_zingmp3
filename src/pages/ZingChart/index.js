@@ -1,8 +1,9 @@
-import Button from 'components/Button';
-import './ZingChart.scss';
-import MediaItem from 'components/MediaItem';
 import { BsPlayFill } from 'react-icons/bs';
 import { Col, Row } from 'reactstrap';
+
+import Button from 'components/Button';
+import { MediaItem } from 'components/Media';
+import './ZingChart.scss';
 
 function ZingChart() {
   return (

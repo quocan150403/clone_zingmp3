@@ -16,14 +16,23 @@ import {
   BsPlusLg,
   BsLink,
 } from 'react-icons/bs';
-import images from 'assets/images';
-import './MediaItem.scss';
-import Tippy from '@tippyjs/react';
-import Popper from 'components/Popper';
-import Button from 'components/Button';
 import { useState } from 'react';
+import Tippy from '@tippyjs/react';
 
-function MediaItem({ media, index, full = false, indexChart = false, isBorderBottom = false }) {
+import Wrapper from 'components/Wrapper';
+import Button from 'components/Button';
+import images from 'assets/images';
+import './Media.scss';
+
+function MediaItem({
+  media,
+  index = false,
+  large,
+  full = false,
+  indexChart = false,
+  isBorderBottom = false,
+  ignore = false,
+}) {
   const [isShowOption, setIsShowOption] = useState(false);
   const handleClickOutside = () => {
     setIsShowOption(false);
@@ -31,16 +40,18 @@ function MediaItem({ media, index, full = false, indexChart = false, isBorderBot
   };
 
   const classes = `
-    media__item
+    media-item
     ${indexChart && 'is-index-chart'}
     ${isBorderBottom && 'is-border-bottom'}
+    ${large && 'is-large'}
+    ${ignore && 'is-ignore'}
   `;
 
   return (
     <div className={classes}>
-      <div className="media__item-left">
+      <div className="media-left">
         {(full || indexChart) && (
-          <div className="media__item-rank">
+          <div className="media-left__rank">
             <h2
               className={`
               ${index === 0 && 'is-outline--blue'}
@@ -53,61 +64,47 @@ function MediaItem({ media, index, full = false, indexChart = false, isBorderBot
             <BsDashLg />
           </div>
         )}
-        <div
-          className="media__item-thumb me-3"
-          style={{
-            backgroundImage: `url(${images.song})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center center',
-            backgroundSize: 'cover',
-          }}
-        >
-          <div className="media__item-animate">
-            <div
-              style={{
-                backgroundImage: `url(${images.iconPlaying})`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: '50% center',
-                backgroundSize: 'contain',
-              }}
-            ></div>
-          </div>
-          <div className="media__item-play">
+        <div className="media-left__wrapper me-3">
+          <img className="media-left__image" src={images.song} alt="" />
+          <div className="media-left__overlay" />
+          <div className="media-left__icon media-left__icon--play">
             <BsPlayFill />
           </div>
+          <div className="media-left__icon media-left__icon--playing">
+            <img src={images.iconPlaying} alt="" />
+          </div>
         </div>
-        <div className="media__item-info">
-          <h4 className="media__item-title">Chưa Bao Giờ Em Quên</h4>
-          <div className="media__item-description">
-            <a href="/" className="is-ghost">
-              Hương Ly
-            </a>
+
+        <div className="media-left__info">
+          <h4 className="media-title">Chưa Bao Giờ Em Quên</h4>
+          <div className="media-description">
+            <a href="/">Hương Ly</a>
           </div>
         </div>
       </div>
-      {full && <span className="media__item-middle">05:11</span>}
-      <div className="media__item-right">
+      {full && <span className="media-middle">05:11</span>}
+      <div className="media-right">
         {full && (
-          <span className="media__item-option">
+          <span className="media-right__option">
             <BsFillMicFill />
           </span>
         )}
-        <span className="media__item-option">
+        <span className="media-right__option">
           <BsFillHeartFill />
         </span>
         <Tippy
           visible={isShowOption}
           interactive={true}
-          placement="bottom-end"
+          placement="top-start"
           onClickOutside={handleClickOutside}
           render={(attrs) => (
-            <div {...attrs} tabIndex="-1" className="media__item-popper">
-              <Popper className="pb-3 p-0">
+            <div {...attrs} tabIndex="-1" className="media-right__wrapper">
+              <Wrapper className="pb-3 p-0">
                 <div className="p-4 pb-0 d-flex align-items-center">
                   <img src={images.song} alt="" className="me-3 rounded is-40x40" />
                   <div className="d-flex flex-column">
-                    <h4 className="media__item-title">Chưa Bao Giờ Em Quên</h4>
-                    <div className="d-flex gap-3 media__item-description">
+                    <h4 className="media-title">Chưa Bao Giờ Em Quên</h4>
+                    <div className="d-flex gap-3 media-description">
                       <span>
                         <BsHeart /> 207k
                       </span>
@@ -117,16 +114,16 @@ function MediaItem({ media, index, full = false, indexChart = false, isBorderBot
                     </div>
                   </div>
                 </div>
-                <div className="m-4 pb-0 mb-3 mt-4 d-flex align-items-center justify-content-center g-3 media__popper-group">
-                  <div className="d-flex w-100 flex-column justify-content-center align-items-center media__popper-item">
+                <div className="m-4 pb-0 mb-3 mt-4 d-flex align-items-center justify-content-center g-3 media-popper__group">
+                  <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
                     <BsDownload />
                     Tải xuống
                   </div>
-                  <div className="d-flex w-100 flex-column justify-content-center align-items-center media__popper-item">
+                  <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
                     <BsMusicNoteList />
                     Lời bài hát
                   </div>
-                  <div className="d-flex w-100 flex-column justify-content-center align-items-center media__popper-item">
+                  <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
                     <BsExclamationCircle />
                     Chặn
                   </div>
@@ -147,12 +144,12 @@ function MediaItem({ media, index, full = false, indexChart = false, isBorderBot
                 <Button option leftIcon={<BsShare />} linkIcon={<BsChevronRight />}>
                   Chia sẻ
                 </Button>
-              </Popper>
+              </Wrapper>
             </div>
           )}
         >
           <span
-            className="media__item-option"
+            className="media-right__option"
             onClick={() => {
               setIsShowOption(!isShowOption);
               console.log('click');

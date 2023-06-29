@@ -1,11 +1,11 @@
-.popper {
+.wrapper {
   min-width: 240px;
   width: 100%;
   border-radius: 8px;
   background-color: var(--primary-bg);
   position: absolute;
 
-  &.popper--search {
+  &.wrapper--search {
     border-radius: 0;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;

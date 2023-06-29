@@ -1,3 +1,5 @@
-Thể loại
-Thêm poper vào theme css
-xử lí active header
+Personal
+Slider
+hub detail
+detail
+detail singer

@@ -1,3 +1,130 @@
 .album-list {
   margin-bottom: 50px;
 }
+
+.album {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.album-wrapper {
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+
+  &:hover {
+    .album-wrapper__overlay {
+      visibility: visible;
+    }
+
+    .album-wrapper__actions {
+      display: flex;
+    }
+
+    .album-wrapper__image {
+      transform: scale(1.12);
+    }
+  }
+
+  &__image {
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.7s;
+  }
+
+  &__actions {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    display: none;
+  }
+
+  &__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    color: var(--text-color);
+    border-radius: 100px;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &--play:hover {
+      background-color: transparent;
+    }
+
+    &--play {
+      width: 45px;
+      height: 45px;
+
+      font-size: 30px;
+      padding: 8px;
+      border-radius: 50%;
+      border: 1px solid var(--text-color);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-top: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+  }
+}
+.album-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__title {
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.9rem;
+    color: var(--text-color);
+    margin: 8px 0 4px;
+    text-decoration: inherit;
+    cursor: pointer;
+  }
+  &__authors {
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  &__author {
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.7rem;
+    letter-spacing: 0;
+    margin: 3px 0 0;
+    color: var(--text-secondary);
+
+    &:hover {
+      color: var(--link-text-hover);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}

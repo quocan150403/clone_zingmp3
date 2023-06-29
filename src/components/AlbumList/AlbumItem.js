@@ -1,56 +1,42 @@
+import { Link } from 'react-router-dom';
+import { Col } from 'reactstrap';
+import { BsHeart, BsPlayFill, BsThreeDots } from 'react-icons/bs';
+
 import images from 'assets/images';
-import React from 'react';
+import './Album.scss';
 
 function AlbumItem({ data = {} }) {
   return (
-    <div className="col">
-      <div className="row__item-container">
-        <div className="row__item-display br-5">
-          <div
-            className="row__item-img img--square"
-            style={{
-              backgroundImage: `url(${images.playlist.image})`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center center',
-              backgroundSize: 'cover',
-            }}
-          ></div>
-          <div className="row__item-actions">
-            <div className="action-btn btn--heart">
-              <i className="btn--icon icon--heart bi bi-heart"></i>
+    <Col>
+      <div className="album">
+        <div className="album-wrapper br-5">
+          <img className="album-wrapper__image" src={images.playlist.image} alt="" />
+          <div className="album-wrapper__actions">
+            <div className="album-wrapper__btn">
+              <BsHeart />
             </div>
-            <div className="btn--play-playlist">
-              <div className="control-btn btn-toggle-play">
-                <i className="bi bi-play-fill"></i>
-              </div>
+            <div className="album-wrapper__btn album-wrapper__btn--play">
+              <BsPlayFill />
             </div>
-            <div className="action-btn">
-              <i className="btn--icon bi bi-three-dots"></i>
+            <div className="album-wrapper__btn">
+              <BsThreeDots />
             </div>
           </div>
-          <div className="overlay"></div>
+          <div className="album-wrapper__overlay" />
         </div>
-        <div className="row__item-info explore-playlist--info">
-          <a href="#" className="row__info-name is-oneline">
+        <div className="album-info">
+          <Link href="/" className="album-info__title">
             Mở Đầu Hoàn Hảo
-          </a>
+          </Link>
 
-          <p className="info__artist">
-            <a href="#" className="is-ghost">
-              AMEE
-            </a>
-            ,
-            <a href="#" className="is-ghost">
-              ERIK
-            </a>
-            ,
-            <a href="#" className="is-ghost">
-              Hoàng Duyên
-            </a>
+          <p className="album-info__authors">
+            <Link className="album-info__author">AMEE, </Link>
+            <Link className="album-info__author">ERIK, </Link>
+            <Link className="album-info__author">Hoàng Duyên</Link>
           </p>
         </div>
       </div>
-    </div>
+    </Col>
   );
 }
 

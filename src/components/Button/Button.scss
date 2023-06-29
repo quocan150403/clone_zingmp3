@@ -13,9 +13,9 @@
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
 
-  + .btn-custom {
-    margin-left: 15px;
-  }
+  // + .btn-custom {
+  //   margin-left: 15px;
+  // }
 
   .btn-icon + .btn-text,
   .btn-text + .btn-icon {
@@ -56,7 +56,7 @@
     border-radius: 100px;
     color: var(--text-color);
     background-color: var(--link-text-hover);
-    border: none;
+    border: 1px solid var(--link-text-hover);
 
     &:hover {
       filter: brightness(90%);
@@ -83,18 +83,41 @@
     border: none;
   }
 
-  &.full {
-    width: 100%;
+  &.small {
+    padding: 0px 24px;
+    font-size: 8px;
+    font-weight: 300;
   }
 
-  &.small {
-    padding: 4px 24px;
+  &.medium {
+    padding: 4px 10px;
     font-size: 12px;
+    line-height: 16px;
+    font-weight: 300;
   }
 
   &.large {
     padding: 12px 10px;
     font-size: 16px;
+  }
+
+  &.full {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &.text-center {
+    justify-content: center;
+  }
+
+  &.uppercase {
+    text-transform: uppercase;
   }
 
   .btn-end {

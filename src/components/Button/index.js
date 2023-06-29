@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames/bind';
-import styles from './Button.module.scss';
+import classNames from 'classnames';
 
-const cx = classNames.bind(styles);
-
+import './Button.scss';
 function Button({
   to,
   href,
@@ -15,8 +13,11 @@ function Button({
   rounded = false,
   disabled = false,
   small = false,
+  medium = false,
   large = false,
   full = false,
+  textCenter = false,
+  uppercase = false,
   children,
   className,
   leftIcon,
@@ -48,8 +49,7 @@ function Button({
     Comp = 'a';
   }
 
-  const classes = cx('btn-custom', {
-    [className]: className,
+  const classes = classNames('btn-custom', className, {
     primary,
     option,
     outline,
@@ -57,16 +57,20 @@ function Button({
     disabled,
     rounded,
     small,
+    medium,
     large,
     full,
+    uppercase,
+    'text-center': textCenter,
+    active,
   });
 
   return (
     <Comp className={classes} {...props}>
-      {leftIcon && <span className={cx('btn-icon')}>{leftIcon}</span>}
-      <span className={cx('btn-text')}>{children}</span>
-      {rightIcon && <span className={cx('btn-icon')}>{rightIcon}</span>}
-      {linkIcon && <span className={cx('btn-icon', 'btn-end')}>{linkIcon}</span>}
+      {leftIcon && <span className="btn-icon">{leftIcon}</span>}
+      <span className="btn-text">{children}</span>
+      {rightIcon && <span className="btn-icon">{rightIcon}</span>}
+      {linkIcon && <span className="btn-icon btn-end">{linkIcon}</span>}
     </Comp>
   );
 }

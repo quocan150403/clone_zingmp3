@@ -406,3 +406,29 @@ export const BasicIcon = ({ width = '24px', height = '24px', className }) => (
     </defs>
   </svg>
 );
+
+export const RadioCircleIcon = ({ className }) => (
+  <svg className={className} fill="transparent" width="100%" height="100%" viewBox="0 0 100 100">
+    <circle
+      className="svg-circle-bg"
+      stroke="rgba(255, 255, 255, 0.2)"
+      cx="50"
+      cy="50"
+      r="48.75"
+      strokeWidth="2.5"
+    ></circle>
+    <circle
+      className="svg-circle"
+      stroke="#ff4b4a"
+      cx="50"
+      cy="50"
+      r="48.75"
+      strokeWidth="2.5"
+      strokeDasharray="306.3052837250048"
+      strokeDashoffset="155.1120299698101"
+      style={{
+        transition: 'stroke-dashoffset 850ms ease-in-out 0s',
+      }}
+    ></circle>
+  </svg>
+);

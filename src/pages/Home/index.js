@@ -1,9 +1,10 @@
-import './Home.scss';
+import { Col, Row } from 'reactstrap';
+
 import images from 'assets/images';
 import AlbumList from 'components/AlbumList';
 import RadioList from 'components/RadioList';
 import Section from 'components/Section';
-import { Col, Row } from 'reactstrap';
+import './Home.scss';
 
 function Home() {
   return (

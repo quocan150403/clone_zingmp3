@@ -6,6 +6,8 @@ const images = {
   song: require('assets/images/music/listSong1/song1.jpg'),
   iconPlaying: require('assets/images/SongActiveAnimation/icon-playing.gif'),
   theme: require('assets/images/modalThemes/modalTheme1/theme1.jpg'),
+  topic: require('assets/images/topics/topic1.jpg'),
+  bannerTopic: require('assets/images/topics/banner.jpg'),
 
   slide: [
     {
