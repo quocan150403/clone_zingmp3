@@ -1,3 +1,11 @@
+.section {
+  margin-bottom: 48px;
+
+  &-header {
+    margin-bottom: 20px;
+  }
+}
+
 .section__title {
   h3 {
     line-height: 2.4rem;

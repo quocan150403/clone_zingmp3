@@ -25,7 +25,7 @@ function Queue({ isShowQueue }) {
         </div>
         <div className="queue-list pe-3 ps-3">
           {queue.map((item, index) => (
-            <MediaItem key={index} />
+            <MediaItem small active key={index} />
           ))}
         </div>
       </Wrapper>
@@ -33,6 +33,8 @@ function Queue({ isShowQueue }) {
   );
 }
 
-Queue.propTypes = {};
+Queue.propTypes = {
+  isShowQueue: PropTypes.bool,
+};
 
 export default Queue;

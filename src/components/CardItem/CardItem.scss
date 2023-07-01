@@ -1,4 +1,4 @@
-.topicItem {
+.card-item {
   position: relative;
   height: 100%;
   display: block;
@@ -6,7 +6,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.09);
 
-  &:hover .topicItem__image {
+  &:hover &__image {
     transform: scale(1.1);
   }
 
@@ -14,9 +14,10 @@
     width: 100%;
     object-fit: cover;
     transition: transform 0.7s;
+    border-radius: 8px;
   }
 
-  &__title {
+  &__name {
     position: absolute;
     top: 50%;
     left: 50%;

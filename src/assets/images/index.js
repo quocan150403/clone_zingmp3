@@ -8,6 +8,7 @@ const images = {
   theme: require('assets/images/modalThemes/modalTheme1/theme1.jpg'),
   topic: require('assets/images/topics/topic1.jpg'),
   bannerTopic: require('assets/images/topics/banner.jpg'),
+  podcast: require('assets/images/podcasts/podcast.webp'),
 
   slide: [
     {

@@ -71,35 +71,34 @@
 .sidebar-item {
   display: flex;
   cursor: pointer;
-  margin-left: 3px;
   align-items: center;
   justify-content: flex-start;
 
   &:hover {
-    .sidebar__item-link {
-      color: var(--text-item-hover);
-    }
-  }
-
-  &.active {
-    margin-left: 0;
-    background-color: var(--bg-content-color);
-    border-left: 3px solid var(--purple-primary);
-
-    .sidebar__item-link {
+    &__link {
       color: var(--text-item-hover);
     }
   }
 
   &__link {
     height: 100%;
+    width: 100%;
     display: flex;
     overflow: hidden;
-    padding: 7px 28px;
+    padding: 10px 28px;
     align-items: center;
     white-space: nowrap;
     text-decoration: none;
     color: var(--text-color);
+    border-left: 3px solid transparent;
+    transition: 0.3s;
+
+    &.active {
+      margin-left: 0;
+      background-color: var(--bg-content-color);
+      border-left: 3px solid var(--purple-primary);
+      color: var(--text-item-hover);
+    }
   }
 
   svg {
@@ -111,14 +110,14 @@
 
   span {
     display: inline-block;
-    font-size: 1.3rem;
-    font-weight: 600;
-    padding-left: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    padding-left: 12px;
     transform: translateY(1px);
   }
 }
 
-.sidebar__item-link .sidebar__link-topic {
+.sidebar-item__link .sidebar__link-topic {
   padding-left: 0;
 }
 
@@ -184,29 +183,7 @@
 }
 
 .sidebar-menu__item {
-  padding: 8px 28px;
-  height: 38px;
-
-  &--header {
-    height: 42px;
-    display: flex;
-    align-items: center;
-
-    h2 {
-      font-size: 1.2rem;
-      line-height: 2.6rem;
-      margin-right: 100px;
-      font-weight: 800;
-      white-space: nowrap;
-      color: var(--text-color);
-    }
-
-    svg {
-      font-size: 14px;
-      color: var(--text-color);
-      cursor: pointer;
-    }
-  }
+  padding: 10px 28px;
 }
 
 .sidebar-menu__link {
@@ -218,8 +195,8 @@
 
   span {
     display: inline-block;
-    font-size: 1.3rem;
-    padding-left: 10px;
+    font-size: 14px;
+    padding-left: 12px;
     transform: translateY(1px);
   }
 }

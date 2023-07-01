@@ -1,0 +1,12 @@
+.history-tabs {
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.history-separator {
+  height: 100%;
+  min-height: 34px;
+  width: 1px;
+  background-color: var(--bg-content-color);
+  margin: 0 20px;
+  display: block;
+}

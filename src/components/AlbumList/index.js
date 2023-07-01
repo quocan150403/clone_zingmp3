@@ -1,16 +1,24 @@
-import React from 'react';
-import { Row } from 'reactstrap';
-import './Album.scss';
-import AlbumItem from './AlbumItem';
+import PropTypes from 'prop-types';
+import { Col, Row } from 'reactstrap';
 
-function AlbumList({ albumList = [] }) {
+import AlbumItem from './AlbumItem';
+import './Album.scss';
+
+function AlbumList({ albumList = [], ...props }) {
   return (
-    <Row className="row row-cols-5 g-5">
+    <Row className="g-5 row-cols-5">
       {albumList.map((album, index) => (
-        <AlbumItem key={index} data={album} />
+        <Col key={index} xs="12" md="6" className={props.isCol7 ? 'custom-column-7' : 'custom-column-5'}>
+          <AlbumItem props={props} data={album} />
+        </Col>
       ))}
     </Row>
   );
 }
+
+AlbumList.propTypes = {
+  albumList: PropTypes.array,
+  isCol7: PropTypes.bool,
+};
 
 export default AlbumList;

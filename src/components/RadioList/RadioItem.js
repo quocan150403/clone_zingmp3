@@ -1,4 +1,5 @@
 import { BsPlayFill } from 'react-icons/bs';
+import PropTypes from 'prop-types';
 
 import images from 'assets/images';
 import { RadioCircleIcon } from 'components/Icons';
@@ -30,5 +31,9 @@ function RadioItem({ data = {} }) {
     </div>
   );
 }
+
+RadioItem.propTypes = {
+  data: PropTypes.object,
+};
 
 export default RadioItem;

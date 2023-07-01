@@ -2,7 +2,7 @@ import Section from 'components/Section';
 import './Topic.scss';
 import { Col, Row } from 'reactstrap';
 import { useState } from 'react';
-import TopicItem from 'components/TopicItem';
+import CardItem from 'components/CardItem';
 import images from 'assets/images';
 
 function Topic() {
@@ -17,7 +17,7 @@ function Topic() {
         <Row className="g-5">
           {topic.map((item, index) => (
             <Col key={index} xs="12" sm="6" md="4" lg="3">
-              <TopicItem {...item} />
+              <CardItem image={images.topic} name="Nhạc mới" />
             </Col>
           ))}
         </Row>
@@ -27,7 +27,7 @@ function Topic() {
         <Row className="g-5">
           {topic.map((item, index) => (
             <Col key={index} xs="12" sm="6" md="4" lg="3">
-              <TopicItem {...item} />
+              <CardItem image={images.topic} name="Nhạc mới" />
             </Col>
           ))}
         </Row>

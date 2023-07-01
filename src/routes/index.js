@@ -4,7 +4,7 @@ import Login from 'pages/Login';
 import Favorite from 'pages/Favorite';
 import History from 'pages/History';
 import NewMusic from 'pages/NewMusic';
-import Personal from 'pages/Personal';
+import Library from 'pages/Library';
 import Radio from 'pages/Radio';
 import Top100 from 'pages/Top100';
 import Topic from 'pages/Topic';
@@ -16,9 +16,9 @@ const publicRoutes = [
   { path: config.routes.topic, component: Topic },
   { path: config.routes.zingChart, component: ZingChart },
   { path: config.routes.radio, component: Radio },
-  { path: config.routes.personal, component: Personal },
+  { path: config.routes.library, component: Library },
   { path: config.routes.newMusic, component: NewMusic },
-  { path: config.routes.Top100, component: Top100 },
+  { path: config.routes.top100, component: Top100 },
   { path: config.routes.history, component: History },
   { path: config.routes.favorite, component: Favorite },
 ];

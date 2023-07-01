@@ -174,7 +174,7 @@ function Header() {
                             <BasicIcon width="50" height="16" />
                           </div>
                         </div>
-                        <Button center full primary>
+                        <Button textCenter full primary>
                           Nâng cấp tài khoản
                         </Button>
                       </div>
@@ -185,7 +185,7 @@ function Header() {
                     </>
                   ) : (
                     <div className="p-3 pb-4">
-                      <Button center full primary>
+                      <Button textCenter full primary>
                         Đăng nhập
                       </Button>
                     </div>

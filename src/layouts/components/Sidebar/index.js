@@ -1,18 +1,19 @@
 import { BsPencil, BsPlus } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import {
   ExploreIcon,
-  MVIcon,
   PersonalIcon,
   RadioIcon,
   Top100Icon,
   TopicIcon,
   ZingChartIcon,
   NewMusicIcon,
-  MusicIcon,
   PlaylistIcon,
   HistoryIcon,
+  FavoriteIcon,
+  AlbumIcon,
+  UploadIcon,
 } from 'components/Icons';
 import images from 'assets/images';
 import config from 'config';
@@ -30,30 +31,30 @@ function Sidebar() {
 
       <div className="sidebar-nav">
         <ul className="sidebar-list">
-          <li data-name="explore" className="sidebar-item active">
-            <Link to={config.routes.home} className="sidebar-item__link">
+          <li data-name="explore" className="sidebar-item">
+            <NavLink to={config.routes.home} className="sidebar-item__link">
               <ExploreIcon />
               <span>Khám Phá</span>
-            </Link>
+            </NavLink>
           </li>
           <li data-name="zingchart" className="sidebar-item">
-            <Link to={config.routes.zingChart} className="sidebar-item__link">
+            <NavLink to={config.routes.zingChart} className="sidebar-item__link">
               <ZingChartIcon />
               <span>#zingchart</span>
-            </Link>
+            </NavLink>
           </li>
           <li data-name="radio" className="sidebar-item">
-            <Link to={config.routes.radio} className="sidebar-item__link">
+            <NavLink to={config.routes.radio} className="sidebar-item__link">
               <RadioIcon />
               <span>Radio</span>
               <div className="sidebar__nav-label">LIVE</div>
-            </Link>
+            </NavLink>
           </li>
           <li data-name="personal" className="sidebar-item">
-            <Link to={config.routes.personal} className="sidebar-item__link">
+            <NavLink to={config.routes.library} className="sidebar-item__link">
               <PersonalIcon />
-              <span>Cá Nhân</span>
-            </Link>
+              <span>Thư viện</span>
+            </NavLink>
           </li>
         </ul>
       </div>
@@ -61,52 +62,54 @@ function Sidebar() {
       <div className="sidebar-subnav hide-on-mobile">
         <ul className="sidebar-list">
           <li className="sidebar-item">
-            <Link to={config.routes.newMusic} className="sidebar-item__link">
+            <NavLink to={config.routes.newMusic} className="sidebar-item__link">
               <NewMusicIcon />
-              <span>Nhạc Mới</span>
-            </Link>
+              <span>BXH Nhạc Mới</span>
+            </NavLink>
           </li>
           <li className="sidebar-item">
-            <Link to={config.routes.topic} className="sidebar-item__link">
+            <NavLink to={config.routes.topic} className="sidebar-item__link">
               <TopicIcon />
               <span>Thể Loại</span>
-            </Link>
+            </NavLink>
           </li>
           <li className="sidebar-item">
-            <Link to={config.routes.top100} className="sidebar-item__link">
+            <NavLink to={config.routes.top100} className="sidebar-item__link">
               <Top100Icon />
               <span>Top 100</span>
-            </Link>
-          </li>
-          <li className="sidebar-item">
-            <Link to={config.routes.mv} className="sidebar-item__link">
-              <MVIcon />
-              <span>MV</span>
-            </Link>
+            </NavLink>
           </li>
         </ul>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu__item sidebar-menu__item--header">
-            <h2>THƯ VIỆN</h2>
-            <BsPencil className="hide-on-tablet" />
+          <li className="sidebar-menu__item">
+            <NavLink to={config.routes.history} className="sidebar-menu__link">
+              <HistoryIcon />
+              <span>Nghe gần đây</span>
+            </NavLink>
           </li>
           <li className="sidebar-menu__item">
-            <a href="/" className="sidebar-menu__link">
-              <MusicIcon />
-              <span>Bài hát</span>
-            </a>
+            <NavLink to={config.routes.favorite} className="sidebar-menu__link">
+              <FavoriteIcon />
+              <span>Bài hát yêu thích</span>
+            </NavLink>
           </li>
           <li className="sidebar-menu__item">
-            <a href="/" className="sidebar-menu__link">
+            <NavLink to={config.routes.playlist} className="sidebar-menu__link">
               <PlaylistIcon />
               <span>Playlist</span>
-            </a>
+            </NavLink>
           </li>
           <li className="sidebar-menu__item">
-            <a href="/" className="sidebar-menu__link">
-              <HistoryIcon />
-              <span>Gần đây</span>
-            </a>
+            <NavLink to={config.routes.album} className="sidebar-menu__link">
+              <AlbumIcon />
+              <span>Album</span>
+            </NavLink>
+          </li>
+          <li className="sidebar-menu__item">
+            <NavLink to={config.routes.upload} className="sidebar-menu__link">
+              <UploadIcon />
+              <span>Đã tải lên</span>
+            </NavLink>
           </li>
         </ul>
         <div className="sidebar-separate"></div>

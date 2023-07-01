@@ -4,20 +4,18 @@ import { Col, Row } from 'reactstrap';
 import Button from 'components/Button';
 import { MediaItem } from 'components/Media';
 import './ZingChart.scss';
+import Title from 'components/Title';
 
 function ZingChart() {
   return (
     <div className="zingchart mt-5 mb-5">
       <Row>
         <Col md={12} lg={12} xl={12}>
-          <div className="d-flex align-items-center mb-5">
-            <h3 className="zingchart__heading me-3">#zingchart</h3>
-            <BsPlayFill className="zingchart__icon" />
-          </div>
+          <Title name="#zingchart" />
         </Col>
         <Col md={12} lg={12} xl={12}>
           {Array.from({ length: 5 }).map((item, index) => (
-            <MediaItem key={index} index={index} media={item} full indexChart isBorderBottom />
+            <MediaItem key={index} index={index} media={item} full indexChart isBorder />
           ))}
         </Col>
         <div className="text-center mt-5">
@@ -27,17 +25,14 @@ function ZingChart() {
 
       <Row>
         <Col md={12} lg={12} xl={12} className="mt-5 mb-5">
-          <h3 className="zingchart__heading">Bảng xếp hạng tuần</h3>
+          <Title name="Bảng xếp hạng tuần" hideIcon />
         </Col>
 
         <Col md={12} lg={12} xl={12}>
           <Row className="g-5">
             <Col md={6} lg={6} xl={6}>
-              <div className="p-3 is-bg-content rounded-5">
-                <div className="d-flex align-items-center mb-2">
-                  <h3 className="zingchart__heading fs-2 ms-5 me-2">Việt Nam</h3>
-                  <BsPlayFill className="zingchart__icon fs-1" />
-                </div>
+              <div className="p-3 pt-4 pb-4 is-bg-content rounded-5">
+                <Title small name="Việt Nam" className="mb-3 ms-5" />
                 <div>
                   {Array.from({ length: 5 }).map((item, index) => (
                     <MediaItem key={index} index={index} indexChart media={item} />
@@ -49,11 +44,8 @@ function ZingChart() {
               </div>
             </Col>
             <Col md={6} lg={6} xl={6}>
-              <div className="p-3 is-bg-content rounded-5">
-                <div className="d-flex align-items-center mb-2">
-                  <h3 className="zingchart__heading fs-2 ms-5 me-2">Quốc tế</h3>
-                  <BsPlayFill className="zingchart__icon fs-1" />
-                </div>
+              <div className="p-3 pt-4 pb-4 is-bg-content rounded-5">
+                <Title small name="Quốc tế" className="mb-3 ms-5" />
                 <div>
                   {Array.from({ length: 5 }).map((item, index) => (
                     <MediaItem key={index} index={index} indexChart media={item} />

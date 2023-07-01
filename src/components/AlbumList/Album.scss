@@ -9,6 +9,12 @@
   -webkit-tap-highlight-color: transparent;
   border-radius: 4px;
   overflow: hidden;
+
+  &.small {
+    .album-info__authors {
+      display: none;
+    }
+  }
 }
 
 .album-wrapper {
@@ -105,6 +111,10 @@
     margin: 8px 0 4px;
     text-decoration: inherit;
     cursor: pointer;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
   &__authors {
     display: block;

@@ -1,12 +1,13 @@
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { BsChevronRight } from 'react-icons/bs';
 
 import './Section.scss';
 
-function Section({ title, to, children, info }) {
+function Section({ title, to, children, info, className }) {
   return (
-    <div className="mb-5">
-      <div className="d-flex justify-content-between mb-4">
+    <div className={`section ${className || ''}`}>
+      <div className="d-flex justify-content-between section-header">
         {info ? (
           <div className="d-flex align-items-center">
             <div className="section__wrap me-3">
@@ -35,5 +36,13 @@ function Section({ title, to, children, info }) {
     </div>
   );
 }
+
+Section.propTypes = {
+  title: PropTypes.string,
+  to: PropTypes.string,
+  children: PropTypes.node,
+  info: PropTypes.object,
+  className: PropTypes.string,
+};
 
 export default Section;

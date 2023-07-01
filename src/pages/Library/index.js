@@ -1,24 +1,18 @@
-import { BsPlayFill } from 'react-icons/bs';
-
 import Helmet from 'components/Helmet';
 import Section from 'components/Section';
 import AlbumList from 'components/AlbumList';
 import Button from 'components/Button';
 import { MediaWrapper } from 'components/Media';
-import './Personal.scss';
+import Title from 'components/Title';
+import './Library.scss';
 
 const albumList = Array.from({ length: 10 });
 
-function Personal() {
+function Library() {
   return (
     <Helmet title="Thư Viện">
-      <div className="personal">
-        <div className="personal__header d-flex align-items-center">
-          <h3 className="personal__title me-3">Thư Viện</h3>
-          <div className="personal__play">
-            <BsPlayFill />
-          </div>
-        </div>
+      <div className="library">
+        <Title name="Thư viện" />
 
         <Section title="PLAYLIST">
           <AlbumList albumList={albumList} />
@@ -31,7 +25,7 @@ function Personal() {
             <div className="tabs__item">Album</div>
             <div className="tabs__item">MV</div>
           </div>
-          <div>
+          <div className="mt-4">
             <div className="d-flex align-items-center gap-4 mb-4">
               <Button medium uppercase primary>
                 Yêu thích
@@ -48,4 +42,4 @@ function Personal() {
   );
 }
 
-export default Personal;
+export default Library;

@@ -10,6 +10,7 @@ import {
   BsVolumeMute,
   BsVolumeUp,
 } from 'react-icons/bs';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 import MediaItem from 'components/Media/MediaItem';
@@ -94,5 +95,9 @@ function Player({ handleShowQueue }) {
     </div>
   );
 }
+
+Player.propTypes = {
+  handleShowQueue: PropTypes.func,
+};
 
 export default Player;
