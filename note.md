@@ -1,7 +1,3 @@
-history
-playlist
-detail album
-
 cấu trúc lại Menu
 cấu trúc lại tabs
 tái cấu trúc icon

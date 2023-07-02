@@ -5,7 +5,7 @@ import Title from 'components/Title';
 import './Radio.scss';
 import RadioList from 'components/RadioList';
 import Section from 'components/Section';
-import AlbumList from 'components/AlbumList';
+import AlbumList from 'components/Album/AlbumList';
 import CardItem from 'components/CardItem';
 import images from 'assets/images';
 

@@ -1,0 +1,145 @@
+$icon-expand-size: 24px;
+$icon-size: 24px;
+$padding-y: 10px;
+$padding-x: 28px;
+
+.menu-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 100%;
+  padding: $padding-y $padding-x;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: 0.1s;
+  cursor: pointer;
+
+  &.active {
+    margin-left: 0;
+    background-color: var(--bg-content-color);
+    border-left: 3px solid var(--purple-primary);
+    color: var(--text-item-hover);
+  }
+
+  &:hover {
+    color: var(--text-item-hover);
+
+    .menu-item__expand {
+      display: flex;
+    }
+  }
+
+  // Styles
+  &.option {
+    padding: 12px 10px;
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--bg-content-color);
+      color: var(--text-item-hover);
+    }
+
+    .menu-item__icon {
+      $icon-size: 20px;
+
+      svg {
+        width: $icon-size;
+        height: $icon-size;
+      }
+    }
+  }
+
+  &.capitalize {
+    text-transform: capitalize;
+  }
+
+  &.uppercase {
+    text-transform: uppercase;
+  }
+
+  &.inherit {
+    text-transform: inherit;
+  }
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 12px;
+
+    svg {
+      width: $icon-size;
+      height: $icon-size;
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    max-width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__label {
+    font-size: 10px;
+    line-height: 1.6rem;
+    width: 34px;
+    height: 16px;
+    margin-left: 8px;
+    border-radius: 4px;
+    text-align: center;
+    color: var(--white-color);
+    background-color: red;
+  }
+
+  &__expand {
+    position: absolute;
+    right: calc(#{$padding-x} - 4px);
+    top: 50%;
+    transform: translateY(-50%);
+
+    align-self: flex-end;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: $icon-expand-size;
+    height: $icon-expand-size;
+    display: none;
+
+    &:hover {
+      background-color: var(--bg-content-color);
+    }
+
+    svg {
+      font-size: calc(#{$icon-expand-size} * 0.6);
+    }
+  }
+
+  &__chevron {
+    align-self: flex-end;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: $icon-expand-size;
+    height: $icon-expand-size;
+
+    svg {
+      font-size: calc(#{$icon-expand-size} * 0.6);
+    }
+  }
+}

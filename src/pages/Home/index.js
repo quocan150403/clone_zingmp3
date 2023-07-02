@@ -1,7 +1,7 @@
 import { Col, Row } from 'reactstrap';
 
 import images from 'assets/images';
-import AlbumList from 'components/AlbumList';
+import AlbumList from 'components/Album/AlbumList';
 import RadioList from 'components/RadioList';
 import Section from 'components/Section';
 import './Home.scss';
@@ -72,7 +72,7 @@ function Home() {
               Quốc tế
             </Button>
           </div>
-          <Row>
+          <Row className="row-cols-3">
             <Col>
               {Array.from({ length: 4 }).map((item, index) => (
                 <MediaItem release key={index} />

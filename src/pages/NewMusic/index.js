@@ -3,7 +3,7 @@ import Title from 'components/Title';
 import { MediaItem } from 'components/Media';
 import './NewMusic.scss';
 import Section from 'components/Section';
-import AlbumList from 'components/AlbumList';
+import AlbumList from 'components/Album/AlbumList';
 
 function NewMusic() {
   return (

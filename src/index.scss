@@ -92,14 +92,27 @@ img {
   width: calc(100% - 24px);
   margin: 10px auto;
 }
+.vertical-separator {
+  height: 100%;
+  min-height: 34px;
+  width: 1px;
+  background-color: var(--bg-content-color);
+  margin: 0 20px;
+  display: block;
+}
 
 .is-40x40 {
   width: 40px;
   height: 40px;
 }
+
 .is-64x64 {
   width: 64px;
   height: 64px;
+}
+
+.is-border-bottom {
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .is-bg-content {

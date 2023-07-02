@@ -1,6 +1,6 @@
 import Helmet from 'components/Helmet';
 import Section from 'components/Section';
-import AlbumList from 'components/AlbumList';
+import AlbumList from 'components/Album/AlbumList';
 import Button from 'components/Button';
 import { MediaWrapper } from 'components/Media';
 import Title from 'components/Title';

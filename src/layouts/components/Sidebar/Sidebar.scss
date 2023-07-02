@@ -8,6 +8,16 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.app-sidebar {
+  width: 240px;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  background-color: var(--sidebar-bg);
+  -webkit-tap-highlight-color: transparent;
+}
+
 .sidebar-separate {
   position: relative;
   top: 0;
@@ -19,11 +29,6 @@
   z-index: 2;
   margin-top: 15px;
   margin-bottom: 10px;
-}
-
-.sidebar-nav {
-  display: block;
-  width: 100%;
 }
 
 .sidebar-logo {
@@ -56,81 +61,6 @@
     display: none;
     color: var(--text-color);
   }
-}
-
-.sidebar-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 0;
-  padding-left: 0;
-  list-style: none;
-  position: relative;
-}
-
-.sidebar-item {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: flex-start;
-
-  &:hover {
-    &__link {
-      color: var(--text-item-hover);
-    }
-  }
-
-  &__link {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    overflow: hidden;
-    padding: 10px 28px;
-    align-items: center;
-    white-space: nowrap;
-    text-decoration: none;
-    color: var(--text-color);
-    border-left: 3px solid transparent;
-    transition: 0.3s;
-
-    &.active {
-      margin-left: 0;
-      background-color: var(--bg-content-color);
-      border-left: 3px solid var(--purple-primary);
-      color: var(--text-item-hover);
-    }
-  }
-
-  svg {
-    width: 24px;
-    height: 24px;
-    font-size: 2.2rem;
-    display: inline-block;
-  }
-
-  span {
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 500;
-    padding-left: 12px;
-    transform: translateY(1px);
-  }
-}
-
-.sidebar-item__link .sidebar__link-topic {
-  padding-left: 0;
-}
-
-.sidebar__nav-label {
-  font-size: 1rem;
-  line-height: 1.6rem;
-  width: 34px;
-  height: 16px;
-  margin-left: 8px;
-  border-radius: 4px;
-  text-align: center;
-  color: var(--white-color);
-  background-color: red;
 }
 
 .sidebar-subnav {
@@ -168,36 +98,6 @@
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
     background: #555;
-  }
-}
-
-.sidebar-menu {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 0;
-  padding-top: 15px;
-  padding-left: 0;
-  list-style: none;
-  position: relative;
-}
-
-.sidebar-menu__item {
-  padding: 10px 28px;
-}
-
-.sidebar-menu__link {
-  display: inline-flex;
-  height: 100%;
-  align-items: center;
-  text-decoration: none;
-  color: var(--text-color);
-
-  span {
-    display: inline-block;
-    font-size: 14px;
-    padding-left: 12px;
-    transform: translateY(1px);
   }
 }
 

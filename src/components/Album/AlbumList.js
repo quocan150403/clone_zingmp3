@@ -6,10 +6,10 @@ import './Album.scss';
 
 function AlbumList({ albumList = [], ...props }) {
   return (
-    <Row className="g-5 row-cols-5">
+    <Row className="g-5">
       {albumList.map((album, index) => (
         <Col key={index} xs="12" md="6" className={props.isCol7 ? 'custom-column-7' : 'custom-column-5'}>
-          <AlbumItem props={props} data={album} />
+          <AlbumItem {...props} data={album} />
         </Col>
       ))}
     </Row>

@@ -299,6 +299,13 @@ $max-width-info: 360px;
 
   // Style for media item
   &.release {
+    $max-width-info: 200px;
+
+    .media-title,
+    .media-description {
+      max-width: $max-width-info;
+    }
+
     .media-left__wrapper {
       width: 60px;
       height: 60px;
