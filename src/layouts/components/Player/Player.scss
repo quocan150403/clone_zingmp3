@@ -1,8 +1,8 @@
+@import 'assets/styles/mixins';
+
 .player {
-  position: fixed;
-  left: 0;
+  @include position(fixed, bottom-left);
   right: 0;
-  bottom: 0;
   z-index: 400;
   background-position: 50%;
   background-repeat: repeat-x;
@@ -11,103 +11,25 @@
   padding: 0 20px;
   height: var(--player-height);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  > div {
+    flex: 1;
+  }
+
+  @include media(mobile) {
+    padding: 0 5px;
+    height: unset;
+    bottom: 45px;
+    > div {
+      flex: auto;
+    }
+  }
 }
 
 .player-left {
-  &__title {
-    font-size: 14px;
-    line-height: 2rem;
-    font-weight: 500;
-
-    color: var(--text-color);
-
-    max-width: 100%;
-    margin: 0;
-
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-
-  &__author {
-    margin: 3px 0 0;
-    font-weight: 400;
-    overflow: hidden;
-    white-space: nowrap;
-    color: var(--text-secondary);
-    font-size: 1.2rem;
-    letter-spacing: 0;
-    line-height: 1.7rem;
-    text-overflow: ellipsis;
-
-    a {
-      color: var(--text-secondary);
-      white-space: nowrap;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-        color: var(--link-text-hover);
-      }
-    }
-  }
-
-  &__btn {
-    width: 36px;
-    height: 32px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-    color: var(--text-color);
-
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
 }
+
 .player-middle {
-  &__control {
-    color: var(--text-color);
-    width: 32px;
-    height: 32px;
-    margin: 0 7px;
-    padding: 3px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-
-    &.large svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    &.play {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1px solid var(--text-color);
-
-      svg {
-        width: 24px;
-        height: 24px;
-        margin-left: 3px;
-      }
-    }
-
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
-
   .player-duration {
     &:hover .player-duration__process {
       height: 5px;
@@ -128,11 +50,10 @@
     position: relative;
 
     input {
-      display: none;
-      position: absolute;
-      top: 50%;
+      @include position(absolute, center-y);
       left: 0;
-      transform: translateY(-50%);
+
+      display: none;
       z-index: 5;
       opacity: 12;
 
@@ -151,9 +72,7 @@
     }
 
     span {
-      position: absolute;
-      top: 0;
-      left: 0;
+      @include position(absolute, top-left);
       width: 0;
       height: 100%;
       z-index: 23;
@@ -169,6 +88,12 @@
     font-size: 12px;
     text-align: center;
     color: var(--text-color);
+  }
+
+  @include media(tablet) {
+    .player-duration__process {
+      min-width: 230px;
+    }
   }
 }
 
@@ -213,11 +138,9 @@
     }
 
     input {
+      @include position(absolute, center-y);
       display: none;
-      position: absolute;
-      top: 50%;
       left: 0;
-      transform: translateY(-50%);
       z-index: 5;
       opacity: 12;
 
@@ -236,9 +159,8 @@
     }
 
     span {
-      position: absolute;
-      top: 0;
-      left: 0;
+      @include position(absolute, top-left);
+
       width: 0;
       height: 100%;
       z-index: 23;
@@ -252,5 +174,86 @@
     width: 1px;
     background-color: var(--border-primary);
     margin: 0 20px;
+  }
+
+  @include media(tablet) {
+    &__volume {
+      display: none;
+    }
+  }
+
+  @include media(mobile) {
+    &__btn {
+      width: 30px;
+      height: 30px;
+
+      &.large {
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}
+
+.player-controls {
+  margin-bottom: 10px;
+  @include media(mobile) {
+    align-self: flex-end;
+    margin-bottom: 0;
+  }
+}
+
+.player-control {
+  color: var(--text-color);
+  width: 32px;
+  height: 32px;
+  margin: 0 7px;
+  padding: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.large svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &.play {
+    @include square(40px);
+    border: 1px solid var(--text-color);
+    border-radius: 50%;
+
+    svg {
+      margin-left: 3px;
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  @include media(mobile) {
+    margin: 0;
+
+    &.play svg,
+    &.large svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    &.play {
+      border: none;
+    }
   }
 }

@@ -14,9 +14,9 @@ function Topic() {
       </section>
 
       <Section title="Topic">
-        <Row className="g-5">
+        <Row className="row-custom g-custom">
           {topic.map((item, index) => (
-            <Col key={index} xs="12" sm="6" md="4" lg="3">
+            <Col key={index} xs="6" sm="4" lg="4" xl="3">
               <CardItem image={images.topic} name="Nhạc mới" />
             </Col>
           ))}
@@ -24,9 +24,9 @@ function Topic() {
       </Section>
 
       <Section title="Topic">
-        <Row className="g-5">
+        <Row className="row-custom g-custom">
           {topic.map((item, index) => (
-            <Col key={index} xs="12" sm="6" md="4" lg="3">
+            <Col key={index} xs="6" sm="4" lg="4" xl="3">
               <CardItem image={images.topic} name="Nhạc mới" />
             </Col>
           ))}

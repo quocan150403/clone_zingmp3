@@ -1,0 +1,50 @@
+%text-truncate {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+%text-truncate-2-lines {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+%scrollbar {
+  overflow-x: hidden;
+  overflow-y: overlay !important;
+  overscroll-behavior: contain;
+  will-change: scroll-position;
+
+  &.has-mask {
+    -webkit-mask-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.8) 10%, #fff 25%);
+  }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    // display: none;
+  }
+
+  &:hover::-webkit-scrollbar {
+    display: block;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: transparent;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #888;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}

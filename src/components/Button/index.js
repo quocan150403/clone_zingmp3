@@ -7,22 +7,21 @@ function Button({
   to,
   href,
   primary = false,
-  option = false,
+  secondary = false,
   outline = false,
-  text = false,
+  circle = false,
+  column = false,
   rounded = false,
   disabled = false,
   small = false,
   medium = false,
   large = false,
-  full = false,
-  textCenter = false,
+  fullWidth = false,
   uppercase = false,
   children,
   className,
   leftIcon,
   rightIcon,
-  linkIcon,
   onClick,
   active,
   ...passProps
@@ -51,26 +50,25 @@ function Button({
 
   const classes = classNames('btn-custom', className, {
     primary,
-    option,
+    secondary,
     outline,
-    text,
+    circle,
+    column,
     disabled,
     rounded,
     small,
     medium,
     large,
-    full,
     uppercase,
-    'text-center': textCenter,
     active,
+    'full-width': fullWidth,
   });
 
   return (
     <Comp className={classes} {...props}>
       {leftIcon && <span className="btn-icon">{leftIcon}</span>}
-      <span className="btn-text">{children}</span>
+      {children && <span className="btn-text">{children}</span>}
       {rightIcon && <span className="btn-icon">{rightIcon}</span>}
-      {linkIcon && <span className="btn-icon btn-end">{linkIcon}</span>}
     </Comp>
   );
 }
@@ -84,8 +82,7 @@ Button.propTypes = {
   rounded: PropTypes.bool,
   disabled: PropTypes.bool,
   small: PropTypes.bool,
-  large: PropTypes.bool,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string,
   leftIcon: PropTypes.node,
   rightIcon: PropTypes.node,

@@ -1,20 +1,18 @@
+@import 'assets/styles/mixins';
+@import 'assets/styles/placeholders';
 $icon-expand-size: 24px;
-$icon-size: 24px;
-$padding-y: 10px;
-$padding-x: 28px;
+$padding-icon: 12px;
 
 .menu-item {
+  @include flex(flex-start);
+  @extend %text-truncate;
+
   position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-
   width: 100%;
-  padding: $padding-y $padding-x;
+  padding: 10px 22px;
+  color: var(--text-color);
   white-space: nowrap;
   text-decoration: none;
-  color: var(--text-color);
   transition: 0.1s;
   cursor: pointer;
 
@@ -47,11 +45,9 @@ $padding-x: 28px;
     }
 
     .menu-item__icon {
-      $icon-size: 20px;
-
       svg {
-        width: $icon-size;
-        height: $icon-size;
+        width: 20px;
+        height: 20px;
       }
     }
   }
@@ -68,15 +64,24 @@ $padding-x: 28px;
     text-transform: inherit;
   }
 
+  // Sizes
+  &.small {
+    padding: 8px 20px 8px 14px;
+    svg {
+      width: 16px !important;
+      height: 16px !important;
+    }
+  }
+
   &__icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-right: 12px;
+    padding-right: $padding-icon;
 
     svg {
-      width: $icon-size;
-      height: $icon-size;
+      width: 24px;
+      height: 24px;
     }
   }
 
@@ -93,7 +98,7 @@ $padding-x: 28px;
 
   &__label {
     font-size: 10px;
-    line-height: 1.6rem;
+    line-height: 16px;
     width: 34px;
     height: 16px;
     margin-left: 8px;
@@ -105,7 +110,7 @@ $padding-x: 28px;
 
   &__expand {
     position: absolute;
-    right: calc(#{$padding-x} - 4px);
+    right: calc(100% + 10px);
     top: 50%;
     transform: translateY(-50%);
 
@@ -115,8 +120,8 @@ $padding-x: 28px;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    width: $icon-expand-size;
-    height: $icon-expand-size;
+    width: 24px;
+    height: 24px;
     display: none;
 
     &:hover {
@@ -140,6 +145,45 @@ $padding-x: 28px;
 
     svg {
       font-size: calc(#{$icon-expand-size} * 0.6);
+    }
+  }
+
+  &.responsive {
+    @include media(tablet) {
+      border-left: none;
+      justify-content: center;
+      padding: 10px 0px;
+
+      .menu-item__title {
+        display: none;
+      }
+
+      .menu-item__icon {
+        padding-right: 0;
+      }
+    }
+
+    @include media(mobile) {
+      border-left: none;
+      justify-content: center;
+      height: 100%;
+      padding: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .menu-item__icon {
+        padding-right: 0;
+        width: 16px;
+        height: 16px;
+      }
+
+      .menu-item__title {
+        font-size: 10px;
+        font-weight: 300;
+        margin-top: 4px;
+      }
     }
   }
 }

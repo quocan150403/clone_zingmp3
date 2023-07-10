@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
+import './Menu.scss';
 
-import './MenuItem.scss';
-
-function MenuItem({ option, to, icon, title, label, iconExpand, chevron }) {
+function MenuItem({ option, responsive, small, to, icon, title, label, iconExpand, chevron }) {
   let Component = to ? NavLink : 'div';
+  const classes = classNames('menu-item', {
+    option,
+    small,
+    responsive,
+  });
   return (
-    <Component to={to} className={`menu-item ${option ? 'option' : ''}`}>
+    <Component to={to} className={classes}>
       {icon && <div className="menu-item__icon">{icon}</div>}
       <div className="menu-item__title">
         {title}
-        {label && <div className="menu-item__label">{label}</div>}
+        {label && <div className="menu-item__label d-none-mobile">{label}</div>}
       </div>
       {iconExpand && <div className="menu-item__expand">{iconExpand}</div>}
       {chevron && <div className="menu-item__chevron">{chevron}</div>}
@@ -21,6 +26,9 @@ function MenuItem({ option, to, icon, title, label, iconExpand, chevron }) {
 MenuItem.propTypes = {
   icon: PropTypes.element,
   title: PropTypes.string,
+  label: PropTypes.string,
+  iconExpand: PropTypes.element,
+  chevron: PropTypes.element,
 };
 
 export default MenuItem;

@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
-@import '~bootstrap-icons/font/bootstrap-icons.css';
 @import 'bootstrap/dist/css/bootstrap.css';
 @import 'assets/styles/variables';
 @import 'assets/styles/mixins';
@@ -7,6 +6,7 @@
 
 :root {
   --black-color: #000;
+  --white-color: #fff;
   --bg-content-color: rgba(255, 255, 255, 0.1);
   --border-box: rgba(255, 255, 255, 0.2);
   --border-primary: rgba(255, 255, 255, 0.1);
@@ -25,10 +25,11 @@
   --text-color: #fff;
   --text-item-hover: #fff;
   --text-secondary: rgba(255, 255, 255, 0.5);
-  --white-color: #fff;
+
   --player-height: 90px;
   --header-height: 70px;
   --sidebar-height: calc(100% - var(--player-height));
+
   --offset-x-second: calc(0px - ((230px - (230px * var(--scale-rate-second))) / 2 + 20px));
   --offset-x-third: calc(0px - ((230px - (230px * var(--scale-rate-third))) / 2 + 40px));
   --scale-rate-second: calc(196 / 230);
@@ -42,8 +43,8 @@
 }
 
 html {
-  font-size: 62.5%;
-  line-height: 1.6rem;
+  font-size: 14px;
+  line-height: 1.5;
   word-wrap: break-word;
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -54,6 +55,11 @@ body {
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   background: var(--layout-bg);
+}
+
+p,
+div {
+  word-break: break-word;
 }
 
 i {
@@ -72,17 +78,85 @@ img {
   transition: 0.7s;
 }
 
-@media (min-width: 992px) {
-  .custom-column-5 {
+// Classes for layout
+.mt-custom {
+  margin-top: 50px;
+}
+
+@include media(desktop) {
+  .col-lg-2-4 {
     width: calc(100% / 5);
     flex: 0 0 calc(100% / 5);
     max-width: calc(100% / 5);
   }
 
-  .custom-column-7 {
+  .g-custom {
+    --bs-gutter-y: 2rem;
+    --bs-gutter-x: 2rem;
+  }
+
+  .col-lg-1-7 {
     width: calc(100% / 7);
     flex: 0 0 calc(100% / 7);
     max-width: calc(100% / 7);
+  }
+}
+
+@include media(tablet) {
+  .col-md-2-4 {
+    width: calc(100% / 5);
+    flex: 0 0 calc(100% / 5);
+    max-width: calc(100% / 5);
+  }
+
+  .g-custom {
+    --bs-gutter-y: 1.5rem;
+    --bs-gutter-x: 1.5rem;
+  }
+
+  .row-custom {
+    display: flex;
+    flex-wrap: nowrap;
+    scroll-snap-type: x mandatory;
+    padding-right: 32px;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch; /* Hỗ trợ cuộn mượt trên iOS */
+    -ms-overflow-style: -ms-autohiding-scrollbar; /* Ẩn thanh cuộn trên IE/Edge */
+    scroll-behavior: smooth;
+
+    & > * {
+      scroll-snap-align: start;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+@include media(mobile) {
+  .g-custom {
+    --bs-gutter-y: 1.2rem;
+    --bs-gutter-x: 1.2rem;
+  }
+
+  .row-custom {
+    display: flex;
+    flex-wrap: nowrap;
+    scroll-snap-type: x mandatory;
+    padding-right: 32px;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch; /* Hỗ trợ cuộn mượt trên iOS */
+    -ms-overflow-style: -ms-autohiding-scrollbar; /* Ẩn thanh cuộn trên IE/Edge */
+    scroll-behavior: smooth;
+
+    & > * {
+      scroll-snap-align: start;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
@@ -92,6 +166,7 @@ img {
   width: calc(100% - 24px);
   margin: 10px auto;
 }
+
 .vertical-separator {
   height: 100%;
   min-height: 34px;
@@ -119,29 +194,6 @@ img {
   background-color: var(--sidebar-bg);
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: var(--sidebar-bg);
-}
-
-/* Main CSS */
 .outline--blue {
   -webkit-text-stroke: 1px #4a90e2;
 }
@@ -156,7 +208,7 @@ img {
   opacity: 0.7;
 }
 
-.no-content-image {
+.no-image {
   width: 90px;
   height: 90px;
   background: url('https://zjs.zadn.vn/zmp3-desktop/releases/v1.3.18/static/media/music-icon.cfa4aa91.svg') no-repeat
@@ -164,43 +216,33 @@ img {
   margin-bottom: 20px;
 }
 
-.tabs {
-  &__list {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid var(--border-primary);
+.overlay {
+  @include position(fixed, full);
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+// Classes for responsive
+@media (min-width: 1024px) {
+  .d-none-desktop {
+    display: none !important;
   }
+}
 
-  &__item + &__item {
-    margin-left: 40px;
+@media (min-width: 768px) and (max-width: 1023px) {
+  .d-none-tablet {
+    display: none !important;
   }
+}
 
-  &__item {
-    position: relative;
-    padding: 15px 0;
-    height: 100%;
+@media (max-width: 1023px) {
+  .d-none-mobile-tablet {
+    display: none !important;
+  }
+}
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 0.3s;
-    color: var(--text-color);
-    font-size: 1.4rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-    &:hover {
-      color: var(--text-color);
-    }
-
-    &--active {
-      color: var(--text-item-hover);
-      border-bottom: 2px solid var(--text-item-hover);
-    }
+@media (max-width: 767px) {
+  .d-none-mobile {
+    display: none !important;
   }
 }

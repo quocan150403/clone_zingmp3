@@ -10,21 +10,24 @@ import {
   BsDownload,
   BsMusicNoteList,
   BsExclamationCircle,
-  BsChevronRight,
   BsMusicNoteBeamed,
   BsTextWrap,
   BsCollectionPlay,
   BsArrowReturnRight,
   BsLink45Deg,
+  BsFillHeartbreakFill,
+  BsThreeDotsVertical,
 } from 'react-icons/bs';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import Tippy from '@tippyjs/react';
 import classNames from 'classnames';
+import TippyHeadless from '@tippyjs/react/headless';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css'; // optional
 
 import Wrapper from 'components/Wrapper';
-import Button from 'components/Button';
 import images from 'assets/images';
+import MenuItem from 'components/Wrapper/Menu';
 import './Media.scss';
 
 function MediaItem({
@@ -33,29 +36,35 @@ function MediaItem({
   rank,
   primary,
   singer,
-  small,
-  large,
+  grow,
+  isPlayer,
   full = false,
   ignore = false,
   index = 0,
   checkbox = false,
   indexChart = false,
   isBorder = false,
+  showOption = false,
+  responsive = false,
   arrayCheck = [],
   handleCheck,
 }) {
   const [isShowOption, setIsShowOption] = useState(false);
+  const mediaRef = useRef();
 
   const classes = classNames('media-item', {
     checked: arrayCheck.includes(index),
     rank,
     release,
     primary,
-    large,
-    small,
+    grow,
     ignore,
     checkbox,
     full,
+    singer,
+    responsive,
+    'show-option': showOption,
+    'is-player': isPlayer,
     'is-border': isBorder,
   });
 
@@ -67,12 +76,12 @@ function MediaItem({
   });
 
   return (
-    <div className={classes}>
+    <div ref={mediaRef} className={classes}>
       <div className="media-left">
         {indexChart && (
           <div className="media-left__index">
             <h2 className={classNameIndex}>{index + 1}</h2>
-            <BsDashLg />
+            <BsDashLg className="media-left__separator" />
           </div>
         )}
         {checkbox && (
@@ -90,53 +99,61 @@ function MediaItem({
             <BsMusicNoteBeamed className="media-left__music" />
           </div>
         )}
-        <div className="media-left__wrapper me-3">
-          <img className="media-left__image" src={images.song} alt="" />
-          <div className="media-left__overlay" />
-          <div className="media-left__icon media-left__icon--play">
-            <BsPlayFill />
-          </div>
-          <div className="media-left__icon media-left__icon--playing">
-            <img src={images.iconPlaying} alt="" />
-          </div>
-        </div>
-        <div className="media-left__content">
-          <div className="media-left__info">
-            <h4 className="media-title">
-              Chưa Bao Giờ Em Quên Chưa Chưa Bao Giờ Em Quên Chưa Chưa Bao Giờ Em Quên Chưa
-            </h4>
-            <div className="media-description">
-              <a href="/">Hương Ly, </a>
-              <a href="/">Hương Ly, </a>
-              <a href="/">Hương Ly, </a>
-              <a href="/">Hương Ly, </a>
+        <div className="media-left__inner">
+          <div className="media-left__wrapper me-3">
+            <img className="media-left__image" src={images.song} alt="" />
+            <div className="media-left__overlay" />
+            <div className="media-left__icon media-left__icon--play">
+              <BsPlayFill />
             </div>
-            <div className="media-description media-left__release">3 giờ trước</div>
-          </div>
-          {rank && (
-            <div className="media-left__rank">
-              <span className="media-left__order media-left__order--secondary">#1</span>
-              <span className="media-left__day">28.06.2023</span>
+            <div className="media-left__icon media-left__icon--playing">
+              <img src={images.iconPlaying} alt="" />
             </div>
-          )}
+          </div>
+          <div className="media-left__content">
+            <div className="media-left__info">
+              <h2 className="media-title">
+                Chưa Bao Giờ Em Quên Chưa Chưa Bao Giờ Em Quên Chưa Chưa Bao Giờ Em Quên Chưa
+              </h2>
+              <div className="media-description">
+                <a href="/">Hương Ly, </a>
+                <a href="/">Hương Ly, </a>
+                <a href="/">Hương Ly </a>
+              </div>
+              {release && <div className="media-description media-left__release">3 giờ trước</div>}
+            </div>
+            {rank && (
+              <div className="media-left__rank">
+                <span className="media-left__order media-left__order--secondary">#1</span>
+                <span className="media-left__day">28.06.2023</span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       {full && <span className="media-middle">05:11</span>}
       {!rank && (
         <div className="media-right">
           {full && (
-            <span className="media-right__option">
-              <BsFillMicFill />
-            </span>
+            <Tippy content="Phát cùng lời bài hát">
+              <span className="media-right__option">
+                <BsFillMicFill />
+              </span>
+            </Tippy>
           )}
-          <span className="media-right__option">
-            <BsFillHeartFill />
-          </span>
-          <Tippy
+          <Tippy content="Thêm vào thư viện">
+            <span className="media-right__option media-right__option--heart">
+              <BsHeart />
+            </span>
+          </Tippy>
+
+          <TippyHeadless
             visible={isShowOption}
             interactive={true}
-            placement="bottom-end"
+            placement="auto"
             onClickOutside={() => setIsShowOption(false)}
+            onHide={() => setIsShowOption(false)}
+            appendTo={mediaRef && mediaRef.current}
             render={(attrs) => (
               <div {...attrs} tabIndex="-1" className="media-right__wrapper">
                 <Wrapper className="pb-3 p-0">
@@ -168,35 +185,27 @@ function MediaItem({
                       Chặn
                     </div>
                   </div>
-
-                  <Button option leftIcon={<BsTextWrap />}>
-                    Thêm vào danh sách phát
-                  </Button>
-                  <Button option leftIcon={<BsCollectionPlay />}>
-                    Phát tiếp theo
-                  </Button>
-                  <Button option leftIcon={<BsPlusCircle />}>
-                    Thêm vào playlist
-                  </Button>
-                  <Button option leftIcon={<BsLink45Deg />}>
-                    Sao chép link
-                  </Button>
-                  <Button option leftIcon={<BsArrowReturnRight />} linkIcon={<BsChevronRight />}>
-                    Chia sẻ
-                  </Button>
+                  <MenuItem small option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
+                  <MenuItem small option icon={<BsCollectionPlay />} title="Phát tiếp theo" />
+                  <MenuItem small option icon={<BsPlusCircle />} title="Thêm vào playlist" />
+                  <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
+                  <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
                 </Wrapper>
               </div>
             )}
           >
-            <span
-              className="media-right__option"
-              onClick={() => {
-                setIsShowOption(!isShowOption);
-              }}
-            >
-              <BsThreeDots />
-            </span>
-          </Tippy>
+            <Tippy content="Khác">
+              <span
+                className="media-right__option media-right__option--more"
+                onClick={() => {
+                  setIsShowOption(!isShowOption);
+                }}
+              >
+                <BsThreeDots />
+                <BsThreeDotsVertical />
+              </span>
+            </Tippy>
+          </TippyHeadless>
         </div>
       )}
     </div>

@@ -59,12 +59,13 @@ function MediaWrapper({ MediaList }) {
           </span>
           Bài hát
         </span>
-        <span>Thời lượng</span>
+        <span className="media-wrapper__amount">Thời lượng</span>
       </div>
       {MediaList.map((media, index) => (
         <MediaItem
           checkbox
           isBorder
+          showOption
           full
           key={index}
           index={index}

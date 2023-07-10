@@ -4,7 +4,7 @@ import { BsHeart, BsPlayFill, BsThreeDots } from 'react-icons/bs';
 import classNames from 'classnames';
 
 import images from 'assets/images';
-import './Album.scss';
+import './AlbumItem.scss';
 import Button from 'components/Button';
 
 function AlbumItem({ data, small, detail }) {
@@ -41,10 +41,14 @@ function AlbumItem({ data, small, detail }) {
         </p>
         {detail && (
           <div>
-            <p className="album-info__authors mb-5">81k người yêu thích</p>
+            <p className="album-info__likes mb-4">81k người yêu thích</p>
             <Button primary uppercase leftIcon={<BsPlayFill />}>
               Phát tất cả
             </Button>
+            <div className="mt-4">
+              <Button circle secondary medium leftIcon={<BsHeart />} />
+              <Button circle secondary medium leftIcon={<BsThreeDots />} />
+            </div>
           </div>
         )}
       </div>
@@ -55,6 +59,9 @@ function AlbumItem({ data, small, detail }) {
 AlbumItem.propTypes = {
   data: PropTypes.object,
   props: PropTypes.object,
+  small: PropTypes.bool,
+  detail: PropTypes.bool,
+  add: PropTypes.bool,
 };
 
 export default AlbumItem;

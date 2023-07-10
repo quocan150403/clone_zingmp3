@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import './Title.scss';
 
-function Title({ name, hideIcon, className, small, primary }) {
+function Title({ name, sub, hideIcon, className, small, primary }) {
   const [play, setPlay] = useState(false);
 
   const classes = classNames('title', className, {
@@ -15,16 +15,19 @@ function Title({ name, hideIcon, className, small, primary }) {
     'title--primary': primary,
   });
 
+  let Comp = 'h1';
+  if (sub) Comp = 'h2';
+
   return (
-    <h1 className={classes}>
-      <span className="title__text">{name}</span>
+    <div className={classes}>
+      <Comp className="title__text">{name}</Comp>
       {!hideIcon && (
         <span onClick={() => setPlay(!play)} className="title__icon">
           <BsPlayFill className="icon--play" />
           <BsPauseFill className="icon--pause" />
         </span>
       )}
-    </h1>
+    </div>
   );
 }
 

@@ -1,11 +1,8 @@
-cấu trúc lại Menu
-cấu trúc lại tabs
-tái cấu trúc icon
-
+add detail music (custom tas large)
 Slider
+responsive
 
 add style media (Singer)
 detail singer
 Item singer
 hub detail
-responsive

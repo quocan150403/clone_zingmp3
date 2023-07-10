@@ -1,19 +1,43 @@
+@import 'assets/styles/mixins';
+
 .section {
   margin-bottom: 48px;
 
   &-header {
     margin-bottom: 20px;
   }
+
+  @include media(mobile) {
+    margin-bottom: 32px;
+  }
 }
 
 .section__title {
-  h3 {
-    line-height: 2.4rem;
+  display: flex;
+  align-items: center;
+
+  h2 {
+    line-height: 24px;
     color: var(--text-color);
     font-size: 20px;
     font-weight: 600;
     text-transform: capitalize;
     white-space: nowrap;
+    margin: 0;
+    padding: 0;
+  }
+
+  svg {
+    display: none;
+    margin-left: 8px;
+    color: var(--text-color);
+    font-size: 18px;
+  }
+
+  @include media(mobile) {
+    svg {
+      display: block;
+    }
   }
 }
 
@@ -39,19 +63,19 @@
 }
 
 .section__info {
-  span {
+  h2 {
     margin: 3px 0 0;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 17px;
     text-transform: uppercase;
     color: var(--text-secondary);
-    // white-space: nowrap;
+    white-space: nowrap;
   }
   h3 {
     // white-space: nowrap;
     margin: 5px 0 0;
     font-size: 18px;
-    line-height: 2.5rem;
+    line-height: 25px;
     color: var(--text-color);
   }
 }
@@ -59,6 +83,10 @@
 .section__action {
   opacity: 0.3 !important;
   color: var(--text-color);
+
+  @include media(mobile) {
+    display: none;
+  }
 
   &:hover {
     cursor: pointer;

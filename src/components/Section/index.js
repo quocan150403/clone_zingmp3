@@ -6,7 +6,7 @@ import './Section.scss';
 
 function Section({ title, to, children, info, className }) {
   return (
-    <div className={`section ${className || ''}`}>
+    <section className={`section ${className || ''}`}>
       <div className="d-flex justify-content-between section-header">
         {info ? (
           <div className="d-flex align-items-center">
@@ -14,14 +14,15 @@ function Section({ title, to, children, info, className }) {
               <img src={info.image} alt="" />
             </div>
             <div className="d-flex flex-column section__info">
-              <span>{info.name}</span>
+              <h2>{info.name}</h2>
               <h3 className="is-active">{info.singer}</h3>
             </div>
           </div>
         ) : (
-          <div className="section__title">
-            <h3>{title} </h3>
-          </div>
+          <Link to={to} className="section__title">
+            <h2>{title} </h2>
+            <BsChevronRight />
+          </Link>
         )}
         <div className="section__action">
           {!!to && (
@@ -33,7 +34,7 @@ function Section({ title, to, children, info, className }) {
         </div>
       </div>
       {children}
-    </div>
+    </section>
   );
 }
 

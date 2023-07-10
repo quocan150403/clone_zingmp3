@@ -1,26 +1,41 @@
 .btn-custom {
+  padding: 8px 24px;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+  min-width: 140px;
+  border-radius: 100px;
+  color: var(--text-color);
+  background-color: transparent;
+  text-transform: inherit;
+
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 8px 25px;
-  font-size: 1.4rem;
-  line-height: 1.4rem;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  color: var(--text-color);
-  background-color: transparent;
   -webkit-tap-highlight-color: transparent;
 
-  // + .btn-custom {
-  //   margin-left: 15px;
-  // }
+  + .btn-custom {
+    margin-left: 15px;
+  }
 
-  .btn-icon + .btn-text,
-  .btn-text + .btn-icon {
+  + .circle {
     margin-left: 10px;
   }
+
+  + .column {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  // .btn-icon + .btn-text,
+  // .btn-text + .btn-icon {
+  //   margin-left: 4px;
+  // }
 
   .btn-text {
     white-space: nowrap;
@@ -28,34 +43,36 @@
   }
 
   .btn-icon {
-    font-size: 18px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  &.option {
-    padding: 10px 14px;
-    font-size: 14px;
+  // Sizes
+  &.small {
+    padding: 5px 24px;
+    font-size: 9px;
+    font-weight: 300;
+    min-width: 60px;
+  }
+
+  &.medium {
+    padding: 4px 10px;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 300;
+    min-width: 100px;
+  }
+
+  &.full-width {
     width: 100%;
-    justify-content: flex-start;
-    text-transform: none;
-    color: var(--text-color);
-    border: none;
-
-    + .btn-custom {
-      margin: 0;
-    }
-
-    &:hover {
-      color: var(--text-item-hover);
-      background: var(--bg-content-color);
-      border-radius: 4px;
-    }
+    padding-left: 0;
+    padding-right: 0;
   }
 
+  // Styles
   &.primary {
-    font-weight: 500;
-    line-height: 2.2rem;
-    text-transform: none;
-    border-radius: 100px;
     color: var(--text-color);
     background-color: var(--link-text-hover);
     border: 1px solid var(--link-text-hover);
@@ -65,11 +82,71 @@
     }
   }
 
+  &.secondary {
+    color: var(--text-color);
+    background-color: var(--bg-content-color);
+    border: 1px solid transparent;
+
+    &:hover {
+      filter: brightness(90%);
+    }
+  }
+
+  &.circle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+
+    padding: 0;
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    .btn-icon {
+      width: 30px;
+      height: 30px;
+      margin: auto;
+      padding: 5px;
+      display: block;
+      text-align: center;
+      font-size: 18px;
+      line-height: 18px;
+      color: var(--text-color);
+    }
+
+    &.large {
+      width: 50px !important;
+      height: 50px !important;
+      min-width: 50px;
+      min-height: 50px;
+
+      .btn-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 24px;
+        line-height: 20px;
+      }
+    }
+
+    &.medium {
+      width: 35px !important;
+      height: 35px !important;
+      min-width: 35px;
+      min-height: 35px;
+
+      svg {
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+
   &.outline {
-    font-weight: 500;
-    line-height: 2.2rem;
-    text-transform: none;
-    border-radius: 100px;
     color: var(--text-item-hover);
     background-color: transparent;
     border: 1px solid var(--text-item-hover);
@@ -85,29 +162,8 @@
     border: none;
   }
 
-  &.small {
-    padding: 0px 24px;
-    font-size: 8px;
-    font-weight: 300;
-  }
-
-  &.medium {
-    padding: 4px 10px;
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: 300;
-    min-width: 100px;
-  }
-
-  &.large {
-    padding: 12px 10px;
-    font-size: 16px;
-  }
-
-  &.full {
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
+  &.column {
+    display: flex;
   }
 
   &.disabled {
@@ -115,15 +171,7 @@
     opacity: 0.5;
   }
 
-  &.text-center {
-    justify-content: center;
-  }
-
   &.uppercase {
     text-transform: uppercase;
-  }
-
-  .btn-end {
-    margin-left: auto !important;
   }
 }

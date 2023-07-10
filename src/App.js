@@ -1,13 +1,16 @@
+import Modal from 'react-modal';
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { DefaultLayout } from './layouts';
 import { publicRoutes } from './routes';
 import './App.scss';
 
+Modal.setAppElement('#root');
+
 function App() {
   return (
     <Router>
-      <div className="app">
+      <div id="app" className="app">
         <Routes>
           {publicRoutes.map((route, index) => {
             const Page = route.component;
