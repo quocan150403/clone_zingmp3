@@ -16,7 +16,7 @@ $width-checkbox: 20px;
       font-size: 0px;
     }
 
-    @include media(mobile) {
+    @include media-breakpoint(mobile) {
       .media-wrapper__action {
         margin-left: 6px;
       }
@@ -295,7 +295,7 @@ $width-checkbox: 20px;
       height: $image-size;
     }
 
-    @include media(tablet) {
+    @include media-breakpoint(tablet) {
       .media-left__wrapper {
         width: $image-size;
         height: $image-size;
@@ -310,7 +310,7 @@ $width-checkbox: 20px;
       }
     }
 
-    @include media(mobile) {
+    @include media-breakpoint(mobile) {
       $image-size: 40px;
 
       .media-left__wrapper {
@@ -391,7 +391,7 @@ $width-checkbox: 20px;
     }
   }
 
-  @include media(mobile) {
+  @include media-breakpoint(mobile) {
     padding: 6px;
   }
 }
@@ -417,7 +417,7 @@ $width-checkbox: 20px;
   }
 
   &__inner {
-    @include flex(flex-start);
+    @include flexbox(flex-start);
     flex: 1;
   }
 
@@ -442,6 +442,7 @@ $width-checkbox: 20px;
 
   &__order {
     width: 68px;
+    margin: 0;
     font-size: 32px;
     line-height: 40px;
     font-weight: 900;
@@ -500,6 +501,7 @@ $width-checkbox: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: var(--white-color);
 
     &--play,
     &--playing {
@@ -515,7 +517,7 @@ $width-checkbox: 20px;
       min-width: 32px;
       padding: 3px;
       margin: 0 7px;
-      color: var(--text-color);
+
       cursor: pointer;
       font-size: 24px;
       border-radius: 50%;
@@ -532,11 +534,11 @@ $width-checkbox: 20px;
     overflow: hidden;
   }
 
-  @include media(tablet) {
+  @include media-breakpoint(tablet) {
     flex: 1;
   }
 
-  @include media(mobile) {
+  @include media-breakpoint(mobile) {
     flex: 1;
 
     &__index {
@@ -561,12 +563,12 @@ $width-checkbox: 20px;
   font-size: 12px;
   text-align: center;
 
-  @include media(tablet) {
+  @include media-breakpoint(tablet) {
     flex: 0;
     flex-basis: 20%;
   }
 
-  @include media(mobile) {
+  @include media-breakpoint(mobile) {
     display: none;
   }
 }
@@ -583,7 +585,7 @@ $width-checkbox: 20px;
   display: none;
 
   &__option {
-    @include flex();
+    @include flexbox();
     width: 32px;
     height: 32px;
     margin: 0 2px;
@@ -607,7 +609,7 @@ $width-checkbox: 20px;
     }
   }
 
-  @include media(mobile) {
+  @include media-breakpoint(mobile) {
     display: flex;
 
     &__option {
@@ -668,14 +670,14 @@ $width-checkbox: 20px;
   color: var(--text-color);
   margin: 0;
 
-  @include media(mobile) {
+  @include media-breakpoint(mobile) {
     font-size: 13px;
     line-height: 17px;
   }
 }
 
 .media-description {
-  @include flex(flex-start);
+  @include flexbox(flex-start);
   flex-wrap: wrap;
   height: 17px;
   overflow: hidden;
@@ -689,7 +691,7 @@ $width-checkbox: 20px;
   letter-spacing: 0;
   line-height: 17px;
 
-  @include media(mobile) {
+  @include media-breakpoint(mobile) {
     font-size: 12px;
     line-height: 15px;
   }
@@ -701,7 +703,7 @@ $width-checkbox: 20px;
 
     &:hover {
       text-decoration: underline;
-      color: var(--link-text-hover);
+      color: var(--purple-primary);
     }
   }
 }

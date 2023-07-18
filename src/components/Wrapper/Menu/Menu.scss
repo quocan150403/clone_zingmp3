@@ -4,7 +4,7 @@ $icon-expand-size: 24px;
 $padding-icon: 12px;
 
 .menu-item {
-  @include flex(flex-start);
+  @include flexbox(flex-start);
   @extend %text-truncate;
 
   position: relative;
@@ -19,8 +19,8 @@ $padding-icon: 12px;
   &.active {
     margin-left: 0;
     background-color: var(--bg-content-color);
-    border-left: 3px solid var(--purple-primary);
     color: var(--text-item-hover);
+    border-left: 3px solid var(--text-item-hover);
   }
 
   &:hover {
@@ -149,7 +149,7 @@ $padding-icon: 12px;
   }
 
   &.responsive {
-    @include media(tablet) {
+    @include media-breakpoint(tablet) {
       border-left: none;
       justify-content: center;
       padding: 10px 0px;
@@ -163,7 +163,7 @@ $padding-icon: 12px;
       }
     }
 
-    @include media(mobile) {
+    @include media-breakpoint(mobile) {
       border-left: none;
       justify-content: center;
       height: 100%;

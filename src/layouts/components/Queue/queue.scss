@@ -1,5 +1,6 @@
 @import 'assets/styles/mixins';
 @import 'assets/styles/placeholders';
+
 .queue {
   @include position(fixed, top-right);
   width: 330px;
@@ -10,48 +11,56 @@
   &.open {
     transform: translateX(0);
   }
-}
 
-.queue-tabs {
-  background-color: var(--bg-content-color);
-  flex: 1 1;
-  padding: 3px;
-  border-radius: 100px;
-
-  button {
-    flex-grow: 1;
-    font-size: 12px;
-    color: var(--text-color);
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07);
-    border-radius: 100px;
-    padding: 5px 0;
-    outline: none;
+  &-container {
+    z-index: 2;
     border: none;
-    background-color: transparent;
-  }
-
-  button.active {
-    background-color: var(--tab-active-color);
-    color: var(--text-item-hover);
+    box-shadow: var(--box-shadow-queue);
+    bottom: 90px;
+    background-color: var(--queue-player-popup-bg);
   }
 }
 
-.queue-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--text-color);
+// .queue-tabs {
+//   background-color: var(--bg-content-color);
+//   flex: 1 1;
+//   padding: 3px;
+//   border-radius: 100px;
 
-  width: 32px;
-  height: 32px;
-  background-color: var(--bg-content-color);
-  border-radius: 100px;
-  margin-left: 8px;
+//   button {
+//     flex-grow: 1;
+//     font-size: 12px;
+//     color: var(--text-color);
+//     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07);
+//     border-radius: 100px;
+//     padding: 5px 0;
+//     outline: none;
+//     border: none;
+//     background-color: transparent;
+//   }
 
-  svg {
-    font-size: 16px;
-  }
-}
+//   button.active {
+//     background-color: var(--tab-active-color);
+//     color: var(--text-item-hover);
+//   }
+// }
+
+// .queue-icon {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   color: var(--text-color);
+
+//   width: 32px;
+//   height: 32px;
+//   background-color: var(--bg-content-color);
+//   border-radius: 100px;
+//   margin-left: 8px;
+
+//   svg {
+//     font-size: 16px;
+//   }
+// }
 
 .queue-list {
   @extend %scrollbar;

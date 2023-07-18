@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Col, Row } from 'reactstrap';
 
 import images from 'assets/images';
@@ -8,11 +9,53 @@ import CardItem from 'components/CardItem';
 import Helmet from 'components/Helmet';
 import AlbumItem from 'components/AlbumItem';
 import RadioItem from 'components/RadioItem';
+import { albumApi, galleryApi, songApi } from 'api';
 import './Home.scss';
 
-const myArray = Array.from({ length: 6 });
-
 function Home() {
+  const [albums, setAlbums] = useState([]);
+  const [slides, setSlides] = useState([]);
+  const [songs, setSongs] = useState([]);
+
+  // Fetch song
+  useEffect(() => {
+    const getSong = async () => {
+      try {
+        const response = await songApi.getQuery();
+        setSongs(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getSong();
+  }, []);
+
+  // Fetch slide
+  useEffect(() => {
+    const getSlide = async () => {
+      try {
+        const response = await galleryApi.getQuery();
+        setSlides(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getSlide();
+  }, []);
+
+  // Fetch albums
+  useEffect(() => {
+    const getAlbum = async () => {
+      try {
+        const response = await albumApi.getQuery();
+        setAlbums(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAlbum();
+  }, []);
+
   return (
     <Helmet title="Trang chủ">
       {/* <div className="row">
@@ -56,11 +99,19 @@ function Home() {
         </div>
       </div> */}
 
+      <Row>
+        {slides.map((item, index) => (
+          <Col key={index} xs={12} sm={6} md={4} lg={4}>
+            <CardItem image={item.image_url} />
+          </Col>
+        ))}
+      </Row>
+
       <Section title="Gần đây" to={`/recently`}>
         <Row className="row-custom g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={4} sm={3} md={'2-4'} lg={'1-7'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -80,18 +131,18 @@ function Home() {
         </div>
         <Row className="g-4 row-custom">
           <Col sm={12} md={6} lg={4}>
-            {Array.from({ length: 4 }).map((item, index) => (
-              <MediaItem release key={index} />
+            {songs.map((item, index) => (
+              <MediaItem data={item} release key={index} />
             ))}
           </Col>
           <Col sm={12} md={6} lg={4}>
-            {Array.from({ length: 4 }).map((item, index) => (
-              <MediaItem release key={index} />
+            {songs.map((item, index) => (
+              <MediaItem data={item} release key={index} />
             ))}
           </Col>
           <Col sm={12} md={6} lg={4}>
-            {Array.from({ length: 4 }).map((item, index) => (
-              <MediaItem release key={index} />
+            {songs.map((item, index) => (
+              <MediaItem data={item} release key={index} />
             ))}
           </Col>
         </Row>
@@ -99,9 +150,9 @@ function Home() {
 
       <Section title="Có thể bạn muốn nghe">
         <Row className="row-custom g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -109,9 +160,9 @@ function Home() {
 
       <Section title="Hè chill nhạc phiêu">
         <Row className="row-custom g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -119,9 +170,9 @@ function Home() {
 
       <Section title="Hè chill nhạc phiêu">
         <Row className="row-custom  g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -129,9 +180,9 @@ function Home() {
 
       <Section title="Lo gì xoã đi">
         <Row className="row-custom g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -139,9 +190,9 @@ function Home() {
 
       <Section title="Lo gì xoã đi">
         <Row className="row-custom g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -155,9 +206,9 @@ function Home() {
         }}
       >
         <Row className="row-custom g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -165,9 +216,9 @@ function Home() {
 
       <Section title="BXH Nhạc mới" to="/top100">
         <Row className="g-custom">
-          {Array.from({ length: 3 }).map((item, index) => (
+          {songs.map((item, index) => (
             <Col key={index} xs={12} sm={4} md={6} lg={4}>
-              <MediaItem rank />
+              <MediaItem data={item} rank />
             </Col>
           ))}
         </Row>
@@ -185,9 +236,9 @@ function Home() {
 
       <Section title="Top 100" to="/top100">
         <Row className="row-custom  g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -201,9 +252,9 @@ function Home() {
         }}
       >
         <Row className="row-custom  g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -211,9 +262,9 @@ function Home() {
 
       <Section title="Album hot ">
         <Row className="row-custom  g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-              <AlbumItem small />
+              <AlbumItem data={item} small />
             </Col>
           ))}
         </Row>
@@ -221,7 +272,7 @@ function Home() {
 
       <Section title="Radio nổi bật" to="/radio">
         <Row className="row-custom g-custom">
-          {myArray.map((item, index) => (
+          {albums.map((item, index) => (
             <Col key={index} xs={4} sm={3} md={'2-4'} lg={'1-7'}>
               <RadioItem small />
             </Col>

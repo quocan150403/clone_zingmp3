@@ -63,6 +63,7 @@ function MediaWrapper({ MediaList }) {
       </div>
       {MediaList.map((media, index) => (
         <MediaItem
+          data={media}
           checkbox
           isBorder
           showOption

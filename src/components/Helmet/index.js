@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 function Helmet(props) {
-  document.title = `${props.title} - Zing MP3`;
+  document.title = `Zing MP3 | ${props.title}`;
   return props.children;
 }
 

@@ -1,5 +1,4 @@
 import {
-  BsFillHeartFill,
   BsFillMicFill,
   BsThreeDots,
   BsDashLg,
@@ -15,10 +14,9 @@ import {
   BsCollectionPlay,
   BsArrowReturnRight,
   BsLink45Deg,
-  BsFillHeartbreakFill,
   BsThreeDotsVertical,
 } from 'react-icons/bs';
-import { useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TippyHeadless from '@tippyjs/react/headless';
@@ -30,8 +28,9 @@ import images from 'assets/images';
 import MenuItem from 'components/Wrapper/Menu';
 import './Media.scss';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 function MediaItem({
-  media,
+  data,
   release,
   rank,
   primary,
@@ -50,7 +49,17 @@ function MediaItem({
   handleCheck,
 }) {
   const [isShowOption, setIsShowOption] = useState(false);
-  const mediaRef = useRef();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsShowOption(false);
+    };
+    const appElement = document.querySelector('.app-content');
+    appElement.addEventListener('scroll', handleScroll);
+    return () => {
+      appElement.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const classes = classNames('media-item', {
     checked: arrayCheck.includes(index),
@@ -76,7 +85,7 @@ function MediaItem({
   });
 
   return (
-    <div ref={mediaRef} className={classes}>
+    <div className={classes}>
       <div className="media-left">
         {indexChart && (
           <div className="media-left__index">
@@ -101,7 +110,7 @@ function MediaItem({
         )}
         <div className="media-left__inner">
           <div className="media-left__wrapper me-3">
-            <img className="media-left__image" src={images.song} alt="" />
+            <img className="media-left__image" src={BACKEND_URL + data.image_url} alt="" />
             <div className="media-left__overlay" />
             <div className="media-left__icon media-left__icon--play">
               <BsPlayFill />
@@ -112,13 +121,13 @@ function MediaItem({
           </div>
           <div className="media-left__content">
             <div className="media-left__info">
-              <h2 className="media-title">
-                Chưa Bao Giờ Em Quên Chưa Chưa Bao Giờ Em Quên Chưa Chưa Bao Giờ Em Quên Chưa
-              </h2>
+              <h2 className="media-title">{data.name}</h2>
               <div className="media-description">
-                <a href="/">Hương Ly, </a>
-                <a href="/">Hương Ly, </a>
-                <a href="/">Hương Ly </a>
+                {data.artists.map((item, index) => (
+                  <a href="/" key={index}>
+                    {item.name},{' '}
+                  </a>
+                ))}
               </div>
               {release && <div className="media-description media-left__release">3 giờ trước</div>}
             </div>
@@ -131,7 +140,7 @@ function MediaItem({
           </div>
         </div>
       </div>
-      {full && <span className="media-middle">05:11</span>}
+      {full && <span className="media-middle">{data.duration}</span>}
       {!rank && (
         <div className="media-right">
           {full && (
@@ -150,14 +159,15 @@ function MediaItem({
           <TippyHeadless
             visible={isShowOption}
             interactive={true}
-            placement="auto"
+            placement="right-end"
+            offset={[-350, 2]}
             onClickOutside={() => setIsShowOption(false)}
             onHide={() => setIsShowOption(false)}
-            appendTo={mediaRef && mediaRef.current}
+            appendTo={() => document.body}
             render={(attrs) => (
               <div {...attrs} tabIndex="-1" className="media-right__wrapper">
                 <Wrapper className="pb-3 p-0">
-                  <div className="p-4 pb-0 d-flex align-items-center">
+                  <div className="p-3 pb-0 d-flex align-items-center">
                     <img src={images.song} alt="" className="me-3 rounded is-40x40" />
                     <div className="d-flex flex-column">
                       <h4 className="media-title">Chưa Bao Giờ Em Quên</h4>
@@ -171,7 +181,7 @@ function MediaItem({
                       </div>
                     </div>
                   </div>
-                  <div className="m-4 pb-0 mb-3 mt-4 d-flex align-items-center justify-content-center g-3 media-popper__group">
+                  <div className="m-3 pb-0 mb-2 mt-3 d-flex align-items-center justify-content-center g-3 media-popper__group">
                     <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
                       <BsDownload />
                       Tải xuống

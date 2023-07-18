@@ -1,6 +1,7 @@
 const images = {
   logo: require('assets/images/logos/main-logo.svg').default,
   logoSmall: require('assets/images/logos/small-logo.svg').default,
+  logoWhite: require('assets/images/logos/logo-white.png'),
   avatar: require('assets/images/avatars/avatar.jpg'),
 
   song: require('assets/images/music/listSong1/song1.jpg'),
@@ -9,33 +10,17 @@ const images = {
   topic: require('assets/images/topics/topic1.jpg'),
   bannerTopic: require('assets/images/topics/banner.jpg'),
   podcast: require('assets/images/podcasts/podcast.webp'),
+  background: require('assets/images/themeBgs/listTheme2/theme3.jpg'),
 
-  slide: [
-    {
-      image: require('assets/images/tabExplore/slides/slide1.jpg'),
-    },
-    {
-      image: require('assets/images/tabExplore/slides/slide2.jpg'),
-    },
-    {
-      image: require('assets/images/tabExplore/slides/slide3.jpg'),
-    },
-    {
-      image: require('assets/images/tabExplore/slides/slide4.jpg'),
-    },
-    {
-      image: require('assets/images/tabExplore/slides/slide5.jpg'),
-    },
-    {
-      image: require('assets/images/tabExplore/slides/slide6.jpg'),
-    },
-    {
-      image: require('assets/images/tabExplore/slides/slide7.jpg'),
-    },
-    {
-      image: require('assets/images/tabExplore/slides/slide8.jpg'),
-    },
-  ],
+  others: {
+    bgRegister: require('assets/images/others/bg-register.jpg'),
+  },
+
+  socials: {
+    facebook: require('assets/images/socials/facebook.svg').default,
+    google: require('assets/images/socials/google.svg').default,
+    personal: require('assets/images/socials/personal.svg').default,
+  },
 
   playlist: {
     id: 1,

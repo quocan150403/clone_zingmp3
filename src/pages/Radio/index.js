@@ -1,16 +1,29 @@
+import { useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
 
 import Helmet from 'components/Helmet';
 import Title from 'components/Title';
 import Section from 'components/Section';
-import CardItem from 'components/CardItem';
 import images from 'assets/images';
 import RadioItem from 'components/RadioItem';
 import AlbumItem from 'components/AlbumItem';
-
-const myArray = Array.from({ length: 10 });
+import albumApi from 'api/albumApi';
 
 function Radio() {
+  const [albums, setAlbums] = useState([]);
+
+  useEffect(() => {
+    const getAlbum = async () => {
+      try {
+        const response = await albumApi.getQuery();
+        setAlbums(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAlbum();
+  }, []);
+
   return (
     <Helmet title="Radio">
       <div className="radio mt-custom">
@@ -18,7 +31,7 @@ function Radio() {
 
         <Section title="Radio nổi bật" to="/radio">
           <Row className="row-custom g-custom">
-            {myArray.map((item, index) => (
+            {albums.map((item, index) => (
               <Col key={index} xs={4} sm={3} md={'2-4'} lg={'1-7'}>
                 <RadioItem small />
               </Col>
@@ -26,7 +39,7 @@ function Radio() {
           </Row>
         </Section>
 
-        <Section title="podcast">
+        {/* <Section title="podcast">
           <Row className="row-custom g-custom">
             {Array.from({ length: 5 }).map((item, index) => (
               <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
@@ -34,7 +47,7 @@ function Radio() {
               </Col>
             ))}
           </Row>
-        </Section>
+        </Section> */}
 
         <Section
           info={{
@@ -44,9 +57,9 @@ function Radio() {
           }}
         >
           <Row className="row-custom  g-custom">
-            {myArray.map((item, index) => (
+            {albums.map((item, index) => (
               <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-                <AlbumItem small />
+                <AlbumItem data={item} small />
               </Col>
             ))}
           </Row>
@@ -54,9 +67,9 @@ function Radio() {
 
         <Section title="Album hot ">
           <Row className="row-custom  g-custom">
-            {myArray.map((item, index) => (
+            {albums.map((item, index) => (
               <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-                <AlbumItem small />
+                <AlbumItem data={item} small />
               </Col>
             ))}
           </Row>

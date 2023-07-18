@@ -1,4 +1,4 @@
-@mixin flex($justify: center, $align: center, $direction: row) {
+@mixin flexbox($justify: center, $align: center, $direction: row) {
   display: flex;
   flex-direction: $direction;
   align-items: $align;
@@ -62,7 +62,7 @@
   height: $size;
 }
 
-@mixin media($breakpoint) {
+@mixin media-breakpoint($breakpoint) {
   @if $breakpoint == mobile {
     @media (max-width: 767px) {
       @content;

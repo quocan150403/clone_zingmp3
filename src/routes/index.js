@@ -1,19 +1,24 @@
+import { lazy } from 'react';
 import config from 'config';
-import Home from 'pages/Home';
-import Login from 'pages/Login';
-import History from 'pages/History';
-import NewMusic from 'pages/NewMusic';
-import Radio from 'pages/Radio';
-import Top100 from 'pages/Top100';
-import Topic from 'pages/Topic';
-import ZingChart from 'pages/ZingChart';
-import Library from 'pages/Library';
-import Playlist from 'pages/Library/Playlist';
-import Detail from 'pages/Detail';
+import { OnlyContentLayout } from 'layouts';
+
+const Home = lazy(() => import('pages/Home'));
+const Login = lazy(() => import('pages/Login'));
+const History = lazy(() => import('pages/History'));
+const NewMusic = lazy(() => import('pages/NewMusic'));
+const Radio = lazy(() => import('pages/Radio'));
+const Top100 = lazy(() => import('pages/Top100'));
+const Topic = lazy(() => import('pages/Topic'));
+const ZingChart = lazy(() => import('pages/ZingChart'));
+const Library = lazy(() => import('pages/Library'));
+const Playlist = lazy(() => import('pages/Library/Playlist'));
+const Detail = lazy(() => import('pages/Detail'));
+const Register = lazy(() => import('pages/Register'));
 
 const publicRoutes = [
   { path: config.routes.home, component: Home },
-  { path: config.routes.login, component: Login },
+  { path: config.routes.login, component: Login, layout: OnlyContentLayout },
+  { path: config.routes.register, component: Register, layout: OnlyContentLayout },
   { path: config.routes.topic, component: Topic },
   { path: config.routes.zingChart, component: ZingChart },
   { path: config.routes.radio, component: Radio },

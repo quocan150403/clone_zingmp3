@@ -5,30 +5,48 @@ import { BsAlarm, BsThreeDots } from 'react-icons/bs';
 import Wrapper from 'components/Wrapper';
 import { MediaItem } from 'components/Media';
 import './Queue.scss';
+import Button from 'components/Button';
+import Tabs from 'components/Tabs';
+import { useEffect } from 'react';
+import { songApi } from 'api';
 
 function Queue({ isShowQueue }) {
-  const [queue, setQueue] = useState(Array.from({ length: 18 }, () => Math.floor(Math.random() * 40)));
+  const [queue, setQueue] = useState([]);
+  useEffect(() => {
+    const getQueue = async () => {
+      try {
+        const response = await songApi.getQuery();
+        setQueue(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getQueue();
+  }, []);
+
   return (
     <aside className={`queue ${isShowQueue ? 'open' : ''}`}>
-      <Wrapper className="rounded-0">
-        <div className="pt-4 pb-4 p-3 d-flex justify-content-between align-items-center">
-          <div className="queue-tabs d-flex align-content-center">
-            <button className="active">Danh sách phát</button>
-            <button>Nghe gần đây</button>
-          </div>
-          <div className="queue-icon">
-            <BsAlarm />
-          </div>
-          <div className="queue-icon">
-            <BsThreeDots />
+      <div className="queue-container">
+        <div className="pt-4 pb-4 p-3 g-3 d-flex align-items-center">
+          <Tabs
+            secondary
+            fullWidth
+            tabs={[
+              { id: 1, name: 'Danh sách phát' },
+              { id: 2, name: 'Nghe gần đây' },
+            ]}
+          />
+          <div className="ms-2">
+            <Button secondary medium circle leftIcon={<BsAlarm />} />
+            <Button secondary medium circle leftIcon={<BsThreeDots />} />
           </div>
         </div>
         <div className="queue-list pe-3 ps-3">
           {queue.map((item, index) => (
-            <MediaItem grow active key={index} />
+            <MediaItem data={item} grow active key={index} />
           ))}
         </div>
-      </Wrapper>
+      </div>
     </aside>
   );
 }

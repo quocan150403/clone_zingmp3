@@ -1,8 +1,10 @@
 import axiosClient from './axiosClient';
-const albumApi = {
+
+const galleryApi = {
   getQuery: (params) => {
-    const url = '/albums';
+    const url = '/galleries';
     return axiosClient.get(url, { params });
   },
 };
-export default albumApi;
+
+export default galleryApi;

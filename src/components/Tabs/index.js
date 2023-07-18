@@ -1,11 +1,21 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import './Tabs.scss';
-function Tabs({ tabs, isBorderBottom }) {
+
+const indexActive = 0;
+function Tabs({ tabs, secondary, uppercase, fullWidth, large, isBorderBottom, ...props }) {
+  const classes = classNames('tabs', {
+    secondary,
+    large,
+    uppercase,
+    'is-full-width': fullWidth,
+    'is-border-bottom': isBorderBottom,
+  });
+
   return (
-    <div className={`tabs ${isBorderBottom ? 'is-border-bottom' : ''}`}>
-      {tabs.map((tab) => (
-        <div key={tab.id} className="tabs__item">
+    <div className={classes} {...props}>
+      {tabs.map((tab, index) => (
+        <div key={tab.id} className={classNames('tab__item', { active: index === indexActive })}>
           {tab.name}
         </div>
       ))}

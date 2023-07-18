@@ -17,8 +17,8 @@
   &.detail {
     text-align: center;
 
-    @include media(tablet) {
-      @include flex(start, start);
+    @include media-breakpoint(tablet) {
+      @include flexbox(flex-start, flex-start);
       margin-bottom: 30px;
 
       .album-wrapper {
@@ -35,8 +35,8 @@
       }
     }
 
-    @include media(mobile) {
-      @include flex(start, center, column);
+    @include media-breakpoint(mobile) {
+      @include flexbox(flex-start, center, column);
 
       margin-bottom: 20px;
 
@@ -119,8 +119,8 @@
     width: 30px;
     height: 30px;
     font-size: 18px;
-    color: var(--text-color);
     border-radius: 100px;
+    color: var(--white-color);
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.3);
@@ -137,7 +137,7 @@
       font-size: 30px;
       padding: 8px;
       border-radius: 50%;
-      border: 1px solid var(--text-color);
+      border: 1px solid var(--white-color);
     }
   }
 
@@ -163,6 +163,11 @@
     margin: 8px 0 4px;
     text-decoration: inherit;
     cursor: pointer;
+
+    &:hover {
+      cursor: pointer;
+      color: var(--link-text-hover);
+    }
   }
 
   &__likes,

@@ -31,6 +31,7 @@ import Button from 'components/Button';
 import MediaItem from 'components/Media/MediaItem';
 import MenuItem from 'components/Wrapper/Menu';
 import './Header.scss';
+import { songApi } from 'api';
 
 function Header() {
   const [isShowSetting, setIsShowSetting] = useState(false);
@@ -45,14 +46,22 @@ function Header() {
   const searchRef = useRef();
 
   useEffect(() => {
-    const containerElement = document.querySelector('.app-container');
+    const containerElement = document.querySelector('.app-content');
     containerElement.addEventListener('scroll', (e) => {
       setIsActiveHeader(e.target.scrollTop > 0);
     });
   }, []);
 
   useEffect(() => {
-    setSearchResult([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const getSearchResult = async () => {
+      try {
+        const response = await songApi.getQuery();
+        setSearchResult(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getSearchResult();
   }, []);
 
   const openModal = () => {
@@ -94,7 +103,7 @@ function Header() {
                 <h3 className="header-search__title">Lịch sử tìm kiếm</h3>
                 <div className="header-search__list">
                   {searchResult.map((item, index) => (
-                    <MediaItem grow key={index} />
+                    <MediaItem data={item} grow key={index} />
                   ))}
                 </div>
               </Wrapper>

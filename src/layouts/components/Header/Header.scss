@@ -3,7 +3,7 @@
 $width-search: 540px;
 
 .header {
-  @include flex(flex-start);
+  @include flexbox(flex-start);
   @include position(fixed, top-right);
 
   z-index: 500;
@@ -16,18 +16,18 @@ $width-search: 540px;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 1px;
   }
 
-  @include media(mobile-tablet) {
+  @include media-breakpoint(mobile-tablet) {
     width: calc(100% - 70px);
   }
 
-  @include media(mobile) {
+  @include media-breakpoint(mobile) {
     width: 100%;
     padding: 0 10px;
   }
 }
 
 .header-navigate {
-  @include flex();
+  @include flexbox();
   margin-right: 10px;
 
   button:last-child {
@@ -52,6 +52,7 @@ $width-search: 540px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     background-color: var(--primary-bg);
+    box-shadow: 0 4px 6px 0 rgba(32, 33, 36, 0.28);
   }
 
   &__list {
@@ -265,7 +266,7 @@ $width-search: 540px;
   background-color: var(--primary-bg);
   z-index: 600;
 
-  @include media(mobile) {
+  @include media-breakpoint(mobile) {
     width: 90%;
     border-radius: 0;
   }

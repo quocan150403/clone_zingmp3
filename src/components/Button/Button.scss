@@ -73,9 +73,10 @@
 
   // Styles
   &.primary {
-    color: var(--text-color);
-    background-color: var(--link-text-hover);
-    border: 1px solid var(--link-text-hover);
+    border: 1px solid;
+    border-color: var(--purple-primary);
+    background-color: var(--purple-primary);
+    color: var(--white-color);
 
     &:hover {
       filter: brightness(90%);
@@ -88,7 +89,7 @@
     border: 1px solid transparent;
 
     &:hover {
-      filter: brightness(90%);
+      filter: brightness(95%);
     }
   }
 
@@ -147,12 +148,14 @@
   }
 
   &.outline {
-    color: var(--text-item-hover);
+    color: var(--text-color);
     background-color: transparent;
-    border: 1px solid var(--text-item-hover);
+    border: 1px solid var(--border-primary);
+    font-weight: 400;
 
     &:hover {
-      background-color: var(--bg-content-color);
+      border-color: var(--purple-primary);
+      color: var(--purple-primary);
     }
   }
 

@@ -105,7 +105,7 @@
   }
 }
 
-@include media(tablet) {
+@include media-breakpoint(tablet) {
   .sidebar {
     @include position(fixed, top-left);
 
@@ -113,7 +113,8 @@
     height: inherit;
     z-index: 100;
     bottom: var(--player-height);
-    background-color: var(--sidebar-bg);
+    background-color: var(--sidebar-popup-bg);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   }
 
   .sidebar-logo {
@@ -133,6 +134,7 @@
   .sidebar-playlist {
     justify-content: center;
     padding: 10px 22px;
+    border-top: 1px solid var(--border-primary);
 
     &__inner {
       display: none;
@@ -146,8 +148,8 @@
   .sidebar.is-open {
     @include position(fixed, top-left);
     width: 240px;
-    z-index: 100;
     bottom: var(--player-height);
+    z-index: 600;
 
     .sidebar-logo {
       &__main {
@@ -171,7 +173,7 @@
   }
 }
 
-@include media(mobile) {
+@include media-breakpoint(mobile) {
   .sidebar {
     @include position(fixed, bottom-left);
     right: 0;
@@ -199,7 +201,7 @@
   color: var(--text-color);
 
   &__close {
-    @include flex();
+    @include flexbox();
 
     position: absolute;
     right: 10px;

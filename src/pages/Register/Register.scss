@@ -1,0 +1,165 @@
+@import 'assets/styles/mixins';
+
+$primary: rgb(100, 15, 220);
+$text: rgb(38, 38, 38);
+$border: rgb(216, 216, 216);
+$subtext: rgb(129, 129, 129);
+$responsive: 1024px;
+
+.register {
+  width: 100%;
+  // min-height: 100vh;
+
+  .block {
+    margin: 0 auto;
+    width: 1024px;
+  }
+
+  &-header {
+    padding: 10px 0;
+    border-bottom: 1px solid $border;
+    background-color: var(--white-color);
+  }
+
+  &-heading {
+    background-color: var(--white-color);
+    padding: 16px 0;
+  }
+
+  &-title {
+    font-size: 32px;
+    text-transform: uppercase;
+    color: $primary;
+    margin: 0;
+  }
+
+  .vertical-separator {
+    background-color: $text;
+    min-height: 24px;
+  }
+
+  @include media-breakpoint(tablet) {
+    .block {
+      width: 100%;
+      padding: 0 20px;
+    }
+  }
+
+  @include media-breakpoint(mobile) {
+    .block {
+      padding: 0 12px;
+      width: 100%;
+    }
+
+    &-title {
+      font-size: 24px;
+    }
+  }
+}
+
+.register-left {
+  &__logo {
+    width: 100px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 400;
+    color: $text;
+    margin: 0;
+  }
+}
+
+.register-content {
+  margin-top: 30px;
+  margin-bottom: 60px;
+  padding: 30px;
+  background-color: var(--white-color);
+  border-radius: 8px;
+
+  &__title {
+    font-size: 20px;
+    color: $text;
+  }
+}
+
+.register-form {
+  padding: 20px;
+}
+
+.register-group {
+  + .register-group {
+    margin-top: 16px;
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text;
+    margin-bottom: 6px;
+  }
+
+  input,
+  select {
+    outline: none;
+    border: 1px solid $border;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+
+    width: 100%;
+  }
+}
+
+.register-btn {
+  @include flexbox();
+  border-top: 1px solid $border;
+  padding: 30px;
+  margin-top: 30px;
+
+  button {
+    width: 240px;
+    border-radius: 999px;
+    padding: 8px 0;
+    background-color: $primary;
+    color: var(--white-color);
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($primary, 10%);
+    }
+  }
+}
+
+.register-avatar {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background-color: #f5f6f7;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__icon {
+    @include position(absolute, center);
+    @include flexbox();
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 1;
+
+    svg {
+      font-size: 40px;
+      fill: $text;
+    }
+  }
+}

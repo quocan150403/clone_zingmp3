@@ -80,13 +80,13 @@ function Sidebar() {
             <div className="sidebar-separate"></div>
             <MenuItem
               responsive={!isToggle}
-              to="/"
+              to="/bichphuong"
               title="Nhạc Bích phương Nhạc Bích ph"
               iconExpand={<BsThreeDots />}
             />
             <MenuItem
               responsive={!isToggle}
-              to="/"
+              to="/bichphuong2"
               title="Nhạc Bích phương Nhạc Bích ph"
               iconExpand={<BsThreeDots />}
             />
@@ -103,6 +103,7 @@ function Sidebar() {
           </div>
         </div>
       </aside>
+
       <Modal
         isOpen={isShowModalAddPlaylist}
         onRequestClose={() => setIsShowModalAddPlaylist(false)}
