@@ -1,0 +1,31 @@
+.gallery {
+  margin: 32px -15px 48px;
+
+  &:hover {
+    .slick-arrow {
+      display: block !important;
+    }
+  }
+
+  .slick-arrow {
+    width: 55px;
+    height: 55px;
+    padding: 10px;
+    border-radius: 50px;
+    color: var(--white-color);
+    background-color: hsla(0, 0%, 100%, 0.15);
+    box-shadow: 0 2px 4px 0 rgba(226, 102, 102, 0.15);
+    z-index: 1;
+    display: none !important;
+  }
+
+  .slick-prev {
+    left: 30px;
+  }
+  .slick-next {
+    right: 30px;
+  }
+}
+.gallery-item {
+  padding: 0 15px;
+}

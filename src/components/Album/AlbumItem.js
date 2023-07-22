@@ -18,7 +18,7 @@ import Tippy from '@tippyjs/react';
 import Button from 'components/Button';
 import MenuItem from 'components/Wrapper/Menu';
 import Wrapper from 'components/Wrapper';
-import './AlbumItem.scss';
+import './Album.scss';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -32,7 +32,7 @@ function AlbumItem({ data, small, detail }) {
 
   return (
     <div className={classes}>
-      <div className="album-wrapper br-5">
+      <Link to={`album/${data.slug || ''}`} className="album-wrapper br-5">
         <img className="album-wrapper__image" src={BACKEND_URL + data.thumbnail_url} alt="" />
         <div className="album-wrapper__actions">
           <Tippy content="Thêm vào thư viện">
@@ -68,7 +68,7 @@ function AlbumItem({ data, small, detail }) {
           </TippyHeadless>
         </div>
         <div className="album-wrapper__overlay" />
-      </div>
+      </Link>
       <div className="album-info">
         <Link href="/" className="album-info__title">
           {data.name}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import images from 'assets/images';
 import { RadioCircleIcon } from 'components/Icons';
-import './RadioItem.scss';
+import './Radio.scss';
 
 function RadioItem({ data = {} }) {
   return (

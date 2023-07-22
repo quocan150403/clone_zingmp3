@@ -16,20 +16,24 @@ import {
   BsLink45Deg,
   BsThreeDotsVertical,
 } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TippyHeadless from '@tippyjs/react/headless';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
+import { useDispatch, useSelector } from 'react-redux';
+import { setSong, playPause } from 'app/features/playerSlide';
 
+import './Media.scss';
 import Wrapper from 'components/Wrapper';
 import images from 'assets/images';
 import MenuItem from 'components/Wrapper/Menu';
-import './Media.scss';
-
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 function MediaItem({
+  tracks,
   data,
   release,
   rank,
@@ -37,18 +41,28 @@ function MediaItem({
   singer,
   grow,
   isPlayer,
-  full = false,
   ignore = false,
   index = 0,
   checkbox = false,
   indexChart = false,
   isBorder = false,
-  showOption = false,
+  showAlbum = false,
   responsive = false,
   arrayCheck = [],
   handleCheck,
 }) {
+  const { currentSong, isActive, isPlaying } = useSelector((state) => state.player);
   const [isShowOption, setIsShowOption] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleClickSong = () => {
+    if (isPlaying) {
+      dispatch(playPause(false));
+    } else {
+      dispatch(setSong({ tracks, song: data, i: index }));
+      dispatch(playPause(true));
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,16 +77,16 @@ function MediaItem({
 
   const classes = classNames('media-item', {
     checked: arrayCheck.includes(index),
+    active: isActive && currentSong._id === data._id,
+    playing: isPlaying && isActive && currentSong._id === data._id,
     rank,
     release,
     primary,
     grow,
     ignore,
     checkbox,
-    full,
     singer,
     responsive,
-    'show-option': showOption,
     'is-player': isPlayer,
     'is-border': isBorder,
   });
@@ -109,7 +123,7 @@ function MediaItem({
           </div>
         )}
         <div className="media-left__inner">
-          <div className="media-left__wrapper me-3">
+          <div onClick={handleClickSong} className="media-left__wrapper me-3">
             <img className="media-left__image" src={BACKEND_URL + data.image_url} alt="" />
             <div className="media-left__overlay" />
             <div className="media-left__icon media-left__icon--play">
@@ -140,22 +154,24 @@ function MediaItem({
           </div>
         </div>
       </div>
-      {full && <span className="media-middle">{data.duration}</span>}
+      {showAlbum && (
+        <span className="media-album">
+          <Link href="/">{data.albumId.name}</Link>
+        </span>
+      )}
+      <span className="media-middle">{data.duration}</span>
       {!rank && (
         <div className="media-right">
-          {full && (
-            <Tippy content="Phát cùng lời bài hát">
-              <span className="media-right__option">
-                <BsFillMicFill />
-              </span>
-            </Tippy>
-          )}
+          <Tippy content="Phát cùng lời bài hát">
+            <span className="media-right__option media-right__option--mic">
+              <BsFillMicFill />
+            </span>
+          </Tippy>
           <Tippy content="Thêm vào thư viện">
             <span className="media-right__option media-right__option--heart">
               <BsHeart />
             </span>
           </Tippy>
-
           <TippyHeadless
             visible={isShowOption}
             interactive={true}
@@ -168,7 +184,7 @@ function MediaItem({
               <div {...attrs} tabIndex="-1" className="media-right__wrapper">
                 <Wrapper className="pb-3 p-0">
                   <div className="p-3 pb-0 d-flex align-items-center">
-                    <img src={images.song} alt="" className="me-3 rounded is-40x40" />
+                    <img src={data.image_url} alt="" className="me-3 rounded is-40x40" />
                     <div className="d-flex flex-column">
                       <h4 className="media-title">Chưa Bao Giờ Em Quên</h4>
                       <div className="d-flex gap-3 media-description">

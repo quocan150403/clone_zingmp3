@@ -5,7 +5,7 @@ import MediaItem from 'components/Media/MediaItem';
 import './Media.scss';
 import { useState } from 'react';
 
-function MediaWrapper({ MediaList }) {
+function MediaList({ MediaList }) {
   const [arrayCheck, setArrayCheck] = useState([]);
 
   const handleCheck = (index) => {
@@ -63,11 +63,11 @@ function MediaWrapper({ MediaList }) {
       </div>
       {MediaList.map((media, index) => (
         <MediaItem
+          tracks={MediaList}
           data={media}
           checkbox
           isBorder
-          showOption
-          full
+          showAlbum
           key={index}
           index={index}
           media={media}
@@ -79,8 +79,8 @@ function MediaWrapper({ MediaList }) {
   );
 }
 
-MediaWrapper.propTypes = {
+MediaList.propTypes = {
   MediaList: PropTypes.array.isRequired,
 };
 
-export default MediaWrapper;
+export default MediaList;

@@ -67,8 +67,8 @@
 
 .player-right {
   &__btn {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -160,6 +160,10 @@
   align-items: center;
   cursor: pointer;
 
+  &.active {
+    color: var(--purple-primary);
+  }
+
   svg {
     width: 16px;
     height: 16px;
@@ -170,13 +174,16 @@
     height: 24px;
   }
 
+  &--play {
+    margin-left: 3px;
+  }
+
   &.play {
-    @include square(40px);
+    @include square(38px);
     border: 1px solid var(--text-color);
     border-radius: 50%;
 
     svg {
-      margin-left: 3px;
       width: 26px;
       height: 26px;
     }

@@ -20,48 +20,32 @@
     background-color: var(--queue-player-popup-bg);
   }
 }
+.queue-main {
+  padding: 15px 8px 5px;
+  margin: 0 8px;
 
-// .queue-tabs {
-//   background-color: var(--bg-content-color);
-//   flex: 1 1;
-//   padding: 3px;
-//   border-radius: 100px;
+  h2 {
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: none;
+    margin-bottom: 0;
+    color: var(--text-primary);
+  }
 
-//   button {
-//     flex-grow: 1;
-//     font-size: 12px;
-//     color: var(--text-color);
-//     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07);
-//     border-radius: 100px;
-//     padding: 5px 0;
-//     outline: none;
-//     border: none;
-//     background-color: transparent;
-//   }
+  p {
+    color: var(--text-muted);
+  }
 
-//   button.active {
-//     background-color: var(--tab-active-color);
-//     color: var(--text-item-hover);
-//   }
-// }
-
-// .queue-icon {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   color: var(--text-color);
-
-//   width: 32px;
-//   height: 32px;
-//   background-color: var(--bg-content-color);
-//   border-radius: 100px;
-//   margin-left: 8px;
-
-//   svg {
-//     font-size: 16px;
-//   }
-// }
-
+  a {
+    flex: 1 1;
+    margin-left: 2px;
+    white-space: pre;
+    text-overflow: ellipsis;
+    font-size: inherit;
+    font-weight: 500;
+    color: var(--purple-primary);
+  }
+}
 .queue-list {
   @extend %scrollbar;
   flex: 1 1;

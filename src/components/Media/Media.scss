@@ -208,6 +208,10 @@ $width-checkbox: 20px;
       display: flex;
     }
 
+    .media-middle {
+      display: none;
+    }
+
     .media-checkbox,
     .media-left__icon--play {
       display: block;
@@ -225,6 +229,15 @@ $width-checkbox: 20px;
   &.active {
     background-color: var(--bg-content-color);
     cursor: pointer;
+    .media-left__icon--play {
+      display: block;
+    }
+    .media-left__overlay {
+      visibility: visible;
+    }
+    .media-left__icon--playing {
+      display: none;
+    }
   }
 
   &.primary {
@@ -279,6 +292,7 @@ $width-checkbox: 20px;
   }
 
   &.is-player {
+    background-color: transparent;
     $image-size: 64px;
 
     .media-left {
@@ -286,8 +300,16 @@ $width-checkbox: 20px;
       flex-shrink: 1;
     }
 
+    .media-middle {
+      display: none;
+    }
+
     .media-right {
       display: flex;
+
+      &__option--mic {
+        display: none;
+      }
     }
 
     .media-left__wrapper {
@@ -385,12 +407,6 @@ $width-checkbox: 20px;
     }
   }
 
-  &.show-option {
-    .media-right {
-      display: flex;
-    }
-  }
-
   @include media-breakpoint(mobile) {
     padding: 6px;
   }
@@ -484,6 +500,10 @@ $width-checkbox: 20px;
     height: $image-size;
     border-radius: 4px;
     overflow: hidden;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__overlay {
@@ -509,19 +529,12 @@ $width-checkbox: 20px;
     }
 
     svg {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 32px;
-      min-width: 32px;
-      padding: 3px;
-      margin: 0 7px;
-
-      cursor: pointer;
       font-size: 24px;
-      border-radius: 50%;
-      -webkit-tap-highlight-color: transparent;
+    }
+
+    img {
+      width: 20px;
+      height: 20px;
     }
   }
 
@@ -556,8 +569,20 @@ $width-checkbox: 20px;
   }
 }
 
-.media-middle {
+.media-album {
   flex: 1;
+  color: #999;
+  font-size: 12px;
+  text-align: left;
+
+  a:hover {
+    color: var(--text-item-hover);
+    text-decoration: underline;
+  }
+}
+
+.media-middle {
+  text-align: right;
   align-self: center;
   color: #999;
   font-size: 12px;

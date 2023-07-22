@@ -1,11 +1,5 @@
-Edit view media
-Slider carousel
-detail album, song
-detail song
-
-Code play music
-
-login
+styles for media player and queue
+authentication with firebase
 
 add style media (Singer)
 detail singer
