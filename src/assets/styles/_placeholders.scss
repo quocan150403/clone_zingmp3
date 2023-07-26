@@ -13,22 +13,14 @@
 }
 
 %scrollbar {
-  overflow-x: hidden;
+  overflow-x: overlay;
   overflow-y: overlay !important;
   overscroll-behavior: contain;
   will-change: scroll-position;
 
-  &.has-mask {
-    -webkit-mask-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.8) 10%, #fff 25%);
-  }
-
   &::-webkit-scrollbar {
     width: 4px;
-    display: none;
-  }
-
-  &:hover::-webkit-scrollbar {
-    display: block;
+    background: transparent;
   }
 
   /* Track */
@@ -40,6 +32,11 @@
   /* Handle */
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;
+    -webkit-box-shadow: transparent;
+    transition: all 0.6s ease-in-out;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
   }
 

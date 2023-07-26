@@ -11,10 +11,7 @@ const images = {
   bannerTopic: require('assets/images/topics/banner.jpg'),
   podcast: require('assets/images/podcasts/podcast.webp'),
   background: require('assets/images/themeBgs/listTheme2/theme3.jpg'),
-
-  others: {
-    bgRegister: require('assets/images/others/bg-register.jpg'),
-  },
+  artistBackground: require('assets/images/others/artist-bg.jpg'),
 
   socials: {
     facebook: require('assets/images/socials/facebook.svg').default,

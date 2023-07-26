@@ -1,11 +1,9 @@
-import Section from 'components/Section';
-import './Topic.scss';
 import { Col, Row } from 'reactstrap';
-import { useState } from 'react';
-import CardItem from 'components/CardItem';
+import { useState, useEffect } from 'react';
+
+import { Section, CardItem } from 'components';
+import { genreApi } from 'api';
 import images from 'assets/images';
-import { useEffect } from 'react';
-import genreApi from 'api/genreApi';
 
 function Topic() {
   const [topic, setTopic] = useState([]);

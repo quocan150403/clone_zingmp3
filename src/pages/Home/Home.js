@@ -2,60 +2,42 @@ import { useEffect, useState } from 'react';
 import { Col, Row } from 'reactstrap';
 
 import images from 'assets/images';
-import { Button, MediaItem, Helmet, AlbumList, Section } from 'components';
-import { albumApi, songApi } from 'api';
+import { Button, MediaItem, Helmet, AlbumList, Section, RadioList, ArtistList } from 'components';
+import { albumApi, galleryApi, songApi } from 'api';
+import Gallery from './Gallery';
 import './Home.scss';
 
 function Home() {
   const [albums, setAlbums] = useState([]);
-  // const [slides, setSlides] = useState([]);
+  const [slides, setSlides] = useState([]);
   const [songs, setSongs] = useState([]);
 
   // Fetch song
-  // useEffect(() => {
-  //   const getSong = async () => {
-  //     try {
-  //       const response = await songApi.getQuery();
-  //       setSongs(response);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getSong();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const songs = await songApi.getQuery();
+        const albums = await albumApi.getQuery();
+        const gallery = await galleryApi.getQuery();
 
-  // // Fetch slide
-  // useEffect(() => {
-  //   const getSlide = async () => {
-  //     try {
-  //       const response = await galleryApi.getQuery();
-  //       setSlides(response);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getSlide();
-  // }, []);
-
-  console.log('render');
-
-  // Fetch albums
-  // useEffect(() => {
-  //   const getAlbum = async () => {
-  //     try {
-  //       const response = await albumApi.getQuery();
-  //       setAlbums(response);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getAlbum();
-  // }, []);
+        setSongs(songs);
+        setAlbums(albums);
+        setSlides(gallery);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <Helmet title="Trang chủ">
-      {/* <Gallery galleries={slides} /> */}
-      {/* 
+      <Section title="Gần đây" to={`/recently`}>
+        <ArtistList artists={albums} small />
+      </Section>
+
+      <Gallery galleries={slides} />
+
       <Section title="Gần đây" to={`/recently`}>
         <AlbumList albums={albums} small />
       </Section>
@@ -130,7 +112,7 @@ function Home() {
             </Col>
           ))}
         </Row>
-      </Section> */}
+      </Section>
 
       {/* <section className="mb-5">
         <Row className="row-cols-3 g-custom row-custom">
@@ -141,7 +123,7 @@ function Home() {
           ))}
         </Row>
       </section> */}
-      {/* 
+
       <Section title="Top 100" to="/top100">
         <AlbumList albums={albums} />
       </Section>
@@ -158,11 +140,11 @@ function Home() {
 
       <Section title="Album hot ">
         <AlbumList albums={albums} />
-      </Section> */}
-      {/* 
+      </Section>
+
       <Section title="Radio nổi bật" to="/radio">
-        <RadioList radios={albums} />
-      </Section> */}
+        <RadioList radioList={albums} />
+      </Section>
     </Helmet>
   );
 }

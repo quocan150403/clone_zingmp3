@@ -1,12 +1,8 @@
-import { useParams, NavLink } from 'react-router-dom';
-import Helmet from 'components/Helmet';
-import './History.scss';
-import Title from 'components/Title';
-import Tabs from 'components/Tabs';
+import { useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
-import AlbumItem from 'components/Album';
-import { useState } from 'react';
-import { useEffect } from 'react';
+
+import './History.scss';
+import { AlbumItem, Title, Tabs, Helmet } from 'components';
 import albumApi from 'api/albumApi';
 
 function History() {
@@ -28,7 +24,9 @@ function History() {
     <Helmet title="Lịch sử">
       <div className="history">
         <div className="is-border-bottom d-flex align-items-center">
-          <Title className="mb-0" small hideIcon name="Phát gần đây" />
+          <Title className="mb-0" small hideIcon>
+            Phát gần đây
+          </Title>
           <div className="vertical-separator" />
           <Tabs
             uppercase

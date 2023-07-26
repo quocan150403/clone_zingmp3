@@ -17,7 +17,7 @@ import {
   BsThreeDotsVertical,
 } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TippyHeadless from '@tippyjs/react/headless';
@@ -29,7 +29,7 @@ import { setSong, playPause } from 'app/features/playerSlide';
 import './Media.scss';
 import Wrapper from 'components/Wrapper';
 import images from 'assets/images';
-import MenuItem from 'components/Wrapper/Menu';
+import MenuItem from 'components/Wrapper/MenuItem';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 function MediaItem({
@@ -41,6 +41,7 @@ function MediaItem({
   singer,
   grow,
   isPlayer,
+  isQueue,
   ignore = false,
   index = 0,
   checkbox = false,
@@ -56,8 +57,9 @@ function MediaItem({
   const dispatch = useDispatch();
 
   const handleClickSong = () => {
-    if (isPlaying) {
-      dispatch(playPause(false));
+    const isCurrentSong = currentSong._id === data._id;
+    if (isCurrentSong) {
+      isPlaying ? dispatch(playPause(false)) : dispatch(playPause(true));
     } else {
       dispatch(setSong({ tracks, song: data, i: index }));
       dispatch(playPause(true));
@@ -87,6 +89,7 @@ function MediaItem({
     checkbox,
     singer,
     responsive,
+    'is-queue': isQueue,
     'is-player': isPlayer,
     'is-border': isBorder,
   });
@@ -256,4 +259,4 @@ MediaItem.propTypes = {
   handleCheck: PropTypes.func,
 };
 
-export default MediaItem;
+export default memo(MediaItem);

@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 
@@ -26,4 +26,4 @@ AlbumList.propTypes = {
   albums: PropTypes.array,
 };
 
-export default AlbumList;
+export default memo(AlbumList);

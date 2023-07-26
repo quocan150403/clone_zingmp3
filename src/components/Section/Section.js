@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { BsChevronRight } from 'react-icons/bs';
 
@@ -46,4 +47,4 @@ Section.propTypes = {
   className: PropTypes.string,
 };
 
-export default Section;
+export default memo(Section);

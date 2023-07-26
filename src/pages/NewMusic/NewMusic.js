@@ -1,11 +1,9 @@
-import Helmet from 'components/Helmet';
-import Title from 'components/Title';
-import { MediaItem } from 'components/Media';
-import './NewMusic.scss';
+import { useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
-import { useState } from 'react';
+
+import './NewMusic.scss';
+import { MediaItem, Title, Helmet } from 'components';
 import { songApi } from 'api';
-import { useEffect } from 'react';
 
 function NewMusic() {
   const [songs, setSongs] = useState([]);
@@ -24,7 +22,7 @@ function NewMusic() {
   return (
     <Helmet title="BXH Nhạc mới">
       <div className="mt-custom">
-        <Title name="BXH Nhạc mới" />
+        <Title>BXH Nhạc mới</Title>
         <Row>
           <Col md={12} lg={12} xl={12}>
             {songs.map((item, index) => (

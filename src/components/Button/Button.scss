@@ -32,10 +32,10 @@
     margin-top: 10px;
   }
 
-  // .btn-icon + .btn-text,
-  // .btn-text + .btn-icon {
-  //   margin-left: 4px;
-  // }
+  .btn-icon + .btn-text,
+  .btn-text + .btn-icon {
+    margin-left: 4px;
+  }
 
   .btn-text {
     white-space: nowrap;

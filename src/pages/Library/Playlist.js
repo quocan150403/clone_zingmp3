@@ -1,15 +1,16 @@
-import PropTypes from 'prop-types';
-import Helmet from 'components/Helmet';
-import Title from 'components/Title';
 import { NavLink } from 'react-router-dom';
-import Tabs from 'components/Tabs';
+import PropTypes from 'prop-types';
 
-function Playlist(props) {
+import { Helmet, Title, Tabs } from 'components';
+
+function Playlist() {
   return (
     <Helmet title="Playlist">
       <div className="history">
         <div className="is-border-bottom d-flex align-items-center">
-          <Title className="mb-0" small hideIcon name="Playlist" />
+          <Title className="mb-0" small hideIcon>
+            Playlist
+          </Title>
           <div className="vertical-separator" />
           <Tabs
             tabs={[

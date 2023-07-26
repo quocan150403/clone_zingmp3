@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   tracks: [],
-  recentTracks: [],
+  recentSongs: [],
   currentIndex: 0,
   currentSong: {},
   isActive: false,
@@ -16,7 +16,9 @@ const playerSlide = createSlice({
     setSong: (state, action) => {
       state.currentSong = action.payload.song;
       state.tracks = action.payload.tracks;
-      state.recentTracks.push(action.payload.song);
+      if (state.recentSongs.length < 6) {
+        state.recentSongs.push(action.payload.song);
+      }
       state.currentIndex = action.payload.i;
       state.isActive = true;
     },

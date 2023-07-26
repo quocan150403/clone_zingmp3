@@ -229,6 +229,7 @@ $width-checkbox: 20px;
   &.active {
     background-color: var(--bg-content-color);
     cursor: pointer;
+
     .media-left__icon--play {
       display: block;
     }
@@ -239,6 +240,18 @@ $width-checkbox: 20px;
       display: none;
     }
   }
+
+  // &.is-queue.active {
+  //   background-color: var(--purple-primary);
+
+  //   .media-title {
+  //     color: var(--white-color);
+  //   }
+
+  //   .media-description a {
+  //     color: var(--white-color);
+  //   }
+  // }
 
   &.primary {
     background-color: var(--link-text-hover);
@@ -292,12 +305,13 @@ $width-checkbox: 20px;
   }
 
   &.is-player {
+    justify-content: flex-start;
     background-color: transparent;
     $image-size: 64px;
 
     .media-left {
-      flex-grow: 1;
-      flex-shrink: 1;
+      flex: unset;
+      width: unset;
     }
 
     .media-middle {

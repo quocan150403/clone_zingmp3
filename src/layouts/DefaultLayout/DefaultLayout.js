@@ -1,10 +1,14 @@
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
-import Player from '../components/Player';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import Player from './Player';
 import './DefaultLayout.scss';
 import images from 'assets/images';
+import { useState } from 'react';
+import Queue from './Queue/Queue';
 
 function DefaultLayout({ children }) {
+  const [isShowQueue, setIsShowQueue] = useState(false);
+
   return (
     <div
       className="app-container"
@@ -15,7 +19,8 @@ function DefaultLayout({ children }) {
       <Header />
       <Sidebar />
       <main className="app-content">{children}</main>
-      {/* <Player /> */}
+      <Player isShowQueue={isShowQueue} onChangeIsShowQueue={setIsShowQueue} />
+      <Queue isShowQueue={isShowQueue} />
     </div>
   );
 }

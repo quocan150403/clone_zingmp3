@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
   BsArrowReturnRight,
   BsDownload,
@@ -9,25 +7,26 @@ import {
   BsTextWrap,
   BsThreeDots,
 } from 'react-icons/bs';
+import { useState, memo } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useState } from 'react';
 import TippyHeadless from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css'; // optional
 import Tippy from '@tippyjs/react';
 
-import Button from 'components/Button';
-import MenuItem from 'components/Wrapper/Menu';
-import Wrapper from 'components/Wrapper';
+import { Button, MenuItem, Wrapper } from 'components';
 import './Album.scss';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-function AlbumItem({ data, small, detail }) {
+function AlbumItem({ data, small, detail, isArtist }) {
   const [isShowOption, setIsShowOption] = useState(false);
 
   const classes = classNames('album', {
     detail,
     small,
+    'is-artist': isArtist,
   });
 
   return (
@@ -70,15 +69,18 @@ function AlbumItem({ data, small, detail }) {
         <div className="album-wrapper__overlay" />
       </Link>
       <div className="album-info">
+        {isArtist && <p className="album-info__type mb-2">Singer</p>}
         <Link href="/" className="album-info__title">
           {data.name}
         </Link>
         {detail && <p className="album-info__authors mb-2">{data.createAt}</p>}
-        <p className="album-info__authors mb-2">
+        <p className="album-info__authors ">
           <Link className="album-info__author">AMEE, </Link>
           <Link className="album-info__author">ERIK, </Link>
           <Link className="album-info__author">Hoàng Duyên</Link>
         </p>
+        {isArtist && <p className="album-info__type mb-0 mt-3">{data.createdAt}</p>}
+
         {detail && (
           <div>
             <p className="album-info__likes mb-4">81k người yêu thích</p>
@@ -104,4 +106,4 @@ AlbumItem.propTypes = {
   add: PropTypes.bool,
 };
 
-export default AlbumItem;
+export default memo(AlbumItem);

@@ -5,13 +5,14 @@ import classNames from 'classnames';
 
 import './Title.scss';
 
-function Title({ name, sub, hideIcon, className, small, primary }) {
+function Title({ sub, hideIcon, className, small, large, primary, children }) {
   const [play, setPlay] = useState(false);
 
   const classes = classNames('title', className, {
     'title--playing': play,
     'title--pause': !play,
     'title--small': small,
+    'title--large': large,
     'title--primary': primary,
   });
 
@@ -20,7 +21,7 @@ function Title({ name, sub, hideIcon, className, small, primary }) {
 
   return (
     <div className={classes}>
-      <Comp className="title__text">{name}</Comp>
+      <Comp className="title__text">{children}</Comp>
       {!hideIcon && (
         <span onClick={() => setPlay(!play)} className="title__icon">
           <BsPlayFill className="icon--play" />

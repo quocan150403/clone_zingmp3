@@ -1,0 +1,30 @@
+@import 'assets/styles/variables';
+
+.artist-header {
+  padding: 10px 0;
+  border-bottom: 1px solid $artist-border;
+  background-color: var(--white-color);
+
+  &__separator {
+    height: 100%;
+    width: 1px;
+    margin: 0 20px;
+    display: block;
+    background-color: $artist-text;
+    min-height: 24px;
+  }
+
+  &__left {
+    h2 {
+      font-size: 20px;
+      font-weight: 400;
+      color: $artist-text;
+      margin: 0;
+    }
+  }
+
+  &__logo {
+    width: 100px;
+    text-align: center;
+  }
+}

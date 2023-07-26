@@ -1,13 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
 
-import Helmet from 'components/Helmet';
-import Title from 'components/Title';
-import Section from 'components/Section';
+import { Helmet, Title, Section, RadioItem, AlbumItem } from 'components';
 import images from 'assets/images';
-import { RadioItem } from 'components/Radio';
-import AlbumItem from 'components/Album';
-import albumApi from 'api/albumApi';
+import { albumApi } from 'api';
 
 function Radio() {
   const [albums, setAlbums] = useState([]);
@@ -27,7 +23,7 @@ function Radio() {
   return (
     <Helmet title="Radio">
       <div className="radio mt-custom">
-        <Title name="Radio" hideIcon />
+        <Title hideIcon>Radio</Title>
 
         <Section title="Radio nổi bật" to="/radio">
           <Row className="row-custom g-custom">

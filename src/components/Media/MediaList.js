@@ -1,11 +1,11 @@
+import { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import { BsArrowDownUp, BsPlusCircle, BsThreeDots } from 'react-icons/bs';
 
-import MediaItem from 'components/Media/MediaItem';
+import { MediaItem } from 'components';
 import './Media.scss';
-import { useState } from 'react';
 
-function MediaList({ MediaList }) {
+function MediaList({ mediaList }) {
   const [arrayCheck, setArrayCheck] = useState([]);
 
   const handleCheck = (index) => {
@@ -19,7 +19,7 @@ function MediaList({ MediaList }) {
 
   const handleToggleCheckAll = (e) => {
     if (e.target.checked) {
-      setArrayCheck(MediaList.map((item, index) => index));
+      setArrayCheck(mediaList.map((item, index) => index));
     } else {
       setArrayCheck([]);
     }
@@ -61,9 +61,9 @@ function MediaList({ MediaList }) {
         </span>
         <span className="media-wrapper__amount">Thời lượng</span>
       </div>
-      {MediaList.map((media, index) => (
+      {mediaList.map((media, index) => (
         <MediaItem
-          tracks={MediaList}
+          tracks={mediaList}
           data={media}
           checkbox
           isBorder
@@ -80,7 +80,7 @@ function MediaList({ MediaList }) {
 }
 
 MediaList.propTypes = {
-  MediaList: PropTypes.array.isRequired,
+  mediaList: PropTypes.array.isRequired,
 };
 
-export default MediaList;
+export default memo(MediaList);

@@ -1,17 +1,9 @@
+import { useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
 
-import Helmet from 'components/Helmet';
-import Section from 'components/Section';
-import Button from 'components/Button';
-import { MediaWrapper } from 'components/Media';
-import Title from 'components/Title';
-import Tabs from 'components/Tabs';
-import AlbumItem from 'components/Album';
 import './Library.scss';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import albumApi from 'api/albumApi';
-import { songApi } from 'api';
+import { AlbumItem, MediaList, Helmet, Section, Button, Tabs, Title } from 'components';
+import { songApi, albumApi } from 'api';
 
 const albumList = Array.from({ length: 10 });
 const TABS = [
@@ -70,7 +62,7 @@ function Library() {
   return (
     <Helmet title="Thư Viện">
       <div className="library mt-custom">
-        <Title name="Thư viện" />
+        <Title>Thư viện</Title>
 
         <Section title="Album hot ">
           <Row className="row-custom  g-custom">
@@ -93,7 +85,7 @@ function Library() {
                 Đã tải lên
               </Button>
             </div>
-            <MediaWrapper MediaList={songs} />
+            <MediaList mediaList={songs} />
           </div>
         </div>
       </div>

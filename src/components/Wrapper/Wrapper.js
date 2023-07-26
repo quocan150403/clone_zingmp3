@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import './Wrapper.scss';
 
@@ -10,4 +11,4 @@ Wrapper.propTypes = {
   className: PropTypes.string,
 };
 
-export default Wrapper;
+export default memo(Wrapper);

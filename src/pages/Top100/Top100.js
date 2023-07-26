@@ -1,12 +1,9 @@
-import Helmet from 'components/Helmet';
-import { Top100Banner } from 'components/Icons';
-import Section from 'components/Section';
-import './Top100.scss';
+import { useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
-import AlbumItem from 'components/Album';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import albumApi from 'api/albumApi';
+
+import { Helmet, Section, AlbumItem } from 'components';
+import { Top100Banner } from 'components/Icons';
+import { albumApi } from 'api';
 
 const albums = Array.from({ length: 4 });
 
