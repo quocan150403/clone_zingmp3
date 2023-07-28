@@ -14,18 +14,22 @@ import classNames from 'classnames';
 import TippyHeadless from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css'; // optional
 import Tippy from '@tippyjs/react';
+import { useSelector } from 'react-redux';
 
 import { Button, MenuItem, Wrapper } from 'components';
 import './Album.scss';
+import images from 'assets/images';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 function AlbumItem({ data, small, detail, isArtist }) {
+  const { albumId, isPlaying } = useSelector((state) => state.player);
   const [isShowOption, setIsShowOption] = useState(false);
 
   const classes = classNames('album', {
     detail,
     small,
+    active: albumId === data._id && isPlaying,
     'is-artist': isArtist,
   });
 
@@ -40,7 +44,8 @@ function AlbumItem({ data, small, detail, isArtist }) {
             </div>
           </Tippy>
           <div className="album-wrapper__btn album-wrapper__btn--play">
-            <BsPlayFill />
+            <BsPlayFill className="album-icon__play" />
+            <img className="album-icon__playing" src={images.iconPlaying} alt="" />
           </div>
           <TippyHeadless
             visible={isShowOption}

@@ -34,35 +34,6 @@
   }
 }
 
-.register-form {
-  padding: 20px;
-}
-
-.register-group {
-  + .register-group {
-    margin-top: 16px;
-  }
-
-  label {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: $artist-text;
-    margin-bottom: 6px;
-  }
-
-  input,
-  select {
-    outline: none;
-    border: 1px solid $artist-border;
-    padding: 8px 15px;
-    font-size: 14px;
-    border-radius: 4px;
-
-    width: 100%;
-  }
-}
-
 .register-btn {
   @include flexbox();
   border-top: 1px solid $artist-border;

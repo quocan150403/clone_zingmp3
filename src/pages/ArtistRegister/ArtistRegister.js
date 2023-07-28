@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import { BsCamera } from 'react-icons/bs';
 
-import './RegisterArtist.scss';
+import './ArtistRegister.scss';
 import { Helmet } from 'components';
 
-function Register() {
+function ArtistRegister() {
   return (
     <Helmet title="Đăng nhập">
       <div className="register">
@@ -89,4 +88,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default ArtistRegister;

@@ -76,14 +76,13 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  overflow: hidden;
   background: var(--layout-bg);
 }
 
-p,
-div {
-  word-break: break-word;
-}
+// p,
+// div {
+//   word-break: break-word;
+// }
 
 i {
   display: block;

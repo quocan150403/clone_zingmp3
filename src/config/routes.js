@@ -13,11 +13,21 @@ const routes = {
     album: '/my-music/album',
     upload: '/my-music/upload',
   },
-  artistPanel: '/dashboard',
   album: '/album/:slug',
   artist: '/artist/:slug',
   notFound: '*',
   login: '/login',
   register: '/register',
+  dashboard: {
+    path: '/dashboard',
+    songs: {
+      path: '/dashboard/songs',
+      upload: '/dashboard/songs/upload',
+    },
+    albums: {
+      path: '/dashboard/albums',
+      edit: '/dashboard/albums/edit/:slug',
+    },
+  },
 };
 export default routes;

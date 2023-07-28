@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  albumId: 0,
   tracks: [],
   recentSongs: [],
   currentIndex: 0,

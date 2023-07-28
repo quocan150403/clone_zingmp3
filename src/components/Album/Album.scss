@@ -13,6 +13,15 @@
   border-radius: 4px;
   overflow: hidden;
 
+  &.active {
+    .album-icon__playing {
+      display: block;
+    }
+    .album-icon__play {
+      display: none;
+    }
+  }
+
   // Styles
   &.detail {
     text-align: center;
@@ -177,6 +186,12 @@
     background-color: rgba(0, 0, 0, 0.5);
     visibility: hidden;
   }
+}
+
+.album-icon__playing {
+  width: 20px;
+  height: 20px;
+  display: none;
 }
 .album-info {
   display: flex;
