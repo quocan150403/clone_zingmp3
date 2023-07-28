@@ -3,7 +3,7 @@ import React from 'react';
 import { BsPersonAdd, BsShuffle } from 'react-icons/bs';
 
 import { Button } from 'components';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_API_URL;
 
 export default function ArtistItem({ data }) {
   return (

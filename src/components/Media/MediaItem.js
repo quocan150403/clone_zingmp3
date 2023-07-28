@@ -30,7 +30,7 @@ import './Media.scss';
 import Wrapper from 'components/Wrapper';
 import images from 'assets/images';
 import MenuItem from 'components/Wrapper/MenuItem';
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_API_URL;
 
 function MediaItem({
   tracks,

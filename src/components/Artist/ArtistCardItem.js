@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Artist.scss';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_API_URL;
 function ArtistCardItem({ data }) {
   return (
     <Link to="/" className="artist-card">

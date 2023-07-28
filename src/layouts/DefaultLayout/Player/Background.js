@@ -12,7 +12,7 @@ const TABS = [
   { id: 3, name: ' Lời bài hát' },
 ];
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_API_URL;
 
 function Background({ image_url, isShowPlayerPopper, onClickToggleBackground }) {
   return (

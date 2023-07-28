@@ -20,7 +20,7 @@ import { Button, MenuItem, Wrapper } from 'components';
 import './Album.scss';
 import images from 'assets/images';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_API_URL;
 
 function AlbumItem({ data, small, detail, isArtist }) {
   const { albumId, isPlaying } = useSelector((state) => state.player);

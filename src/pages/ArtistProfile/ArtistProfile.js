@@ -4,11 +4,11 @@ import { BsPersonAdd } from 'react-icons/bs';
 import { Col, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import './Artist.scss';
+import './ArtistProfile.scss';
 import { artistApi, songApi, albumApi } from 'api';
 import { AlbumItem, AlbumList, Button, Helmet, MediaItem, Section, Title } from 'components';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_API_URL;
 
 function Artist() {
   const { slug } = useParams();
