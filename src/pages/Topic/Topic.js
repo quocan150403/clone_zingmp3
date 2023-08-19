@@ -10,7 +10,7 @@ function Topic() {
   useEffect(() => {
     const getTopic = async () => {
       try {
-        const response = await genreApi.getQuery({ row: 0 });
+        const response = await genreApi.getQuery();
         setTopic(response);
       } catch (error) {
         console.log(error);
@@ -24,11 +24,11 @@ function Topic() {
         <img className="w-100 rounded-3" src={images.bannerTopic} alt="" />
       </section>
 
-      <Section title="Topic">
+      <Section title="Thể loại">
         <Row className="row-custom g-custom">
           {topic.map((item, index) => (
             <Col key={index} xs="6" sm="4" lg="4" xl="3">
-              <CardItem link={item.slug} image={item.thumbnail_url} name={item.name} />
+              <CardItem link={'/' + item.slug} image={item.imageUrl} name={item.name} />
             </Col>
           ))}
         </Row>

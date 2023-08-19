@@ -86,7 +86,13 @@ function Player({ isShowQueue, onChangeIsShowQueue }) {
               onClickShuffle={() => setShuffle(!shuffle)}
             />
 
-            <SeekBar min={0} max={duration} value={songProgress} duration={duration} onChangeSeekTime={setSeekTime} />
+            <SeekBar
+              min={0}
+              max={duration}
+              value={songProgress}
+              duration={duration}
+              onChangeSeekTime={setSeekTime}
+            />
           </div>
         </div>
 
@@ -101,7 +107,7 @@ function Player({ isShowQueue, onChangeIsShowQueue }) {
         />
 
         <Background
-          image_url={currentSong.image_url}
+          imageUrl={currentSong.imageUrl}
           isShowPlayerPopper={isShowPlayerPopper}
           onClickToggleBackground={setIsShowPlayerPopper}
         />

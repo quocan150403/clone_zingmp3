@@ -1,8 +1,6 @@
 import {
   ExploreIcon,
   PersonalIcon,
-  RadioIcon,
-  Top100Icon,
   TopicIcon,
   ZingChartIcon,
   NewMusicIcon,
@@ -13,23 +11,75 @@ import {
   UploadIcon,
 } from 'components/Icons';
 import { BsChevronRight, BsPlus, BsThreeDots, BsX } from 'react-icons/bs';
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import Modal from 'react-modal';
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import './Sidebar.scss';
 import images from 'assets/images';
 import config from 'config';
 import { MenuItem, Button } from 'components';
 import classNames from 'classnames';
+import { playlistApi } from 'api';
 
 function Sidebar() {
   const { tracks } = useSelector((state) => state.player);
+  const { current } = useSelector((state) => state.user);
+
+  const [playlists, setPlaylists] = useState([]);
+  const [name, setName] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
   const [isToggle, setIsToggle] = useState(false);
   const [isShowModalAddPlaylist, setIsShowModalAddPlaylist] = useState(false);
 
+  useEffect(() => {
+    const fetchPlaylist = async () => {
+      try {
+        const response = await playlistApi.getAll();
+        setPlaylists(response);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchPlaylist();
+  }, []);
+
   const handleToggle = () => {
     setIsToggle(!isToggle);
+  };
+
+  const handleAddPlaylist = async () => {
+    if (!name.trim()) {
+      console.log('vui lòng nhập tên playlist');
+    }
+    isShowModalAddPlaylist(false);
+
+    const playlistData = {
+      name,
+      userId: current._id,
+    };
+
+    try {
+      await toast.promise(playlistApi.create(playlistData), {
+        pending: 'Đang thực hiện...',
+        success: 'Thêm playlist thành công',
+      });
+      resetForm();
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error('Đã xảy ra lỗi');
+      }
+    }
+  };
+
+  const resetForm = () => {
+    setName('');
+    setIsPublic(false);
   };
 
   const classes = classNames('sidebar', {
@@ -39,6 +89,7 @@ function Sidebar() {
 
   return (
     <aside className={classes}>
+      <ToastContainer />
       <div className="sidebar-logo d-none-mobile">
         <a href="/" className="sidebar-logo__link">
           <img src={images.logo} alt="Logo" className="sidebar-logo__main" />
@@ -47,19 +98,43 @@ function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
-        <MenuItem responsive={!isToggle} to={config.routes.home} icon={<ExploreIcon />} title="Khám Phá" />
-        <MenuItem responsive={!isToggle} to={config.routes.zingChart} icon={<ZingChartIcon />} title="#zingchart" />
-        <MenuItem responsive={!isToggle} to={config.routes.radio} icon={<RadioIcon />} title="Radio" label="LIVE" />
-        <MenuItem responsive={!isToggle} to={config.routes.library.path} icon={<PersonalIcon />} title="Thư viện" />
+        <MenuItem
+          responsive={!isToggle}
+          to={config.routes.home}
+          icon={<ExploreIcon />}
+          title="Khám Phá"
+        />
+        <MenuItem
+          responsive={!isToggle}
+          to={config.routes.zingChart}
+          icon={<ZingChartIcon />}
+          title="#zingchart"
+        />
+        {/* <MenuItem responsive={!isToggle} to={config.routes.radio} icon={<RadioIcon />} title="Radio" label="LIVE" /> */}
+        <MenuItem
+          responsive={!isToggle}
+          to={config.routes.topic}
+          icon={<TopicIcon />}
+          title="Thể Loại"
+        />
+        <MenuItem
+          responsive={!isToggle}
+          to={config.routes.newMusic}
+          icon={<NewMusicIcon />}
+          title="BXH Nhạc Mới"
+        />
+        <MenuItem
+          responsive={!isToggle}
+          to={config.routes.library.path}
+          icon={<PersonalIcon />}
+          title="Thư viện"
+        />
       </nav>
 
       <div className="sidebar-separate d-none-mobile" />
 
       <nav className="sidebar-subnav d-none-mobile">
-        <MenuItem responsive={!isToggle} to={config.routes.newMusic} icon={<NewMusicIcon />} title="BXH Nhạc Mới" />
-        <MenuItem responsive={!isToggle} to={config.routes.topic} icon={<TopicIcon />} title="Thể Loại" />
-        <MenuItem responsive={!isToggle} to={config.routes.top100} icon={<Top100Icon />} title="Top 100" />
-
+        {/* <MenuItem responsive={!isToggle} to={config.routes.top100} icon={<Top100Icon />} title="Top 100" /> */}
         <MenuItem
           responsive={!isToggle}
           to={config.routes.library.history}
@@ -74,24 +149,36 @@ function Sidebar() {
           title="Bài hát yêu thích"
         />
 
-        <MenuItem responsive={!isToggle} to={config.routes.library.playlist} icon={<PlaylistIcon />} title="Playlist" />
-        <MenuItem responsive={!isToggle} to={config.routes.library.album} icon={<AlbumIcon />} title="Album" />
-        <MenuItem responsive={!isToggle} to={config.routes.library.upload} icon={<UploadIcon />} title="Đã tải lên" />
+        <MenuItem
+          responsive={!isToggle}
+          to={config.routes.library.playlist}
+          icon={<PlaylistIcon />}
+          title="Playlist"
+        />
+        <MenuItem
+          responsive={!isToggle}
+          to={config.routes.library.album}
+          icon={<AlbumIcon />}
+          title="Album"
+        />
+        <MenuItem
+          responsive={!isToggle}
+          to={config.routes.library.upload}
+          icon={<UploadIcon />}
+          title="Đã tải lên"
+        />
 
+        <div className="sidebar-separate"></div>
         <div className="sidebar-subnav__library">
-          <div className="sidebar-separate"></div>
-          <MenuItem
-            responsive={!isToggle}
-            to="/bichphuong"
-            title="Nhạc Bích phương Nhạc Bích ph"
-            iconExpand={<BsThreeDots />}
-          />
-          <MenuItem
-            responsive={!isToggle}
-            to="/bichphuong2"
-            title="Nhạc Bích phương Nhạc Bích ph"
-            iconExpand={<BsThreeDots />}
-          />
+          {playlists.map((item, index) => (
+            <MenuItem
+              key={index}
+              responsive={!isToggle}
+              to={item.slug}
+              title={item.name}
+              iconExpand={<BsThreeDots />}
+            />
+          ))}
         </div>
       </nav>
 
@@ -116,7 +203,13 @@ function Sidebar() {
           <BsX />
         </span>
         <h2 className="add-playlist__heading">Tạo playlist mới</h2>
-        <input type="text" placeholder="Nhập tên playlist" className="add-playlist__input" />
+        <input
+          type="text"
+          placeholder="Nhập tên playlist"
+          className="add-playlist__input"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <div className="add-playlist__option d-flex align-items-center justify-content-between">
           <div className="d-flex flex-column">
             <h3 className="add-playlist__title">Công khai</h3>
@@ -124,11 +217,13 @@ function Sidebar() {
           </div>
           <div className="form-check form-switch">
             <input
-              defaultChecked
               className="form-check-input"
               type="checkbox"
               role="switch"
               id="flexSwitchCheckDefault"
+              value={isPublic}
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
             />
           </div>
         </div>
@@ -148,7 +243,7 @@ function Sidebar() {
           </div>
         </div>
         <div className="mt-4">
-          <Button primary uppercase fullWidth>
+          <Button onClick={handleAddPlaylist} primary uppercase fullWidth>
             Tạo mới
           </Button>
         </div>

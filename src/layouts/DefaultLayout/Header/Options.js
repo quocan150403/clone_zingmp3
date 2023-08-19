@@ -17,6 +17,10 @@ import PropTypes from 'prop-types';
 import Tippy from '@tippyjs/react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css'; // optional
+import { useSelector, useDispatch } from 'react-redux';
+import { signOut } from 'firebase/auth';
+import { auth } from 'config/firebase';
+import { logout } from 'app/features/userSlide';
 
 import { BasicIcon, ThemeIcon } from 'components/Icons';
 import { Wrapper, MenuItem, Button } from 'components';
@@ -24,9 +28,22 @@ import images from 'assets/images';
 import config from 'config';
 
 function Options({ onClickOpenModal }) {
+  const { isAuth, current } = useSelector((state) => state.user);
   const [isShowSetting, setIsShowSetting] = useState(false);
   const [isShowAvatar, setIsShowAvatar] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(logout());
+        console.log('Sign-out successful.');
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error);
+      });
+  };
 
   return (
     <nav className="header-nav">
@@ -91,13 +108,13 @@ function Options({ onClickOpenModal }) {
           render={(attrs) => (
             <div {...attrs} tabIndex="-1" className="header__avatar">
               <Wrapper className="p-2">
-                {isLogin ? (
+                {isAuth ? (
                   <>
                     <div className="p-3 mb-2 header-avatar">
                       <div className="mb-4 d-flex align-items-center">
-                        <img src={images.avatar} alt="" className="header-avatar__img me-3" />
+                        <img src={current.photoURL} alt="" className="header-avatar__img me-3" />
                         <div className="d-flex flex-column header-avatar__info">
-                          <h3>Nguyễn Văn A</h3>
+                          <h3>{current.displayName}</h3>
                           <BasicIcon width="50" height="16" />
                         </div>
                       </div>
@@ -106,7 +123,7 @@ function Options({ onClickOpenModal }) {
                       </Button>
                     </div>
                     <div className="line-separator"></div>
-                    <MenuItem option icon={<BsBoxArrowLeft />} title="Đăng xuất" />
+                    <MenuItem onClick={handleLogout} option icon={<BsBoxArrowLeft />} title="Đăng xuất" />
                   </>
                 ) : (
                   <div className="p-3 pb-4">
@@ -120,7 +137,7 @@ function Options({ onClickOpenModal }) {
           )}
         >
           <li onClick={() => setIsShowAvatar(!isShowAvatar)} className="header-nav__item">
-            <img src={images.avatar} alt="" className="header-nav__btn" />
+            <img src={current.photoURL || images.avatarDefault} alt="" className="header-nav__btn" />
           </li>
         </HeadlessTippy>
       </ul>

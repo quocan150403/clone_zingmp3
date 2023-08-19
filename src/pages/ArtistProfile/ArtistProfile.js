@@ -8,8 +8,6 @@ import './ArtistProfile.scss';
 import { artistApi, songApi, albumApi } from 'api';
 import { AlbumItem, AlbumList, Button, Helmet, MediaItem, Section, Title } from 'components';
 
-const BACKEND_URL = process.env.REACT_APP_API_URL;
-
 function Artist() {
   const { slug } = useParams();
   const [artist, setArtist] = useState({});
@@ -40,7 +38,7 @@ function Artist() {
       <div className="artist mt-custom">
         <section className="artist-hero d-flex">
           <div className="artist-hero__img">
-            <img src={`${BACKEND_URL}/${artist.image_url}`} alt="" />
+            <img src={artist.imageUrl} alt="" />
           </div>
           <div className=" d-flex flex-column">
             <Title className="mb-3" large primary>
@@ -90,15 +88,16 @@ function Artist() {
                 <Row className="g-5">
                   <Col sm="6" md="6" lg="6">
                     <div className="artist-description__img">
-                      <img src={`${BACKEND_URL}/${artist.image_url}`} alt="" />
+                      <img src={artist.imageUrl} alt="" />
                     </div>
                   </Col>
                   <Col sm="6" md="6" lg="6">
                     <div className="d-flex flex-column">
                       <p>
-                        Bắt đầu hoạt động âm nhạc từ năm 2018 với bài hát đầu tiên là "Chuyện Người Anh Thương". Sau đó
-                        thì tiếp tục viết và trực tiếp thể hiện những ca khúc của mình. Những sản phẩm tiếp theo có thể
-                        kể đến như "Mưa Ơi Đừng Buồn", "Chẳng Thể Với Lấy" ...
+                        Bắt đầu hoạt động âm nhạc từ năm 2018 với bài hát đầu tiên là "Chuyện Người
+                        Anh Thương". Sau đó thì tiếp tục viết và trực tiếp thể hiện những ca khúc
+                        của mình. Những sản phẩm tiếp theo có thể kể đến như "Mưa Ơi Đừng Buồn",
+                        "Chẳng Thể Với Lấy" ...
                         {artist?.description}
                       </p>
                       <div className="d-flex flex-column artist-description__follow">

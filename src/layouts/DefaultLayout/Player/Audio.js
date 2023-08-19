@@ -1,7 +1,17 @@
 import { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-function Audio({ muted, isPlaying, volume, repeat, seekTime, currentSong, onTimeUpdate, onLoadedData, onEnded }) {
+function Audio({
+  muted,
+  isPlaying,
+  volume,
+  repeat,
+  seekTime,
+  currentSong,
+  onTimeUpdate,
+  onLoadedData,
+  onEnded,
+}) {
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -31,7 +41,7 @@ function Audio({ muted, isPlaying, volume, repeat, seekTime, currentSong, onTime
     <audio
       muted={muted}
       ref={audioRef}
-      src={currentSong?.audio_url}
+      src={currentSong?.audioUrl}
       onTimeUpdate={onTimeUpdate}
       onLoadedData={onLoadedData}
       loop={repeat}

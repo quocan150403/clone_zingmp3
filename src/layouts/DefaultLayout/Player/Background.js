@@ -12,9 +12,7 @@ const TABS = [
   { id: 3, name: ' Lời bài hát' },
 ];
 
-const BACKEND_URL = process.env.REACT_APP_API_URL;
-
-function Background({ image_url, isShowPlayerPopper, onClickToggleBackground }) {
+function Background({ imageUrl, isShowPlayerPopper, onClickToggleBackground }) {
   return (
     <div className={`player-background ${isShowPlayerPopper ? 'is-show' : ''}`}>
       <div className="player-background__header d-flex align-items-center justify-content-between">
@@ -25,7 +23,12 @@ function Background({ image_url, isShowPlayerPopper, onClickToggleBackground }) 
         <div className="player-background__right">
           <Button circle secondary leftIcon={<BsArrowsAngleExpand />} />
           <Button circle secondary leftIcon={<BsGear />} />
-          <Button onClick={() => onClickToggleBackground(false)} circle secondary leftIcon={<BsChevronDown />} />
+          <Button
+            onClick={() => onClickToggleBackground(false)}
+            circle
+            secondary
+            leftIcon={<BsChevronDown />}
+          />
         </div>
       </div>
       <div className="player-background__content">
@@ -33,7 +36,7 @@ function Background({ image_url, isShowPlayerPopper, onClickToggleBackground }) 
           <Row>
             <Col xs={NaN} md="0" lg="5">
               <div className="me-5">
-                <img className="rounded" src={BACKEND_URL + image_url} alt="" />
+                <img className="rounded" src={imageUrl} alt="" />
               </div>
             </Col>
             <Col xs="12" md="12" lg="7">
@@ -60,7 +63,7 @@ function Background({ image_url, isShowPlayerPopper, onClickToggleBackground }) 
 }
 
 Background.propTypes = {
-  image_url: PropTypes.string,
+  imageUrl: PropTypes.string,
   isShowPlayerPopper: PropTypes.bool,
   onClickToggleBackground: PropTypes.func,
 };

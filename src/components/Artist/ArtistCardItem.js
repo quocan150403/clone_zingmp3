@@ -3,12 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Artist.scss';
 
-const BACKEND_URL = process.env.REACT_APP_API_URL;
 function ArtistCardItem({ data }) {
   return (
     <Link to="/" className="artist-card">
       <div className="artist-card__img">
-        <img src={`${BACKEND_URL}${data.image_url}`} alt={data.name} />
+        <img src={data.imageUrl} alt={data.name} />
       </div>
       <div className="artist-card__info">
         <h3 className="artist-card__name">{data.name}</h3>

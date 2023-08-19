@@ -43,12 +43,12 @@ function Search() {
           <Wrapper className="p-3 wrapper--search">
             <h3 className="header-search__title">Lịch sử tìm kiếm</h3>
             <div className="header-search__list">
-              {searchResult.map((item, index) => (
+              {/* {searchResult&& searchResult.map((item, index) => (
                 <ArtistCardItem data={item} key={index} />
               ))}
-              {searchResult.map((item, index) => (
+              {searchResult&& searchResult.map((item, index) => (
                 <MediaItem tracks={searchResult} data={item} grow key={index} />
-              ))}
+              ))} */}
             </div>
           </Wrapper>
         </div>
@@ -59,7 +59,11 @@ function Search() {
         className={`header-search ${isShowSearch ? 'active' : ''}`}
         onClick={() => setIsShowSearch(!isShowSearch)}
       >
-        <input type="text" placeholder="Nhập tên bài hát, nghệ sĩ hoặc MV..." className="header-search__input" />
+        <input
+          type="text"
+          placeholder="Nhập tên bài hát, nghệ sĩ hoặc MV..."
+          className="header-search__input"
+        />
         <span className="header-search__btn">
           <BsSearch className="header-search__icon" />
         </span>

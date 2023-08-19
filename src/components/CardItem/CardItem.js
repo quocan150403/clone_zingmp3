@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import './CardItem.scss';
-const BACKEND_URL = process.env.REACT_APP_API_URL;
 
 function CardItem({ image, name, link }) {
   return (
     <Link to={link} className="card-item">
-      <img className="card-item__image" src={BACKEND_URL + image} alt={name} />
+      <img className="card-item__image" src={image} alt={name} />
       {name && <p className="card-item__name">{name}</p>}
     </Link>
   );

@@ -3,6 +3,7 @@ const images = {
   logoSmall: require('assets/images/logos/small-logo.svg').default,
   logoWhite: require('assets/images/logos/logo-white.png'),
   avatar: require('assets/images/avatars/avatar.jpg'),
+  avatarDefault: require('assets/images/avatars/user-default.png'),
 
   song: require('assets/images/music/listSong1/song1.jpg'),
   iconPlaying: require('assets/images/SongActiveAnimation/icon-playing.gif'),

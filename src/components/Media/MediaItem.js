@@ -25,12 +25,12 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
 import { useDispatch, useSelector } from 'react-redux';
 import { setSong, playPause } from 'app/features/playerSlide';
+import { fRelativeTimeAgo, fDate, fMinutes } from 'utils/formatTime';
 
 import './Media.scss';
 import Wrapper from 'components/Wrapper';
 import images from 'assets/images';
 import MenuItem from 'components/Wrapper/MenuItem';
-const BACKEND_URL = process.env.REACT_APP_API_URL;
 
 function MediaItem({
   tracks,
@@ -127,7 +127,7 @@ function MediaItem({
         )}
         <div className="media-left__inner">
           <div onClick={handleClickSong} className="media-left__wrapper me-3">
-            <img className="media-left__image" src={BACKEND_URL + data.image_url} alt="" />
+            <img className="media-left__image" src={data.imageUrl} alt="" />
             <div className="media-left__overlay" />
             <div className="media-left__icon media-left__icon--play">
               <BsPlayFill />
@@ -142,16 +142,20 @@ function MediaItem({
               <div className="media-description">
                 {data.artists.map((item, index) => (
                   <a href="/" key={index}>
-                    {item.name},{' '}
+                    {item.name}
                   </a>
                 ))}
               </div>
-              {release && <div className="media-description media-left__release">3 giờ trước</div>}
+              {release && (
+                <div className="media-description media-left__release">
+                  {fRelativeTimeAgo(data.createdAt)}
+                </div>
+              )}
             </div>
             {rank && (
               <div className="media-left__rank">
                 <span className="media-left__order media-left__order--secondary">#1</span>
-                <span className="media-left__day">28.06.2023</span>
+                <span className="media-left__day">{fDate(data.createdAt)}</span>
               </div>
             )}
           </div>
@@ -162,7 +166,7 @@ function MediaItem({
           <Link href="/">{data.albumId.name}</Link>
         </span>
       )}
-      <span className="media-middle">{data.duration}</span>
+      <span className="media-middle">{fMinutes(data.duration)}</span>
       {!rank && (
         <div className="media-right">
           <Tippy content="Phát cùng lời bài hát">
@@ -187,7 +191,7 @@ function MediaItem({
               <div {...attrs} tabIndex="-1" className="media-right__wrapper">
                 <Wrapper className="pb-3 p-0">
                   <div className="p-3 pb-0 d-flex align-items-center">
-                    <img src={data.image_url} alt="" className="me-3 rounded is-40x40" />
+                    <img src={data.imageUrl} alt="" className="me-3 rounded is-40x40" />
                     <div className="d-flex flex-column">
                       <h4 className="media-title">Chưa Bao Giờ Em Quên</h4>
                       <div className="d-flex gap-3 media-description">

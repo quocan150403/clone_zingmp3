@@ -3,13 +3,12 @@ import React from 'react';
 import { BsPersonAdd, BsShuffle } from 'react-icons/bs';
 
 import { Button } from 'components';
-const BACKEND_URL = process.env.REACT_APP_API_URL;
 
 export default function ArtistItem({ data }) {
   return (
     <div className="artist-item">
       <Link to="/" className="artist-item__img">
-        <img src={`${BACKEND_URL}${data.thumbnail_url}`} alt={data.name} />
+        <img src={data.imageUrl} alt={data.name} />
         <div className="artist-item__overlay"></div>
         <span className="artist-item__icon">
           <BsShuffle />

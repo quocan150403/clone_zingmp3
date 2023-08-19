@@ -1,9 +1,10 @@
+import { useState, memo } from 'react';
+
+import './DefaultLayout.scss';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Player from './Player';
-import './DefaultLayout.scss';
 import images from 'assets/images';
-import { useState } from 'react';
 import Queue from './Queue/Queue';
 
 function DefaultLayout({ children }) {
@@ -25,4 +26,4 @@ function DefaultLayout({ children }) {
   );
 }
 
-export default DefaultLayout;
+export default memo(DefaultLayout);

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import './MenuItem.scss';
 
-function MenuItem({ option, responsive, small, to, icon, title, label, iconExpand, chevron }) {
+function MenuItem({ option, responsive, small, to, icon, title, label, iconExpand, chevron, ...props }) {
   let Component = to ? NavLink : 'div';
   const classes = classNames('menu-item', {
     option,
@@ -11,7 +11,7 @@ function MenuItem({ option, responsive, small, to, icon, title, label, iconExpan
     responsive,
   });
   return (
-    <Component to={to} className={classes}>
+    <Component to={to} className={classes} {...props}>
       {icon && <div className="menu-item__icon">{icon}</div>}
       <div className="menu-item__title">
         {title}

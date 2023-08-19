@@ -20,8 +20,6 @@ import { Button, MenuItem, Wrapper } from 'components';
 import './Album.scss';
 import images from 'assets/images';
 
-const BACKEND_URL = process.env.REACT_APP_API_URL;
-
 function AlbumItem({ data, small, detail, isArtist }) {
   const { albumId, isPlaying } = useSelector((state) => state.player);
   const [isShowOption, setIsShowOption] = useState(false);
@@ -35,8 +33,8 @@ function AlbumItem({ data, small, detail, isArtist }) {
 
   return (
     <div className={classes}>
-      <Link to={`album/${data.slug || ''}`} className="album-wrapper br-5">
-        <img className="album-wrapper__image" src={BACKEND_URL + data.thumbnail_url} alt="" />
+      <Link to={`album/${data.slug}`} className="album-wrapper br-5">
+        <img className="album-wrapper__image" src={data.imageUrl} alt="" />
         <div className="album-wrapper__actions">
           <Tippy content="Thêm vào thư viện">
             <div className="album-wrapper__btn">

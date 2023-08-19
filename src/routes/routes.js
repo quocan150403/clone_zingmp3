@@ -21,9 +21,6 @@ const ArtistUpload = lazy(() => import('pages/ArtistUpload'));
 const publicRoutes = [
   { path: config.routes.home, component: Home },
   { path: config.routes.login, component: Login, layout: OnlyContentLayout },
-  { path: config.routes.register, component: Register, layout: ArtistLayout },
-  { path: config.routes.dashboard.path, component: ArtistDashboard, layout: ArtistLayout },
-  { path: config.routes.dashboard.songs.upload, component: ArtistUpload, layout: ArtistLayout },
   { path: config.routes.topic, component: Topic },
   { path: config.routes.zingChart, component: ZingChart },
   { path: config.routes.radio, component: Radio },
@@ -31,14 +28,18 @@ const publicRoutes = [
   { path: config.routes.top100, component: Top100 },
   { path: config.routes.album, component: Detail },
   { path: config.routes.artist, component: Artist },
+];
+
+const privateRoutes = [
   { path: config.routes.library.path, component: Library },
   { path: config.routes.library.history, component: History },
   { path: config.routes.library.favorite, component: Library },
   { path: config.routes.library.playlist, component: Playlist },
   { path: config.routes.library.album, component: Library },
   { path: config.routes.library.upload, component: Library },
+  { path: config.routes.register, component: Register, layout: ArtistLayout },
+  { path: config.routes.dashboard.path, component: ArtistDashboard, layout: ArtistLayout },
+  { path: config.routes.dashboard.songs.upload, component: ArtistUpload, layout: ArtistLayout },
 ];
-
-const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };

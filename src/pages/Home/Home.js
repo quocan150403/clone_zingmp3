@@ -9,7 +9,6 @@ import './Home.scss';
 
 function Home() {
   const [albums, setAlbums] = useState([]);
-  const [slides, setSlides] = useState([]);
   const [songs, setSongs] = useState([]);
 
   // Fetch song
@@ -18,11 +17,8 @@ function Home() {
       try {
         const songs = await songApi.getQuery();
         const albums = await albumApi.getQuery();
-        const gallery = await galleryApi.getQuery();
-
         setSongs(songs);
         setAlbums(albums);
-        setSlides(gallery);
       } catch (error) {
         console.log(error);
       }
@@ -32,11 +28,11 @@ function Home() {
 
   return (
     <Helmet title="Trang chủ">
-      <Section title="Gần đây" to={`/recently`}>
+      {/* <Section title="Gần đây" to={`/recently`}>
         <ArtistList artists={albums} small />
-      </Section>
+      </Section> */}
 
-      <Gallery galleries={slides} />
+      <Gallery />
 
       <Section title="Gần đây" to={`/recently`}>
         <AlbumList albums={albums} small />
@@ -58,17 +54,17 @@ function Home() {
         <Row className="g-4 row-custom">
           <Col sm={12} md={6} lg={4}>
             {songs.map((item, index) => (
-              <MediaItem tracks={songs} data={item} release key={index} />
+              <MediaItem key={index} tracks={songs} data={item} release />
             ))}
           </Col>
           <Col sm={12} md={6} lg={4}>
             {songs.map((item, index) => (
-              <MediaItem tracks={songs} data={item} release key={index} />
+              <MediaItem key={index} tracks={songs} data={item} release />
             ))}
           </Col>
           <Col sm={12} md={6} lg={4}>
             {songs.map((item, index) => (
-              <MediaItem tracks={songs} data={item} release key={index} />
+              <MediaItem key={index} tracks={songs} data={item} release />
             ))}
           </Col>
         </Row>
@@ -142,9 +138,9 @@ function Home() {
         <AlbumList albums={albums} />
       </Section>
 
-      <Section title="Radio nổi bật" to="/radio">
+      {/* <Section title="Radio nổi bật" to="/radio">
         <RadioList radioList={albums} />
-      </Section>
+      </Section> */}
     </Helmet>
   );
 }

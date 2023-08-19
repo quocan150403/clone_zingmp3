@@ -14,12 +14,14 @@ function Detail() {
   useEffect(() => {
     const getAlbums = async () => {
       try {
-        if (!slug) return;
         const response = await albumApi.getBySlug(slug);
-        const { _id } = response;
-        const responseSong = await songApi.getQuery({ albumId: _id });
-        setAlbum(response);
-        setSongs(responseSong);
+        console.log(response);
+        // if (response) {
+        //   const { _id } = response;
+        //   const responseSong = await songApi.getQuery({ albumId: _id });
+        //   setAlbum(response);
+        //   setSongs(responseSong);
+        // }
       } catch (error) {
         console.log(error);
       }
