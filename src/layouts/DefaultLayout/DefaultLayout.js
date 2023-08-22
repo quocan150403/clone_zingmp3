@@ -1,5 +1,4 @@
 import { useState, memo } from 'react';
-
 import './DefaultLayout.scss';
 import Header from './Header';
 import Sidebar from './Sidebar';

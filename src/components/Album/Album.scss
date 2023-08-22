@@ -36,6 +36,10 @@
       margin: 15px 0 4px;
     }
 
+    .album-info__title {
+      font-size: 20px;
+    }
+
     @include media-breakpoint(tablet) {
       @include flexbox(flex-start, flex-start);
       margin-bottom: 30px;

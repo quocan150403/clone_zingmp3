@@ -1,10 +1,11 @@
 import axiosClient from './axiosClient';
 
+const url = 'galleries';
+
 const galleryApi = {
-  getQuery: (params) => {
-    const url = '/galleries';
-    return axiosClient.get(url, { params });
-  },
+  getQuery: (params) => axiosClient.get(url, { params }),
+  getById: (id) => axiosClient.get(`${url}/${id}`),
+  getBySlug: (slug) => axiosClient.get(`${url}/${slug}`),
 };
 
 export default galleryApi;

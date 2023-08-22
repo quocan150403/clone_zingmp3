@@ -1,12 +1,10 @@
 import axiosClient from './axiosClient';
+
+const url = 'artists';
+
 const artistApi = {
-  getAll: (params) => {
-    const url = '/artists';
-    return axiosClient.get(url, { params });
-  },
-  getBySlug: (slug) => {
-    const url = `/artists/${slug}`;
-    return axiosClient.get(url);
-  },
+  getQuery: (params) => axiosClient.get(url, { params }),
+  getById: (id) => axiosClient.get(`${url}/${id}`),
+  getBySlug: (slug) => axiosClient.get(`${url}/${slug}`),
 };
 export default artistApi;

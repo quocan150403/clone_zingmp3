@@ -1,6 +1,6 @@
 import axiosClient from './axiosClient';
 
-const url = '/playlists';
+const url = 'playlists';
 
 const userApi = {
   getAll: (params) => axiosClient.get(url, { params }),

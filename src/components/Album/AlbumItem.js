@@ -7,7 +7,7 @@ import {
   BsTextWrap,
   BsThreeDots,
 } from 'react-icons/bs';
-import { useState, memo } from 'react';
+import { useState, memo, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import { Button, MenuItem, Wrapper } from 'components';
 import './Album.scss';
 import images from 'assets/images';
+import { fDate } from 'utils/formatTime';
 
 function AlbumItem({ data, small, detail, isArtist }) {
   const { albumId, isPlaying } = useSelector((state) => state.player);
@@ -33,7 +34,7 @@ function AlbumItem({ data, small, detail, isArtist }) {
 
   return (
     <div className={classes}>
-      <Link to={`album/${data.slug}`} className="album-wrapper br-5">
+      <Link to={`/album/${data.slug}`} className="album-wrapper br-5">
         <img className="album-wrapper__image" src={data.imageUrl} alt="" />
         <div className="album-wrapper__actions">
           <Tippy content="Thêm vào thư viện">
@@ -76,17 +77,22 @@ function AlbumItem({ data, small, detail, isArtist }) {
         <Link href="/" className="album-info__title">
           {data.name}
         </Link>
-        {detail && <p className="album-info__authors mb-2">{data.createAt}</p>}
-        <p className="album-info__authors ">
-          <Link className="album-info__author">AMEE, </Link>
-          <Link className="album-info__author">ERIK, </Link>
-          <Link className="album-info__author">Hoàng Duyên</Link>
+        {detail && <p className="album-info__likes">Cập nhật: {fDate(data.updatedAt)} </p>}
+        <p className="album-info__authors">
+          {data.artists.map((item, index) => (
+            <Fragment key={index}>
+              {index > 0 && ', '}
+              <Link to={`/artist/${item.slug}`} className="album-info__author">
+                {item.name}
+              </Link>
+            </Fragment>
+          ))}
         </p>
         {isArtist && <p className="album-info__type mb-0 mt-3">{data.createdAt}</p>}
 
         {detail && (
           <div>
-            <p className="album-info__likes mb-4">81k người yêu thích</p>
+            <p className="album-info__likes mb-4">{data.favorites} người yêu thích</p>
             <Button primary uppercase leftIcon={<BsPlayFill />}>
               Phát tất cả
             </Button>

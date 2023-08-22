@@ -4,9 +4,9 @@ import { Suspense, Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentUser } from 'app/features/userSlide';
-import Login from './pages/Login';
+import LoginPage from './pages/LoginPage';
 
-import { DefaultLayout } from './layouts';
+import DefaultLayout from './layouts/DefaultLayout';
 import { publicRoutes, privateRoutes } from './routes';
 import { auth } from './config/firebase';
 import { userApi } from 'api';
@@ -85,7 +85,7 @@ function App() {
                         <Page />
                       </Layout>
                     ) : (
-                      <Login />
+                      <LoginPage />
                     )
                   }
                 />

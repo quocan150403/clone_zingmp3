@@ -19,7 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import './Sidebar.scss';
 import images from 'assets/images';
-import config from 'config';
+import config from '../../../config';
 import { MenuItem, Button } from 'components';
 import classNames from 'classnames';
 import { playlistApi } from 'api';
@@ -39,7 +39,7 @@ function Sidebar() {
       try {
         const response = await playlistApi.getAll();
         setPlaylists(response);
-        console.log(response);
+        // console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -113,7 +113,7 @@ function Sidebar() {
         {/* <MenuItem responsive={!isToggle} to={config.routes.radio} icon={<RadioIcon />} title="Radio" label="LIVE" /> */}
         <MenuItem
           responsive={!isToggle}
-          to={config.routes.topic}
+          to={config.routes.genre}
           icon={<TopicIcon />}
           title="Thể Loại"
         />
@@ -134,7 +134,6 @@ function Sidebar() {
       <div className="sidebar-separate d-none-mobile" />
 
       <nav className="sidebar-subnav d-none-mobile">
-        {/* <MenuItem responsive={!isToggle} to={config.routes.top100} icon={<Top100Icon />} title="Top 100" /> */}
         <MenuItem
           responsive={!isToggle}
           to={config.routes.library.history}

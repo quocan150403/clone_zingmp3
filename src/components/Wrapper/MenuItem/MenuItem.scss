@@ -27,6 +27,7 @@ $padding-icon: 12px;
     color: var(--text-item-hover);
 
     .menu-item__expand {
+      color: #000;
       display: flex;
     }
   }
@@ -110,7 +111,7 @@ $padding-icon: 12px;
 
   &__expand {
     position: absolute;
-    right: calc(100% + 10px);
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
 

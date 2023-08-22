@@ -1,10 +1,28 @@
 import axiosClient from './axiosClient';
+const url = 'songs';
 
 const songApi = {
-  getQuery: (params) => {
-    const url = '/songs';
-    return axiosClient.get(url, { params });
-  },
+  getQuery: (params) => axiosClient.get(url, { params }),
+  getById: (id) => axiosClient.get(`${url}/${id}`),
+  getBySlug: (slug) => axiosClient.get(`${url}/${slug}`),
+  getByArtistId: (id, limit) =>
+    axiosClient.get(`${url}/artist/${id}`, {
+      params: {
+        limit,
+      },
+    }),
+  getNew: (limit) =>
+    axiosClient.get(`${url}/new`, {
+      params: {
+        limit,
+      },
+    }),
+  getHot: (limit) =>
+    axiosClient.get(`${url}/hot`, {
+      params: {
+        limit,
+      },
+    }),
 };
 
 export default songApi;

@@ -1,45 +1,54 @@
 import { lazy } from 'react';
-import { OnlyContentLayout, ArtistLayout } from 'layouts';
-import config from 'config';
+import config from '../config';
 
-const Home = lazy(() => import('pages/Home'));
-const Login = lazy(() => import('pages/Login'));
-const History = lazy(() => import('pages/History'));
-const NewMusic = lazy(() => import('pages/NewMusic'));
-const Radio = lazy(() => import('pages/Radio'));
-const Top100 = lazy(() => import('pages/Top100'));
-const Topic = lazy(() => import('pages/Topic'));
-const ZingChart = lazy(() => import('pages/ZingChart'));
-const Library = lazy(() => import('pages/Library'));
-const Playlist = lazy(() => import('pages/Library/Playlist'));
-const Detail = lazy(() => import('pages/Detail'));
-const Register = lazy(() => import('pages/ArtistRegister'));
-const Artist = lazy(() => import('pages/ArtistProfile'));
-const ArtistDashboard = lazy(() => import('pages/ArtistDashboard'));
-const ArtistUpload = lazy(() => import('pages/ArtistUpload'));
+// Layouts
+import SimpleLayout from 'layouts/SimpleLayout';
+
+// Pages
+const LoginPage = lazy(() => import('pages/LoginPage'));
+const HomePage = lazy(() => import('pages/HomePage'));
+const ZingChartPage = lazy(() => import('pages/ZingChartPage'));
+const GenrePage = lazy(() => import('pages/GenrePage'));
+const NewMusicPage = lazy(() => import('pages/NewMusicPage'));
+const LibraryPage = lazy(() => import('pages/LibraryPage'));
+const DetailGenrePage = lazy(() => import('pages/DetailGenrePage'));
+const DetailAlbumPage = lazy(() => import('pages/DetailAlbumPage'));
+const DetailArtistPage = lazy(() => import('pages/DetailArtistPage'));
+// const Top100Page = lazy(() => import('pages/Top100Page'));
+// const HistoryPage = lazy(() => import('pages/HistoryPage'));
+// const RadioPage = lazy(() => import('pages/RadioPage'));
+// const PlaylistPage = lazy(() => import('pages/LibraryPage/Playlist'));
+// const RegisterPage = lazy(() => import('pages/ArtistRegisterPage'));
+// const ArtistPage = lazy(() => import('pages/ArtistProfilePage'));
+// const ArtistDashboardPage = lazy(() => import('pages/ArtistDashboardPage'));
+// const ArtistUploadPage = lazy(() => import('pages/ArtistUploadPage'));
 
 const publicRoutes = [
-  { path: config.routes.home, component: Home },
-  { path: config.routes.login, component: Login, layout: OnlyContentLayout },
-  { path: config.routes.topic, component: Topic },
-  { path: config.routes.zingChart, component: ZingChart },
-  { path: config.routes.radio, component: Radio },
-  { path: config.routes.newMusic, component: NewMusic },
-  { path: config.routes.top100, component: Top100 },
-  { path: config.routes.album, component: Detail },
-  { path: config.routes.artist, component: Artist },
+  { path: config.routes.home, component: HomePage },
+  { path: config.routes.login, component: LoginPage, layout: SimpleLayout },
+  { path: config.routes.genre, component: GenrePage },
+  { path: config.routes.zingChart, component: ZingChartPage },
+  { path: config.routes.newMusic, component: NewMusicPage },
+
+  { path: config.routes.detailGenre, component: DetailGenrePage },
+  { path: config.routes.detailAlbum, component: DetailAlbumPage },
+  { path: config.routes.detailArtist, component: DetailArtistPage },
+  // { path: config.routes.radio, component: Radio },
+  // { path: config.routes.top100, component: Top100Page },
+  // { path: config.routes.album, component: Detail },
+  // { path: config.routes.artist, component: Artist },
 ];
 
 const privateRoutes = [
-  { path: config.routes.library.path, component: Library },
-  { path: config.routes.library.history, component: History },
-  { path: config.routes.library.favorite, component: Library },
-  { path: config.routes.library.playlist, component: Playlist },
-  { path: config.routes.library.album, component: Library },
-  { path: config.routes.library.upload, component: Library },
-  { path: config.routes.register, component: Register, layout: ArtistLayout },
-  { path: config.routes.dashboard.path, component: ArtistDashboard, layout: ArtistLayout },
-  { path: config.routes.dashboard.songs.upload, component: ArtistUpload, layout: ArtistLayout },
+  { path: config.routes.library.path, component: LibraryPage },
+  // { path: config.routes.library.history, component: History },
+  // { path: config.routes.library.favorite, component: Library },
+  // { path: config.routes.library.playlist, component: Playlist },
+  // { path: config.routes.library.album, component: Library },
+  // { path: config.routes.library.upload, component: Library },
+  // { path: config.routes.register, component: Register, layout: ArtistLayout },
+  // { path: config.routes.dashboard.path, component: ArtistDashboard, layout: ArtistLayout },
+  // { path: config.routes.dashboard.songs.upload, component: ArtistUpload, layout: ArtistLayout },
 ];
 
 export { publicRoutes, privateRoutes };

@@ -35,3 +35,18 @@ function result(format, key = '.00') {
 
   return isInteger ? format.replace(key, '') : format;
 }
+
+export function fNumberWithUnits(number) {
+  const units = ['K', 'M', 'B', 'T', 'P', 'E', 'Z', 'Y'];
+  let unitIndex = 0;
+  if (number < 1000) {
+    return number;
+  }
+
+  while (number >= 1000 && unitIndex < units.length - 1) {
+    number /= 1000;
+    unitIndex++;
+  }
+
+  return `${number.toFixed(0)}${units[unitIndex]}`;
+}

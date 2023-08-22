@@ -154,7 +154,7 @@ function MediaItem({
             </div>
             {rank && (
               <div className="media-left__rank">
-                <span className="media-left__order media-left__order--secondary">#1</span>
+                <span className="media-left__order media-left__order--secondary">#{index + 1}</span>
                 <span className="media-left__day">{fDate(data.createdAt)}</span>
               </div>
             )}
