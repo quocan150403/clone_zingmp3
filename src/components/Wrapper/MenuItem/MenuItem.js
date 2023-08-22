@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 // import TippyHeadless from '@tippyjs/react/headless';
@@ -20,8 +19,6 @@ function MenuItem({
   chevron,
   ...props
 }) {
-  const [showOption, setShowOption] = useState(false);
-
   let Component = to ? NavLink : 'div';
   const classes = classNames('menu-item', {
     option,

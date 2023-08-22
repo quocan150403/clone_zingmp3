@@ -79,16 +79,17 @@ function AlbumItem({ data, small, detail, isArtist }) {
         </Link>
         {detail && <p className="album-info__likes">Cập nhật: {fDate(data.updatedAt)} </p>}
         <p className="album-info__authors">
-          {data.artists.map((item, index) => (
-            <Fragment key={index}>
-              {index > 0 && ', '}
-              <Link to={`/artist/${item.slug}`} className="album-info__author">
-                {item.name}
-              </Link>
-            </Fragment>
-          ))}
+          {data.artists &&
+            data.artists.map((item, index) => (
+              <Fragment key={index}>
+                {index > 0 && ', '}
+                <Link to={`/artist/${item.slug}`} className="album-info__author">
+                  {item.name}
+                </Link>
+              </Fragment>
+            ))}
         </p>
-        {isArtist && <p className="album-info__type mb-0 mt-3">{data.createdAt}</p>}
+        {isArtist && <p className="album-info__type mb-0 mt-3">{fDate(data.createdAt)}</p>}
 
         {detail && (
           <div>

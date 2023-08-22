@@ -25,8 +25,8 @@ export default function HomePage() {
           genreApi.getQuery({ isHome: true }),
         ]);
 
-        const genreIds = genres.map((item) => item._id);
-        const albums = await albumApi.getByGenres(genreIds);
+        const genreIds = genres.map((item) => item._id).join(',');
+        const albums = await albumApi.getByGenreIds({ ids: genreIds });
 
         setSongNewList(songsNew);
         setSongRankList(songsRank);

@@ -5,15 +5,25 @@ import { Col, Row } from 'reactstrap';
 
 import './DetailArtistPage.scss';
 import { artistApi, songApi, albumApi } from 'api';
-import { AlbumItem, AlbumList, Button, Helmet, MediaItem, Section, Title } from 'components';
+import {
+  AlbumItem,
+  AlbumList,
+  ArtistList,
+  Button,
+  Helmet,
+  MediaItem,
+  Section,
+  Title,
+} from 'components';
 import { fNumberWithUnits } from 'utils/formatNumber';
 
 export default function DetailArtistPage() {
   const { slug } = useParams();
   const [artist, setArtist] = useState({});
   const [songList, setSongList] = useState([]);
-  const [songNew, setSongNew] = useState({});
-  const [albumList, setAlbumList] = useState([]);
+  const [newAlbum, setNewAlbum] = useState({});
+  const [hotAlbumList, setHotAlbumList] = useState([]);
+  const [artistRelate, setArtistRelateList] = useState([]);
 
   const columnCount = 2;
   const itemsPerColumn = 3;
@@ -24,15 +34,37 @@ export default function DetailArtistPage() {
         try {
           const resArtist = await artistApi.getBySlug(slug);
           const { _id } = resArtist;
-          const resSongList = await songApi.getByArtistId(_id, 6);
+          const [resSongList, resNewAlbum, resHotAlbums] = await Promise.all([
+            songApi.getByArtistId(_id, 6),
+            albumApi.getByArtistId(_id, { limit: 1 }),
+            albumApi.getByArtistId(_id, { limit: 5, sort: 'favorites' }),
+          ]);
+          setNewAlbum(resNewAlbum[0]);
           setArtist(resArtist);
           setSongList(resSongList);
-          // setAlbumList(resAlbumList);
+          setHotAlbumList(resHotAlbums);
+
+          const artistData = handleGetArtistsFromAlbums(resHotAlbums, _id);
+          setArtistRelateList(artistData);
         } catch (error) {
           console.log(error);
         }
       })();
   }, [slug]);
+
+  const handleGetArtistsFromAlbums = (albumList, idCurrent) => {
+    const artistsRelate = [];
+
+    albumList.forEach((album) => {
+      album.artists.forEach((artist) => {
+        if (artist._id !== idCurrent && !artistsRelate.some((item) => item._id === artist._id)) {
+          artistsRelate.push(artist);
+        }
+      });
+    });
+
+    return artistsRelate;
+  };
 
   return (
     <Helmet title={artist.stageName}>
@@ -58,7 +90,7 @@ export default function DetailArtistPage() {
           <Row>
             <Col sm="4" md="4" lg="4">
               <Section title="Mới phát hành">
-                {/* <AlbumItem isArtist data={albumList[0]} /> */}
+                {newAlbum && <AlbumItem isArtist data={newAlbum} />}
               </Section>
             </Col>
             <Col sm="8" md="8" lg="8">
@@ -69,7 +101,7 @@ export default function DetailArtistPage() {
                       {songList
                         .slice(colIndex * itemsPerColumn, (colIndex + 1) * itemsPerColumn)
                         .map((item, index) => (
-                          <MediaItem key={index} tracks={songList} data={item} release />
+                          <MediaItem key={index} tracks={songList} isBorder data={item} />
                         ))}
                     </Col>
                   ))}
@@ -78,8 +110,12 @@ export default function DetailArtistPage() {
             </Col>
           </Row>
 
-          {/* <Section className="mt-5" title="Có thể bạn muốn nghe">
-            <AlbumList albumList={albumList} />
+          <Section className="mt-5" title="Album đã tham gia">
+            {hotAlbumList && <AlbumList albums={hotAlbumList} />}
+          </Section>
+
+          <Section title="Có thể bạn thích">
+            {artistRelate && <ArtistList artists={artistRelate} />}
           </Section>
 
           <Row>
@@ -93,15 +129,9 @@ export default function DetailArtistPage() {
                   </Col>
                   <Col sm="6" md="6" lg="6">
                     <div className="d-flex flex-column">
-                      <p>
-                        Bắt đầu hoạt động âm nhạc từ năm 2018 với bài hát đầu tiên là "Chuyện Người
-                        Anh Thương". Sau đó thì tiếp tục viết và trực tiếp thể hiện những ca khúc
-                        của mình. Những sản phẩm tiếp theo có thể kể đến như "Mưa Ơi Đừng Buồn",
-                        "Chẳng Thể Với Lấy" ...
-                        {artist?.description}
-                      </p>
+                      <p>{artist.bio}</p>
                       <div className="d-flex flex-column artist-description__follow">
-                        <h2>{artist.followers}</h2>
+                        <h2>{fNumberWithUnits(artist.followers)}</h2>
                         <p>Người quan tâm</p>
                       </div>
                     </div>
@@ -109,7 +139,7 @@ export default function DetailArtistPage() {
                 </Row>
               </Section>
             </Col>
-          </Row> */}
+          </Row>
         </section>
       </div>
     </Helmet>

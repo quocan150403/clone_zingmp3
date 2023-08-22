@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 
-import { AlbumItem, MediaList, Helmet, Section, ArtistList } from 'components';
+import { AlbumItem, MediaList, Helmet, Section, ArtistList, AlbumList } from 'components';
 import { albumApi, songApi } from 'api';
 
 export default function DetailAlbumPage() {
   const { slug } = useParams();
   const [album, setAlbum] = useState();
+  const [albumRelate, setAlbumRelate] = useState([]);
   const [songList, setSongList] = useState([]);
   const [artistList, setArtistList] = useState([]);
 
@@ -16,10 +17,17 @@ export default function DetailAlbumPage() {
       try {
         const response = await albumApi.getBySlug(slug);
         const { _id, artists } = response;
-        const responseSong = await songApi.getQuery({ albumId: _id });
+        const albumIds = artists.map((item) => item._id).join(',');
+
+        const [responseSong, responseAlbumRelate] = await Promise.all([
+          songApi.getQuery({ albumId: _id }),
+          albumApi.getByArtistIds({ ids: albumIds, limit: 6 }),
+        ]);
+
         setArtistList(artists);
         setAlbum(response);
         setSongList(responseSong);
+        setAlbumRelate(responseAlbumRelate.filter((album) => album._id !== _id));
       } catch (error) {
         console.log(error);
       }
@@ -43,6 +51,10 @@ export default function DetailAlbumPage() {
 
         <Section title="Nghệ sĩ tham gia">
           {artistList && <ArtistList artists={artistList} />}
+        </Section>
+
+        <Section title="Có thể bạn sẽ thích">
+          <AlbumList albums={albumRelate} />
         </Section>
       </div>
     </Helmet>

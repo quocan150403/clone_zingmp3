@@ -1,0 +1,49 @@
+@import 'assets/styles/mixins';
+@import 'assets/styles/placeholders';
+
+.playlist-detail {
+  &__thumb {
+    box-shadow: 0 4px 6px 0 rgba(32, 33, 36, 0.28);
+    cursor: pointer;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__title {
+    @extend %text-truncate;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 19px;
+    color: var(--text-color);
+    margin: 0;
+    text-decoration: inherit;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 3px 0 0;
+    color: var(--text-secondary);
+  }
+
+  &__description {
+    font-size: 13px;
+    font-weight: 400;
+    margin: 3px 0 0;
+    color: var(--text-secondary);
+  }
+}
+// .playlist-detail__thumb {
+// }
+// .playlist-detail
+// .playlist-detail__description {
+// }
+// .playlist-detail__description {
+// }

@@ -10,23 +10,39 @@ import {
   AlbumIcon,
   UploadIcon,
 } from 'components/Icons';
-import { BsChevronRight, BsPlus, BsThreeDots, BsX } from 'react-icons/bs';
 import { useState, memo, useEffect } from 'react';
-import Modal from 'react-modal';
+import {
+  BsArrowReturnRight,
+  BsChevronRight,
+  BsDownload,
+  BsLink45Deg,
+  BsPen,
+  BsPlus,
+  BsTextWrap,
+  BsThreeDots,
+  BsTrash,
+  BsX,
+} from 'react-icons/bs';
 import { useSelector } from 'react-redux';
+import Modal from 'react-modal';
+import classNames from 'classnames';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Tippy from '@tippyjs/react';
+import TippyHeadless from '@tippyjs/react/headless';
 
 import './Sidebar.scss';
 import images from 'assets/images';
 import config from '../../../config';
-import { MenuItem, Button } from 'components';
-import classNames from 'classnames';
+import { MenuItem, Button, Wrapper } from 'components';
 import { playlistApi } from 'api';
+import { Link } from 'react-router-dom';
 
 function Sidebar() {
   const { tracks } = useSelector((state) => state.player);
   const { current } = useSelector((state) => state.user);
+
+  const [isShowOption, setIsShowOption] = useState(false);
 
   const [playlists, setPlaylists] = useState([]);
   const [name, setName] = useState('');
@@ -170,13 +186,37 @@ function Sidebar() {
         <div className="sidebar-separate"></div>
         <div className="sidebar-subnav__library">
           {playlists.map((item, index) => (
-            <MenuItem
-              key={index}
-              responsive={!isToggle}
-              to={item.slug}
-              title={item.name}
-              iconExpand={<BsThreeDots />}
-            />
+            <Link key={index} to={`/playlist/${item.slug}`} className="sidebar-playlist">
+              <div className="sidebar-playlist__title">{item.name}</div>
+              <TippyHeadless
+                visible={isShowOption}
+                interactive={true}
+                placement="top"
+                offset={[0, 10]}
+                onClickOutside={() => setIsShowOption(false)}
+                onHide={() => setIsShowOption(false)}
+                appendTo={() => document.body}
+                render={(attrs) => (
+                  <Wrapper {...attrs} tabIndex="-1" className="pb-3 pt-3 p-0">
+                    <MenuItem small option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
+                    <MenuItem small option icon={<BsDownload />} title="Tải xuống" />
+                    <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
+                    <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                    <MenuItem small option icon={<BsPen />} title="Chỉnh sửa playlist" />
+                    <MenuItem small option icon={<BsTrash />} title="Xóa playlist" />
+                  </Wrapper>
+                )}
+              >
+                <Tippy content="Khác">
+                  <div
+                    onClick={(e) => setIsShowOption(!isShowOption)}
+                    className="sidebar-playlist__expand"
+                  >
+                    <BsThreeDots />
+                  </div>
+                </Tippy>
+              </TippyHeadless>
+            </Link>
           ))}
         </div>
       </nav>

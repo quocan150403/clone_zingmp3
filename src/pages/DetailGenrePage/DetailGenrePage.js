@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Col, Row } from 'reactstrap';
 
-import { AlbumItem, AlbumList, CardItem, Helmet, Section } from 'components';
+import { AlbumList, CardItem, Helmet, Section } from 'components';
 import { albumApi, genreApi } from 'api';
 
 export default function DetailGenrePage() {

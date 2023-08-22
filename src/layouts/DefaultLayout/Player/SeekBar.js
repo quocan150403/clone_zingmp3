@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
-import { useMemo, useState, useEffect } from 'react';
-import debounce from 'lodash.debounce';
+import { useMemo } from 'react';
+// import debounce from 'lodash.debounce';
 
 function SeekBar({ value, duration, min = 0, max = 100, onChangeSeekTime }) {
-  const getTime = useMemo(() => (time) => `${Math.floor(time / 60)}:${`0${Math.floor(time % 60)}`.slice(-2)}`, []);
+  const getTime = useMemo(
+    () => (time) => `${Math.floor(time / 60)}:${`0${Math.floor(time % 60)}`.slice(-2)}`,
+    [],
+  );
   const getProgress = useMemo(() => (value, duration) => (value / duration) * 100, []);
 
   return (

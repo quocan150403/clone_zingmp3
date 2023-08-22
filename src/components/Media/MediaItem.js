@@ -140,10 +140,10 @@ function MediaItem({
             <div className="media-left__info">
               <h2 className="media-title">{data.name}</h2>
               <div className="media-description">
-                {data.artists.map((item, index) => (
-                  <a href="/" key={index}>
-                    {item.name}
-                  </a>
+                {data.artists.map((artist, index) => (
+                  <Link key={index} to={`/artist/${artist.slug}`}>
+                    {artist.name}
+                  </Link>
                 ))}
               </div>
               {release && (
@@ -163,7 +163,7 @@ function MediaItem({
       </div>
       {showAlbum && (
         <span className="media-album">
-          <Link href="/">{data.albumId.name}</Link>
+          <Link href={`/album/${data.albumId.slug}`}>{data.albumId.name}</Link>
         </span>
       )}
       <span className="media-middle">{fMinutes(data.duration)}</span>
