@@ -28,11 +28,10 @@ import images from 'assets/images';
 import config from 'config';
 
 function Options({ onClickOpenModal }) {
-  const { isAuth, current } = useSelector((state) => state.user);
+  const { isAuth, currentUser } = useSelector((state) => state.user);
   const [isShowSetting, setIsShowSetting] = useState(false);
   const [isShowAvatar, setIsShowAvatar] = useState(false);
   const dispatch = useDispatch();
-
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
@@ -40,7 +39,6 @@ function Options({ onClickOpenModal }) {
         console.log('Sign-out successful.');
       })
       .catch((error) => {
-        // An error happened.
         console.log(error);
       });
   };
@@ -78,7 +76,12 @@ function Options({ onClickOpenModal }) {
               <Wrapper className="p-2">
                 <MenuItem option icon={<BsShieldLock />} title="Danh sách chặn" />
                 <MenuItem option icon={<BsBadgeHd />} title="Chất lượng nhạc" />
-                <MenuItem option icon={<BsPlayCircle />} title="Trình phát nhạc" chevron={<BsChevronRight />} />
+                <MenuItem
+                  option
+                  icon={<BsPlayCircle />}
+                  title="Trình phát nhạc"
+                  chevron={<BsChevronRight />}
+                />
                 <div className="line-separator"></div>
                 <MenuItem option icon={<BsExclamationCircle />} title="Giới thiệu" />
                 <MenuItem option icon={<BsFlag />} title="Gợi ý" />
@@ -90,7 +93,10 @@ function Options({ onClickOpenModal }) {
           )}
         >
           <Tippy content="Cài đặt">
-            <li onClick={() => setIsShowSetting(!isShowSetting)} className="header-nav__item d-none-mobile">
+            <li
+              onClick={() => setIsShowSetting(!isShowSetting)}
+              className="header-nav__item d-none-mobile"
+            >
               <div className="header-nav__btn btn--nav-setting">
                 <BsGear className="header-nav__icon" />
               </div>
@@ -112,9 +118,13 @@ function Options({ onClickOpenModal }) {
                   <>
                     <div className="p-3 mb-2 header-avatar">
                       <div className="mb-4 d-flex align-items-center">
-                        <img src={current.photoURL} alt="" className="header-avatar__img me-3" />
+                        <img
+                          src={currentUser.imageUrl}
+                          alt=""
+                          className="header-avatar__img me-3"
+                        />
                         <div className="d-flex flex-column header-avatar__info">
-                          <h3>{current.displayName}</h3>
+                          <h3>{currentUser.displayName}</h3>
                           <BasicIcon width="50" height="16" />
                         </div>
                       </div>
@@ -123,7 +133,12 @@ function Options({ onClickOpenModal }) {
                       </Button>
                     </div>
                     <div className="line-separator"></div>
-                    <MenuItem onClick={handleLogout} option icon={<BsBoxArrowLeft />} title="Đăng xuất" />
+                    <MenuItem
+                      onClick={handleLogout}
+                      option
+                      icon={<BsBoxArrowLeft />}
+                      title="Đăng xuất"
+                    />
                   </>
                 ) : (
                   <div className="p-3 pb-4">
@@ -137,7 +152,11 @@ function Options({ onClickOpenModal }) {
           )}
         >
           <li onClick={() => setIsShowAvatar(!isShowAvatar)} className="header-nav__item">
-            <img src={current.photoURL || images.avatarDefault} alt="" className="header-nav__btn" />
+            <img
+              src={currentUser.photoURL || images.avatarDefault}
+              alt=""
+              className="header-nav__btn"
+            />
           </li>
         </HeadlessTippy>
       </ul>

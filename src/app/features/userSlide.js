@@ -4,13 +4,13 @@ const userSlide = createSlice({
   name: 'user',
   initialState: {
     isAuth: false,
-    current: {},
+    currentUser: {},
     loading: false,
     error: null,
   },
   reducers: {
     setCurrentUser: (state, action) => {
-      state.current = action.payload;
+      state.currentUser = action.payload;
       state.isAuth = true;
     },
     logout: (state) => {

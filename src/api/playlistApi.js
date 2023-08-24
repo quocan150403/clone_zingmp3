@@ -7,9 +7,13 @@ const userApi = {
   getQuery: (params) => axiosClient.get(url, { params }),
   getById: (id) => axiosClient.get(`${url}/${id}`),
   getBySlug: (slug) => axiosClient.get(`${url}/${slug}`),
-  create: (data) => {
-    return axiosClient.post(`${url}/store`, data);
-  },
+  addSongToPlaylist: (playlistId, songId) =>
+    axiosClient.post(`${url}/songs/add/${playlistId}`, { songId }),
+  removeSongFromPlaylist: (playlistId, songId) =>
+    axiosClient.delete(`${url}/songs/remove/${playlistId}`, { data: { songId } }),
+  create: (data) => axiosClient.post(`${url}/store`, data),
+  update: (id, data) => axiosClient.put(`${url}/update/${id}`, data),
+  remove: (id) => axiosClient.delete(`${url}/force/${id}`),
 };
 
 export default userApi;

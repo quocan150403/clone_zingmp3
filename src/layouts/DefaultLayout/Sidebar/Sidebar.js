@@ -26,6 +26,7 @@ import {
 import { useSelector } from 'react-redux';
 import Modal from 'react-modal';
 import classNames from 'classnames';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Tippy from '@tippyjs/react';
@@ -36,54 +37,132 @@ import images from 'assets/images';
 import config from '../../../config';
 import { MenuItem, Button, Wrapper } from 'components';
 import { playlistApi } from 'api';
-import { Link } from 'react-router-dom';
 
 function Sidebar() {
+  const navigate = useNavigate();
   const { tracks } = useSelector((state) => state.player);
-  const { current } = useSelector((state) => state.user);
+  const { currentUser, isAuth } = useSelector((state) => state.user);
 
   const [isShowOption, setIsShowOption] = useState(false);
 
   const [playlists, setPlaylists] = useState([]);
+  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [isPublic, setIsPublic] = useState(false);
+
   const [isToggle, setIsToggle] = useState(false);
   const [isShowModalAddPlaylist, setIsShowModalAddPlaylist] = useState(false);
+  const [isShowModalEditPlaylist, setIsShowModalEditPlaylist] = useState(false);
+  const [isShowModalDeletePlaylist, setIsShowModalDeletePlaylist] = useState(false);
 
   useEffect(() => {
-    const fetchPlaylist = async () => {
-      try {
-        const response = await playlistApi.getAll();
-        setPlaylists(response);
-        // console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchPlaylist();
   }, []);
+
+  const fetchPlaylist = async () => {
+    try {
+      const response = await playlistApi.getAll();
+      setPlaylists(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleToggle = () => {
     setIsToggle(!isToggle);
   };
 
+  const handleShowOptions = (e) => {
+    e.preventDefault();
+    setIsShowOption(!isShowOption);
+  };
+
+  const handleCheckAndShowModalAddPlaylist = () => {
+    if (!isAuth) navigate('/login');
+    setIsShowModalAddPlaylist(true);
+  };
+
   const handleAddPlaylist = async () => {
-    if (!name.trim()) {
-      console.log('vui lòng nhập tên playlist');
+    if (name.trim()) {
+      setIsShowModalAddPlaylist(false);
+      const playlistData = {
+        name,
+        userId: currentUser._id,
+        public: isPublic,
+      };
+
+      try {
+        const newPlaylist = await toast.promise(playlistApi.create(playlistData), {
+          pending: 'Đang thực hiện...',
+        });
+        toast.dismiss();
+        toast.success(`Thêm playlist ${newPlaylist.name} thành công`);
+        setPlaylists((prev) => [...prev, newPlaylist]);
+        resetForm();
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error('Đã xảy ra lỗi');
+        }
+      }
     }
-    isShowModalAddPlaylist(false);
+  };
 
-    const playlistData = {
-      name,
-      userId: current._id,
-    };
+  const handleShowModalEdit = (e, playlistId) => {
+    e.preventDefault();
+    setIsShowOption(false);
+    const currentPlaylist = playlists.find((item) => item._id === playlistId);
+    setName(currentPlaylist.name);
+    setId(currentPlaylist._id);
+    setIsPublic(currentPlaylist.public);
+    setIsShowModalEditPlaylist(true);
+  };
 
+  const handleEditPlaylist = async () => {
+    if (name.trim()) {
+      setIsShowModalEditPlaylist(false);
+      const playlistData = {
+        name,
+        userId: currentUser._id,
+        public: isPublic,
+      };
+
+      try {
+        const newPlaylist = await toast.promise(playlistApi.update(id, playlistData), {
+          pending: 'Đang thực hiện...',
+        });
+        toast.dismiss();
+        toast.success(`Sửa playlist ${newPlaylist.name} thành công`);
+        await fetchPlaylist();
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error('Đã xảy ra lỗi');
+        }
+      }
+    }
+  };
+
+  const handleShowModalDelete = (e, playlistId) => {
+    e.preventDefault();
+    setIsShowOption(false);
+    setIsShowModalDeletePlaylist(true);
+    setId(playlistId);
+  };
+
+  const handleDeletePlaylist = async () => {
+    setIsShowModalDeletePlaylist(false);
     try {
-      await toast.promise(playlistApi.create(playlistData), {
-        pending: 'Đang thực hiện...',
-        success: 'Thêm playlist thành công',
+      await toast.promise(playlistApi.remove(id), {
+        pending: 'Đag xóa...',
       });
-      resetForm();
+
+      setPlaylists(playlists.filter((item) => item._id !== id));
+      toast.dismiss();
+      toast.success(`xóa playlist thành công.`);
+      navigate('/');
     } catch (error) {
       if (error.response && error.response.status === 400) {
         toast.error(error.response.data.error);
@@ -191,8 +270,8 @@ function Sidebar() {
               <TippyHeadless
                 visible={isShowOption}
                 interactive={true}
-                placement="top"
-                offset={[0, 10]}
+                placement="right-end"
+                offset={[-260, 2]}
                 onClickOutside={() => setIsShowOption(false)}
                 onHide={() => setIsShowOption(false)}
                 appendTo={() => document.body}
@@ -202,16 +281,25 @@ function Sidebar() {
                     <MenuItem small option icon={<BsDownload />} title="Tải xuống" />
                     <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
                     <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
-                    <MenuItem small option icon={<BsPen />} title="Chỉnh sửa playlist" />
-                    <MenuItem small option icon={<BsTrash />} title="Xóa playlist" />
+                    <MenuItem
+                      onClick={(e) => handleShowModalEdit(e, item._id)}
+                      small
+                      option
+                      icon={<BsPen />}
+                      title="Chỉnh sửa playlist"
+                    />
+                    <MenuItem
+                      onClick={(e) => handleShowModalDelete(e, item._id)}
+                      small
+                      option
+                      icon={<BsTrash />}
+                      title="Xóa playlist"
+                    />
                   </Wrapper>
                 )}
               >
                 <Tippy content="Khác">
-                  <div
-                    onClick={(e) => setIsShowOption(!isShowOption)}
-                    className="sidebar-playlist__expand"
-                  >
+                  <div onClick={handleShowOptions} className="sidebar-playlist__expand">
                     <BsThreeDots />
                   </div>
                 </Tippy>
@@ -222,7 +310,7 @@ function Sidebar() {
       </nav>
 
       <div className="sidebar-playlist d-none-mobile">
-        <div onClick={() => setIsShowModalAddPlaylist(true)} className="sidebar-playlist__inner">
+        <div onClick={handleCheckAndShowModalAddPlaylist} className="sidebar-playlist__inner">
           <BsPlus className="sidebar-playlist__plus" />
           <h2 className="sidebar-playlist__title ms-3">Tạo playlist mới</h2>
         </div>
@@ -231,7 +319,7 @@ function Sidebar() {
         </div>
       </div>
 
-      {/* Modal Playlist */}
+      {/* Modal add playlist */}
       <Modal
         isOpen={isShowModalAddPlaylist}
         onRequestClose={() => setIsShowModalAddPlaylist(false)}
@@ -285,6 +373,89 @@ function Sidebar() {
           <Button onClick={handleAddPlaylist} primary uppercase fullWidth>
             Tạo mới
           </Button>
+        </div>
+      </Modal>
+
+      {/* Modal edit playlist */}
+      <Modal
+        isOpen={isShowModalEditPlaylist}
+        onRequestClose={() => setIsShowModalEditPlaylist(false)}
+        className="add-playlist"
+        overlayClassName="overlay"
+      >
+        <span onClick={() => setIsShowModalEditPlaylist(false)} className="add-playlist__close">
+          <BsX />
+        </span>
+        <h2 className="add-playlist__heading">Chỉnh sửa playlist</h2>
+        <input
+          type="text"
+          placeholder="Nhập tên playlist"
+          className="add-playlist__input"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <div className="add-playlist__option d-flex align-items-center justify-content-between">
+          <div className="d-flex flex-column">
+            <h3 className="add-playlist__title">Công khai</h3>
+            <p className="add-playlist__subtitle">Mọi người có thể tìm thấy playlist này.</p>
+          </div>
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+              value={isPublic}
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+            />
+          </div>
+        </div>
+        <div className="add-playlist__option d-flex align-items-center justify-content-between">
+          <div className="d-flex flex-column">
+            <h3 className="add-playlist__title">Phát ngẫu nhiên</h3>
+            <p className="add-playlist__subtitle">Luôn phát ngẫu nhiên tất cả bài hát </p>
+          </div>
+          <div className="form-check form-switch">
+            <input
+              defaultChecked
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <Button onClick={handleEditPlaylist} primary uppercase fullWidth>
+            Lưu
+          </Button>
+        </div>
+      </Modal>
+
+      {/* Modal delete playlist */}
+      <Modal
+        isOpen={isShowModalDeletePlaylist}
+        onRequestClose={() => setIsShowModalDeletePlaylist(false)}
+        overlayClassName="overlay"
+        className="modal-default"
+      >
+        <div className="p-4 d-flex flex-column">
+          <h4 className="fw-bold fs-4">Xóa playlist</h4>
+          <p className="text-wrap">
+            Playlist của bạn sẽ bị xóa khỏi thư viện cá nhân. Các bài hát do bạn tải lên sẽ vẫn được
+            giữ lại.
+            <br />
+            Bạn có muốn xóa?
+          </p>
+          <div className="d-flex justify-content-end">
+            <Button onClick={() => setIsShowModalDeletePlaylist(false)} secondary uppercase>
+              Không
+            </Button>
+            <Button onClick={handleDeletePlaylist} primary uppercase>
+              Có
+            </Button>
+          </div>
         </div>
       </Modal>
     </aside>

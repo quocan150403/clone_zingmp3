@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { Suspense, Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentUser } from 'app/features/userSlide';
+import { setCurrentUser, logout } from 'app/features/userSlide';
 import LoginPage from './pages/LoginPage';
 
 import DefaultLayout from './layouts/DefaultLayout';
@@ -30,6 +30,7 @@ function App() {
           const userData = await userApi.getByUID(info.UID);
           dispatch(setCurrentUser({ ...info, ...userData }));
         } else {
+          dispatch(logout());
           console.log('user is not signed in');
         }
       });

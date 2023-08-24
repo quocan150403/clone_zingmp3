@@ -5,7 +5,7 @@ import { BsArrowDownUp, BsPlusCircle, BsThreeDots } from 'react-icons/bs';
 import { MediaItem } from 'components';
 import './Media.scss';
 
-function MediaList({ mediaList }) {
+function MediaList({ mediaList, isPlaylist, onAddPlaylist, onRemovePlaylist }) {
   const [arrayCheck, setArrayCheck] = useState([]);
 
   const handleCheck = (index) => {
@@ -68,11 +68,14 @@ function MediaList({ mediaList }) {
           checkbox
           isBorder
           showAlbum
+          isPlaylist={isPlaylist}
           key={index}
           index={index}
           media={media}
           arrayCheck={arrayCheck}
           handleCheck={handleCheck}
+          onAddPlaylist={onAddPlaylist}
+          onRemovePlaylist={onRemovePlaylist}
         />
       ))}
     </div>

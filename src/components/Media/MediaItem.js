@@ -15,6 +15,8 @@ import {
   BsArrowReturnRight,
   BsLink45Deg,
   BsThreeDotsVertical,
+  BsPlusCircleDotted,
+  BsTrash,
 } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, memo } from 'react';
@@ -50,6 +52,9 @@ function MediaItem({
   showAlbum = false,
   responsive = false,
   arrayCheck = [],
+  isPlaylist,
+  onAddPlaylist,
+  onRemovePlaylist,
   handleCheck,
 }) {
   const { currentSong, isActive, isPlaying } = useSelector((state) => state.player);
@@ -169,76 +174,99 @@ function MediaItem({
       <span className="media-middle">{fMinutes(data.duration)}</span>
       {!rank && (
         <div className="media-right">
-          <Tippy content="Phát cùng lời bài hát">
-            <span className="media-right__option media-right__option--mic">
-              <BsFillMicFill />
-            </span>
-          </Tippy>
+          {!isPlaylist && (
+            <Tippy content="Phát cùng lời bài hát">
+              <span className="media-right__option media-right__option--mic">
+                <BsFillMicFill />
+              </span>
+            </Tippy>
+          )}
           <Tippy content="Thêm vào thư viện">
             <span className="media-right__option media-right__option--heart">
               <BsHeart />
             </span>
           </Tippy>
-          <TippyHeadless
-            visible={isShowOption}
-            interactive={true}
-            placement="right-end"
-            offset={[-350, 2]}
-            onClickOutside={() => setIsShowOption(false)}
-            onHide={() => setIsShowOption(false)}
-            appendTo={() => document.body}
-            render={(attrs) => (
-              <div {...attrs} tabIndex="-1" className="media-right__wrapper">
-                <Wrapper className="pb-3 p-0">
-                  <div className="p-3 pb-0 d-flex align-items-center">
-                    <img src={data.imageUrl} alt="" className="me-3 rounded is-40x40" />
-                    <div className="d-flex flex-column">
-                      <h4 className="media-title">Chưa Bao Giờ Em Quên</h4>
-                      <div className="d-flex gap-3 media-description">
-                        <span>
-                          <BsHeart /> 207k
-                        </span>
-                        <span>
-                          <BsHeadphones /> 207k
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="m-3 pb-0 mb-2 mt-3 d-flex align-items-center justify-content-center g-3 media-popper__group">
-                    <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
-                      <BsDownload />
-                      Tải xuống
-                    </div>
-                    <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
-                      <BsMusicNoteList />
-                      Lời bài hát
-                    </div>
-                    <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
-                      <BsExclamationCircle />
-                      Chặn
-                    </div>
-                  </div>
-                  <MenuItem small option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
-                  <MenuItem small option icon={<BsCollectionPlay />} title="Phát tiếp theo" />
-                  <MenuItem small option icon={<BsPlusCircle />} title="Thêm vào playlist" />
-                  <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
-                  <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
-                </Wrapper>
-              </div>
-            )}
-          >
-            <Tippy content="Khác">
-              <span
-                className="media-right__option media-right__option--more"
-                onClick={() => {
-                  setIsShowOption(!isShowOption);
-                }}
-              >
-                <BsThreeDots />
-                <BsThreeDotsVertical />
+          {isPlaylist && (
+            <Tippy content="Thêm vào playlist">
+              <span onClick={() => onAddPlaylist(data._id)} className="media-right__option">
+                <BsPlusCircleDotted />
               </span>
             </Tippy>
-          </TippyHeadless>
+          )}
+          {!isPlaylist && (
+            <TippyHeadless
+              visible={isShowOption}
+              interactive={true}
+              placement="right-end"
+              offset={[-350, 2]}
+              onClickOutside={() => setIsShowOption(false)}
+              onHide={() => setIsShowOption(false)}
+              appendTo={() => document.body}
+              render={(attrs) => (
+                <div {...attrs} tabIndex="-1" className="media-right__wrapper">
+                  <Wrapper className="pb-3 p-0">
+                    <div className="p-3 pb-0 d-flex align-items-center">
+                      <img src={data.imageUrl} alt="" className="me-3 rounded is-40x40" />
+                      <div className="d-flex flex-column">
+                        <h4 className="media-title">Chưa Bao Giờ Em Quên</h4>
+                        <div className="d-flex gap-3 media-description">
+                          <span>
+                            <BsHeart /> 207k
+                          </span>
+                          <span>
+                            <BsHeadphones /> 207k
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="m-3 pb-0 mb-2 mt-3 d-flex align-items-center justify-content-center g-3 media-popper__group">
+                      <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
+                        <BsDownload />
+                        Tải xuống
+                      </div>
+                      <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
+                        <BsMusicNoteList />
+                        Lời bài hát
+                      </div>
+                      <div className="d-flex w-100 flex-column justify-content-center align-items-center media-popper__item">
+                        <BsExclamationCircle />
+                        Chặn
+                      </div>
+                    </div>
+                    <MenuItem small option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
+                    <MenuItem small option icon={<BsCollectionPlay />} title="Phát tiếp theo" />
+                    <MenuItem small option icon={<BsPlusCircle />} title="Thêm vào playlist" />
+                    <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
+                    <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                    {onRemovePlaylist && (
+                      <MenuItem
+                        onClick={() => {
+                          setIsShowOption(false);
+                          onRemovePlaylist(data._id);
+                        }}
+                        small
+                        option
+                        icon={<BsTrash />}
+                        title="Xóa khỏi playlist"
+                      />
+                    )}
+                  </Wrapper>
+                </div>
+              )}
+            >
+              <Tippy content="Khác">
+                <span
+                  className="media-right__option media-right__option--more"
+                  onClick={() => {
+                    setIsShowOption(!isShowOption);
+                  }}
+                >
+                  <BsThreeDots />
+                  <BsThreeDotsVertical />
+                </span>
+              </Tippy>
+            </TippyHeadless>
+          )}
         </div>
       )}
     </div>

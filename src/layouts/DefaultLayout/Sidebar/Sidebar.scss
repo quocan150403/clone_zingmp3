@@ -155,8 +155,8 @@ $icon-expand-size: 24px;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     display: none;
 
     &:hover {
@@ -166,80 +166,6 @@ $icon-expand-size: 24px;
     svg {
       font-size: calc(#{$icon-expand-size} * 0.6);
     }
-  }
-}
-
-.add-playlist {
-  @include position(absolute, center);
-  width: 330px;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: var(--primary-bg);
-  padding: 20px;
-  color: var(--text-color);
-
-  &__close {
-    @include flexbox();
-
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    width: 26px;
-    height: 26px;
-    cursor: pointer;
-
-    svg {
-      font-size: 26px;
-    }
-  }
-
-  &__heading {
-    text-transform: none;
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-
-  &__input {
-    box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
-    max-width: 100%;
-    width: 100%;
-    align-items: center;
-    border: 1px solid var(--border-primary);
-    border-radius: 4px;
-    box-shadow: none;
-    display: inline-flex;
-    height: 2.5em;
-    justify-content: flex-start;
-    line-height: 1.5;
-    padding: calc(0.5em - 1px) calc(0.75em - 1px);
-    vertical-align: top;
-    outline: none;
-    height: 40px;
-    width: 100%;
-    border-radius: 999px;
-    border: 1px solid var(--border-primary);
-    background-color: var(--alpha-bg);
-    padding: 0 15px;
-    font-size: 14px;
-  }
-
-  &__option {
-    flex: 1;
-    padding: 20px 15px 0;
-  }
-
-  &__title {
-    font-size: 14px;
-    margin-bottom: 5px;
-    font-weight: 400;
-  }
-
-  &__subtitle {
-    font-size: 12px;
-    margin: 0;
-    color: var(--text-secondary);
   }
 }
 

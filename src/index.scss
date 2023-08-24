@@ -25,7 +25,8 @@
   --text-color: #fff;
   --text-item-hover: #fff;
   --text-secondary: rgba(255, 255, 255, 0.5);
-  --box-shadow-queue: 0 1px 0 rgba(0, 0, 0, 0.3), 0 1px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px hsla(0, 0%, 100%, 0.3);
+  --box-shadow-queue: 0 1px 0 rgba(0, 0, 0, 0.3), 0 1px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px hsla(0, 0%, 100%, 0.3);
   --queue-player-popup-bg: #ced9d9;
   --tab-active-bg: hsla(0, 0%, 100%, 0.3);
   --white-color: #fff;
@@ -241,18 +242,40 @@ img {
   opacity: 0.7;
 }
 
+.no-image-bg {
+  background-color: var(--alpha-bg);
+  padding: 30px 0;
+}
 .no-image {
   width: 90px;
   height: 90px;
-  background: url('https://zjs.zadn.vn/zmp3-desktop/releases/v1.3.18/static/media/music-icon.cfa4aa91.svg') no-repeat
-    center center / contain;
+  background: url('https://zjs.zadn.vn/zmp3-desktop/releases/v1.3.18/static/media/music-icon.cfa4aa91.svg')
+    no-repeat center center / contain;
   margin-bottom: 20px;
+}
+
+.no-image-title {
+  font-size: 16px;
+  color: var(--text-secondary);
 }
 
 .overlay {
   @include position(fixed, full);
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.modal-default {
+  @include position(absolute, center);
+  width: fit-content;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--primary-bg);
+  color: var(--text-color);
 }
 
 // Classes for responsive

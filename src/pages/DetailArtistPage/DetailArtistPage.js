@@ -57,6 +57,7 @@ export default function DetailArtistPage() {
 
     albumList.forEach((album) => {
       album.artists.forEach((artist) => {
+        if (artistsRelate.length >= 5) return artistsRelate;
         if (artist._id !== idCurrent && !artistsRelate.some((item) => item._id === artist._id)) {
           artistsRelate.push(artist);
         }
@@ -131,7 +132,7 @@ export default function DetailArtistPage() {
                     <div className="d-flex flex-column">
                       <p>{artist.bio}</p>
                       <div className="d-flex flex-column artist-description__follow">
-                        <h2>{fNumberWithUnits(artist.followers)}</h2>
+                        <h2>{artist.followers && fNumberWithUnits(artist.followers)}</h2>
                         <p>Người quan tâm</p>
                       </div>
                     </div>
