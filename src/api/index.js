@@ -5,3 +5,4 @@ export { default as artistApi } from './artistApi';
 export { default as songApi } from './songApi';
 export { default as userApi } from './userApi';
 export { default as playlistApi } from './playlistApi';
+export { default as commonApi } from './commonApi';

@@ -94,16 +94,38 @@ $width-search: 540px;
   &__loading {
     @include position(absolute, center-y);
     right: 0;
-
-    font-size: 26px;
+    color: var(--text-color);
+    width: 16px;
+    height: 16px;
     margin-right: 12px;
     cursor: pointer;
     z-index: 400;
+
+    svg {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: 0;
+    }
   }
 
   &__loading {
-    display: none;
-    color: var(--primary-bg);
+    svg {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: 0;
+      animation: spinner 800ms linear infinite;
+    }
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -369,5 +391,41 @@ $width-search: 540px;
     height: 100%;
     object-fit: cover;
     transition: 0.7s;
+  }
+}
+
+.search-card {
+  @include flexbox(flex-start);
+  padding: 10px 8px;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: var(--bg-content-color);
+    cursor: pointer;
+  }
+
+  &__img {
+    width: 52px;
+    height: 52px;
+    overflow: hidden;
+    margin-right: 10px;
+  }
+
+  &__info {
+    @include flexbox(flex-start, flex-start, column);
+  }
+
+  &__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+    margin-bottom: 4px;
+  }
+
+  &__desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
   }
 }

@@ -1,35 +1,69 @@
 import { useState, useRef, useEffect, memo } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
+import { FaSpinner } from 'react-icons/fa';
+import { BsSearch, BsXLg } from 'react-icons/bs';
 
-import { songApi } from 'api';
-import { Wrapper, MediaItem, ArtistCardItem } from 'components';
-import { BsSearch, BsX } from 'react-icons/bs';
-import { ImSpinner } from 'react-icons/im';
+import { useDebounce } from 'hooks';
+import { commonApi } from 'api';
+import { Wrapper, MediaItem } from 'components';
+import SearchCard from './SearchCard';
 
 function Search() {
-  const [isShowSearch, setIsShowSearch] = useState(false);
-  const [searchResult, setSearchResult] = useState([]);
-  const searchRef = useRef();
+  const [searchValue, setSearchValue] = useState('');
+  const [songResult, setSongResult] = useState([]);
+  const [albumResult, setAlbumResult] = useState([]);
+  const [artistResult, setArtistResult] = useState([]);
+  const [showResult, setShowResult] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const debounce = useDebounce(searchValue, 500);
+
+  const searchRef = useRef();
   useEffect(() => {
     const getSearchResult = async () => {
       try {
-        const response = await songApi.getQuery();
-        setSearchResult(response);
+        if (!searchValue.trim()) {
+          setSongResult([]);
+          setAlbumResult([]);
+          setArtistResult([]);
+          return;
+        }
+        setLoading(true);
+        const response = await commonApi.search(searchValue);
+        const { songs, albums, artists } = response;
+        console.log(response);
+        setSongResult(songs);
+        setAlbumResult(albums);
+        setArtistResult(artists);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     };
     getSearchResult();
-  }, []);
+  }, [debounce]);
+
+  const handleChangeSearchValue = (e) => {
+    const regex = /^\S/;
+    if (regex.test(e.target.value)) {
+      setSearchValue(e.target.value);
+    } else {
+      setSearchValue('');
+    }
+  };
+
+  const handleClickBtnDelete = () => {
+    setSearchValue('');
+  };
 
   return (
     <HeadlessTippy
       interactive="true"
-      visible={isShowSearch}
+      visible={showResult}
       placement="bottom-start"
       offset={[0, 0]}
-      onClickOutside={() => setIsShowSearch(false)}
+      onClickOutside={() => setShowResult(false)}
       reference={searchRef}
       appendTo={searchRef.current}
       render={(attrs) => (
@@ -41,14 +75,18 @@ function Search() {
           }}
         >
           <Wrapper className="p-3 wrapper--search">
-            <h3 className="header-search__title">Lịch sử tìm kiếm</h3>
+            {searchValue && <h3 className="header-search__title">Gợi ý kết quả</h3>}
             <div className="header-search__list">
-              {/* {searchResult&& searchResult.map((item, index) => (
-                <ArtistCardItem data={item} key={index} />
-              ))}
-              {searchResult&& searchResult.map((item, index) => (
-                <MediaItem tracks={searchResult} data={item} grow key={index} />
-              ))} */}
+              {songResult &&
+                songResult.map((item, index) => (
+                  <MediaItem key={index} tracks={songResult} data={item} grow />
+                ))}
+
+              {albumResult &&
+                albumResult.map((item, index) => <SearchCard isAlbum data={item} key={index} />)}
+
+              {artistResult &&
+                artistResult.map((item, index) => <SearchCard data={item} key={index} />)}
             </div>
           </Wrapper>
         </div>
@@ -56,19 +94,29 @@ function Search() {
     >
       <div
         ref={searchRef}
-        className={`header-search ${isShowSearch ? 'active' : ''}`}
-        onClick={() => setIsShowSearch(!isShowSearch)}
+        className={`header-search ${showResult ? 'active' : ''}`}
+        onClick={() => setShowResult(!showResult)}
       >
         <input
           type="text"
           placeholder="Nhập tên bài hát, nghệ sĩ hoặc MV..."
           className="header-search__input"
+          value={searchValue}
+          onChange={handleChangeSearchValue}
         />
         <span className="header-search__btn">
           <BsSearch className="header-search__icon" />
         </span>
-        <BsX className="header-search__close" />
-        <ImSpinner className="header-search__loading" />
+        {!!searchValue && !loading && (
+          <span onClick={handleClickBtnDelete} className="header-search__close">
+            <BsXLg />
+          </span>
+        )}
+        {loading && (
+          <div className="header-search__loading">
+            <FaSpinner />
+          </div>
+        )}
       </div>
     </HeadlessTippy>
   );
