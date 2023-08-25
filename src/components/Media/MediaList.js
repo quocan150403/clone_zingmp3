@@ -7,7 +7,6 @@ import './Media.scss';
 
 function MediaList({ mediaList, isPlaylist, onAddPlaylist, onRemovePlaylist }) {
   const [arrayCheck, setArrayCheck] = useState([]);
-
   const handleCheck = (index) => {
     setArrayCheck((prev) => {
       if (prev.includes(index)) {

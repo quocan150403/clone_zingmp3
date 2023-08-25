@@ -79,7 +79,7 @@ function Search() {
             <div className="header-search__list">
               {songResult &&
                 songResult.map((item, index) => (
-                  <MediaItem key={index} tracks={songResult} data={item} grow />
+                  <MediaItem key={index} tracks={songResult} data={item} grow link />
                 ))}
 
               {albumResult &&

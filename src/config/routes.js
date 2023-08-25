@@ -8,6 +8,7 @@ const routes = {
   detailAlbum: '/album/:slug',
   detailArtist: '/artist/:slug',
   detailPlaylist: '/playlist/:slug',
+  detailSong: '/song/:slug',
   library: {
     path: '/my-music',
     history: '/my-music/history',

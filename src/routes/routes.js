@@ -15,6 +15,7 @@ const DetailGenrePage = lazy(() => import('pages/DetailGenrePage'));
 const DetailAlbumPage = lazy(() => import('pages/DetailAlbumPage'));
 const DetailArtistPage = lazy(() => import('pages/DetailArtistPage'));
 const DetailPlaylistPage = lazy(() => import('pages/DetailPlaylistPage'));
+const DetailSongPage = lazy(() => import('pages/DetailSongPage'));
 // const Top100Page = lazy(() => import('pages/Top100Page'));
 // const HistoryPage = lazy(() => import('pages/HistoryPage'));
 // const RadioPage = lazy(() => import('pages/RadioPage'));
@@ -35,6 +36,7 @@ const publicRoutes = [
   { path: config.routes.detailAlbum, component: DetailAlbumPage },
   { path: config.routes.detailArtist, component: DetailArtistPage },
   { path: config.routes.detailPlaylist, component: DetailPlaylistPage },
+  { path: config.routes.detailSong, component: DetailSongPage },
   // { path: config.routes.radio, component: Radio },
   // { path: config.routes.top100, component: Top100Page },
   // { path: config.routes.album, component: Detail },

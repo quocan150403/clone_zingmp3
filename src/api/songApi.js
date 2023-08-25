@@ -12,6 +12,7 @@ const songApi = {
         limit,
       },
     }),
+  getByArtistIds: (params) => axiosClient.get(`${url}/artists`, { params }),
   getNew: (limit) =>
     axiosClient.get(`${url}/new`, {
       params: {

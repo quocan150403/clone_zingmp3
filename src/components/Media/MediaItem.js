@@ -44,8 +44,9 @@ function MediaItem({
   grow,
   isPlayer,
   isQueue,
-  ignore = false,
   index = 0,
+  ignore = false,
+  link = false,
   checkbox = false,
   indexChart = false,
   isBorder = false,
@@ -106,6 +107,9 @@ function MediaItem({
     'outline--text': index > 2,
   });
 
+  const Comp = link ? Link : 'h2';
+  const to = link ? `/song/${data.slug}` : null;
+
   return (
     <div className={classes}>
       <div className="media-left">
@@ -143,13 +147,16 @@ function MediaItem({
           </div>
           <div className="media-left__content">
             <div className="media-left__info">
-              <h2 className="media-title">{data.name}</h2>
+              <Comp to={to} className="media-title">
+                {data.name}
+              </Comp>
               <div className="media-description">
-                {data.artists.map((artist, index) => (
-                  <Link key={index} to={`/artist/${artist.slug}`}>
-                    {artist.name}
-                  </Link>
-                ))}
+                {data.artists &&
+                  data.artists.map((artist, index) => (
+                    <Link key={index} to={`/artist/${artist.slug}`}>
+                      {artist.name}
+                    </Link>
+                  ))}
               </div>
               {release && (
                 <div className="media-description media-left__release">
@@ -168,7 +175,7 @@ function MediaItem({
       </div>
       {showAlbum && (
         <span className="media-album">
-          <Link href={`/album/${data.albumId.slug}`}>{data.albumId.name}</Link>
+          {data.albumId && <Link href={`/album/${data.albumId.slug}`}>{data.albumId.name}</Link>}
         </span>
       )}
       <span className="media-middle">{fMinutes(data.duration)}</span>

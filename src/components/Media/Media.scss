@@ -709,6 +709,11 @@ $width-checkbox: 20px;
   color: var(--text-color);
   margin: 0;
 
+  &:hover {
+    text-decoration: underline;
+    color: var(--purple-primary);
+  }
+
   @include media-breakpoint(mobile) {
     font-size: 13px;
     line-height: 17px;
