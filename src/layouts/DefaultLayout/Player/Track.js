@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { MediaItem } from 'components/Media';
 
 function Track({ currentSong }) {
-  return <div className="player-left">{<MediaItem data={currentSong} ignore isPlayer />}</div>;
+  return <div className="player-left">{<MediaItem data={currentSong} link ignore isPlayer />}</div>;
 }
 
 Track.propTypes = {

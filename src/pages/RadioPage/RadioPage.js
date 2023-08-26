@@ -14,7 +14,11 @@ export default function RadioPage() {
         const response = await albumApi.getQuery();
         setAlbums(response);
       } catch (error) {
-        console.log(error);
+        if (error.response && error.response.status === 400) {
+          console.log(error.response.data.error);
+        } else {
+          console.log('error! an error occurred. please try again later!');
+        }
       }
     };
     getAlbum();

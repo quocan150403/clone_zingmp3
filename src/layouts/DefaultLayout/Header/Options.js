@@ -20,7 +20,7 @@ import 'tippy.js/dist/tippy.css'; // optional
 import { useSelector, useDispatch } from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { auth } from 'config/firebase';
-import { logout } from 'app/features/userSlide';
+import { logout } from 'app/features/userSlice';
 
 import { BasicIcon, ThemeIcon } from 'components/Icons';
 import { Wrapper, MenuItem, Button } from 'components';

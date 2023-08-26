@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { Suspense, Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentUser, logout } from 'app/features/userSlide';
+import { setLoading, setError, setSuccess } from 'app/features/userSlice';
 import LoginPage from './pages/LoginPage';
 
 import DefaultLayout from './layouts/DefaultLayout';
@@ -18,25 +18,33 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          const info = {
-            UID: user.uid,
-            displayName: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-          };
-          const userData = await userApi.getByUID(info.UID);
-          dispatch(setCurrentUser({ ...info, ...userData }));
-        } else {
-          dispatch(logout());
-          console.log('user is not signed in');
-        }
-      });
-    };
+    dispatch(setLoading());
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const info = {
+          UID: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+        };
 
-    fetchUserInfo();
+        userApi
+          .getByUID(info.UID)
+          .then((userData) => {
+            dispatch(setSuccess({ ...info, ...userData }));
+          })
+          .catch((error) => {
+            dispatch(setError(error.message));
+          });
+      } else {
+        dispatch(setError('User is not signed in'));
+        console.log('User is not signed in');
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, [dispatch]);
 
   return (

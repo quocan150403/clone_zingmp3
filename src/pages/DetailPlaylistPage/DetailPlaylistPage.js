@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import Tippy from '@tippyjs/react';
 import TippyHeadless from '@tippyjs/react/headless';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   BsArrowRepeat,
   BsArrowReturnRight,
@@ -31,12 +31,14 @@ import {
   Wrapper,
   MenuItem,
 } from 'components';
-import { albumApi, playlistApi, songApi } from 'api';
+import { albumApi, playlistApi, songApi, userApi } from 'api';
 import images from 'assets/images';
+import { updateUserField } from 'app/features/userSlice';
 
 export default function DetailAlbumPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const [playlist, setPlaylist] = useState({});
   const [songList, setSongList] = useState([]);
@@ -56,22 +58,51 @@ export default function DetailAlbumPage() {
     const fetchData = async () => {
       try {
         const resPlaylist = await playlistApi.getBySlug(slug);
-        const { tracks } = resPlaylist;
-        const resSongRelate = await songApi.getHot(10);
+        const { tracks, _id } = resPlaylist;
+        const [resSongRelate] = await Promise.all([
+          songApi.getHot(10),
+          currentUser._id && userApi.createHistoryPlaylist(currentUser._id, _id),
+        ]);
         if (tracks.length) {
           const resSong = await songApi.getByIds({ ids: tracks.join(',') });
           setSongList(resSong);
         }
+
         setName(resPlaylist.name);
         setIsPublic(resPlaylist.public);
         setSongRelateList(resSongRelate);
         setPlaylist(resPlaylist);
       } catch (error) {
-        console.log(error);
+        if (error.response && error.response.status === 400) {
+          console.log(error.response.data.error);
+        } else {
+          console.log('error! an error occurred. please try again later!');
+        }
       }
     };
     fetchData();
-  }, [slug]);
+  }, [slug, currentUser]);
+
+  useEffect(() => {
+    const updateHistoryPlayList = async () => {
+      try {
+        if (currentUser._id && playlist._id) {
+          const historyPlaylist = await userApi.createHistoryPlaylist(
+            currentUser._id,
+            playlist._id,
+          );
+          dispatch(updateUserField({ ...historyPlaylist }));
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          console.log(error.response.data.error);
+        } else {
+          console.log('error! an error occurred. please try again later!');
+        }
+      }
+    };
+    updateHistoryPlayList();
+  }, [playlist._id, currentUser._id]);
 
   useEffect(() => {
     const resetData = async () => {

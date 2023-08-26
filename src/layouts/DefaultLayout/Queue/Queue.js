@@ -1,24 +1,21 @@
 import { useState, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import { BsAlarm, BsThreeDots } from 'react-icons/bs';
-
+import { useSelector } from 'react-redux';
 import './Queue.scss';
 import { MediaItem, Button, Tabs } from 'components';
-import { songApi } from 'api';
+// import { songApi } from 'api';
 
 function Queue({ isShowQueue }) {
-  const [queue, setQueue] = useState([]);
+  const { currentIndex, currentSong, recentSongs, tracks } = useSelector((state) => state.player);
+  const [songList, setSongList] = useState([]);
+  const [activeSong, setActiveSong] = useState({});
+
   useEffect(() => {
-    const getQueue = async () => {
-      try {
-        const response = await songApi.getQuery();
-        setQueue(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getQueue();
-  }, []);
+    setActiveSong(currentSong);
+    setSongList(tracks.filter((item) => item._id !== currentSong._id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex, currentSong]);
 
   return (
     <aside className={`queue ${isShowQueue ? 'open' : ''}`}>
@@ -37,21 +34,20 @@ function Queue({ isShowQueue }) {
             <Button secondary medium circle leftIcon={<BsThreeDots />} />
           </div>
         </div>
-        {/* <div className="queue-main">
+        {recentSongs &&
+          recentSongs.map((item, index) => (
+            <MediaItem key={index} tracks={songList} data={item} grow isQueue active />
+          ))}
+        {activeSong && <MediaItem tracks={songList} data={activeSong} grow isQueue active />}
+        <div className="queue-main">
           <h2>Tiếp theo</h2>
           <p>
             Từ danh sách phát <a href="/">Chill</a>
           </p>
-        </div> */}
-        <div className="queue-list pe-3 ps-3">
-          {queue.map((item, index) => (
-            <MediaItem tracks={queue} data={item} grow isQueue active key={index} />
-          ))}
         </div>
-
         <div className="queue-list pe-3 ps-3">
-          {queue.map((item, index) => (
-            <MediaItem tracks={queue} data={item} grow isQueue active key={index} />
+          {songList.map((item, index) => (
+            <MediaItem key={index} tracks={songList} data={item} grow isQueue active />
           ))}
         </div>
       </div>

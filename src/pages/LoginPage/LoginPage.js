@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from 'app/features/userSlide';
+import { setLoading, setError, setSuccess } from 'app/features/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 import './LoginPage.scss';
 import { auth } from 'config/firebase';
 import images from 'assets/images';
-import { Button, Helmet } from 'components';
+import { Helmet } from 'components';
 import { BsChevronLeft } from 'react-icons/bs';
 import { userApi } from 'api';
 
@@ -19,8 +19,8 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const handleLoginWithGoogle = async () => {
+    dispatch(setLoading());
     const provider = new GoogleAuthProvider();
-
     try {
       const credential = await signInWithPopup(auth, provider);
       if (credential) {
@@ -32,10 +32,11 @@ export default function LoginPage() {
         };
 
         await checkAndCreateUser(userInfo);
-        dispatch(setCurrentUser(userInfo));
+        dispatch(setSuccess(userInfo));
         navigate('/');
       }
     } catch (error) {
+      dispatch(setError(error));
       console.log(error);
     }
   };

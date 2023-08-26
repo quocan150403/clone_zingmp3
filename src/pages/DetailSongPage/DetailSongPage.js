@@ -1,56 +1,47 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
-import Modal from 'react-modal';
 import Tippy from '@tippyjs/react';
 import TippyHeadless from '@tippyjs/react/headless';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUserField } from 'app/features/userSlice';
 import {
-  BsArrowRepeat,
   BsArrowReturnRight,
   BsDownload,
   BsHeart,
+  BsHeartFill,
   BsLink45Deg,
-  BsPen,
   BsPlayFill,
   BsTextWrap,
   BsThreeDots,
-  BsTrash,
-  BsX,
 } from 'react-icons/bs';
 
 import './DetailSongPage.scss';
-import {
-  MediaList,
-  Helmet,
-  Section,
-  ArtistList,
-  AlbumList,
-  Button,
-  Wrapper,
-  MenuItem,
-  MediaItem,
-} from 'components';
-import { albumApi, playlistApi, songApi } from 'api';
+import { MediaList, Helmet, Section, AlbumList, Button, Wrapper, MenuItem } from 'components';
+import { albumApi, songApi } from 'api';
 import images from 'assets/images';
 
 export default function DetailSongPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
 
-  const [id, setId] = useState('');
+  const [songId, setSongId] = useState('');
   const [song, setSong] = useState({});
   const [isShowOption, setIsShowOption] = useState(false);
   const [albumRelate, setAlbumRelate] = useState([]);
   const [songRecommend, setSongRecommend] = useState([]);
+  const [isFavoriteSong, setIsFavoriteSong] = useState(
+    currentUser.favoriteSongs && currentUser.favoriteSongs.some((item) => item === songId),
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const resSong = await songApi.getBySlug(slug);
-        const { artists, composers } = resSong;
+        const { artists, composers, _id } = resSong;
         const artistIds = [...artists.map((item) => item._id), composers.map((item) => item._id)];
 
         const [resSongsByArtists, resAlbumsByArtists] = await Promise.all([
@@ -63,16 +54,37 @@ export default function DetailSongPage() {
             limit: 5,
           }),
         ]);
-
+        setSongId(_id);
         setAlbumRelate(resAlbumsByArtists);
         setSong(resSong);
         setSongRecommend(resSongsByArtists.filter((item) => item.slug !== slug));
       } catch (error) {
-        console.log(error);
+        if (error.response && error.response.status === 400) {
+          console.log(error.response.data.error);
+        } else {
+          console.log('error! an error occurred. please try again later!');
+        }
       }
     };
     fetchData();
   }, [slug]);
+
+  const handleFavoriteSong = async () => {
+    try {
+      const result = await songApi.toggleLike(songId, currentUser._id);
+      const { updatedFavorites, updatedSongFavorites, liked } = result;
+      setSong((prev) => ({ ...prev, favorites: updatedSongFavorites }));
+      dispatch(updateUser({ field: 'favoriteSongs', value: updatedFavorites }));
+      setIsFavoriteSong(liked);
+      if (liked) {
+        toast.success('Đã thêm bài hát vào thư viện');
+      } else {
+        toast.success('Đã xóa bài hát khỏi thư viện');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Helmet title="Chi tiết">
@@ -92,12 +104,18 @@ export default function DetailSongPage() {
                   {song.favorites && song.favorites} người yêu thích
                 </p>
                 <Button className="mt-3" primary uppercase leftIcon={<BsPlayFill />}>
-                  Phát tất cả
+                  Phát tất cảMi
                 </Button>
 
                 <div className="mt-4 gap-3 d-flex align-items-center justify-content-center">
                   <Tippy content="Thêm vào thư viện" placement="bottom">
-                    <Button circle secondary medium leftIcon={<BsHeart />} />
+                    <Button
+                      onClick={handleFavoriteSong}
+                      circle
+                      secondary
+                      medium
+                      leftIcon={isFavoriteSong ? <BsHeartFill /> : <BsHeart />}
+                    />
                   </Tippy>
                   <TippyHeadless
                     visible={isShowOption}
@@ -139,10 +157,10 @@ export default function DetailSongPage() {
           </Col>
           <Col xs={12} lg={8} xl={9}>
             <div>
-              {song ? <MediaList mediaList={[song]} /> : null}
+              {song ? <MediaList tracks={[song, ...songRecommend]} mediaList={[song]} /> : null}
               <h2 className="playlist-detail__title mb-3 mt-5">Có thể bạn quan tâm</h2>
             </div>
-            <MediaList mediaList={songRecommend} />
+            <MediaList isMusicIcon checkbox={false} mediaList={songRecommend} />
           </Col>
         </Row>
 

@@ -25,6 +25,11 @@ const songApi = {
         limit,
       },
     }),
+  toggleLike: (songId, userId) =>
+    axiosClient.post(`${url}/toggle-like`, {
+      songId,
+      userId,
+    }),
 };
 
 export default songApi;

@@ -221,7 +221,7 @@ $width-checkbox: 20px;
       visibility: visible;
     }
 
-    .media-left__music {
+    .media-checkbox ~ .media-left__music {
       display: none;
     }
   }

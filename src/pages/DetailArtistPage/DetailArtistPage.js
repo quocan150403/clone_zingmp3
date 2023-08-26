@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { BsPersonAdd } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { BsCheck2, BsPersonAdd } from 'react-icons/bs';
 import { Col, Row } from 'reactstrap';
+import { updateUserField } from 'app/features/userSlice';
 
 import './DetailArtistPage.scss';
-import { artistApi, songApi, albumApi } from 'api';
+import { artistApi, songApi, albumApi, commonApi } from 'api';
 import {
   AlbumItem,
   AlbumList,
@@ -18,12 +20,15 @@ import {
 import { fNumberWithUnits } from 'utils/formatNumber';
 
 export default function DetailArtistPage() {
+  const { currentUser } = useSelector((state) => state.user);
   const { slug } = useParams();
+  const dispatch = useDispatch();
   const [artist, setArtist] = useState({});
   const [songList, setSongList] = useState([]);
   const [newAlbum, setNewAlbum] = useState({});
   const [hotAlbumList, setHotAlbumList] = useState([]);
   const [artistRelate, setArtistRelateList] = useState([]);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const columnCount = 2;
   const itemsPerColumn = 3;
@@ -46,11 +51,14 @@ export default function DetailArtistPage() {
 
           const artistData = handleGetArtistsFromAlbums(resHotAlbums, _id);
           setArtistRelateList(artistData);
+          if (currentUser && currentUser.followedArtists) {
+            setIsFollowing(currentUser.followedArtists.includes(_id));
+          }
         } catch (error) {
           console.log(error);
         }
       })();
-  }, [slug]);
+  }, [slug, currentUser]);
 
   const handleGetArtistsFromAlbums = (albumList, idCurrent) => {
     const artistsRelate = [];
@@ -67,6 +75,18 @@ export default function DetailArtistPage() {
     return artistsRelate;
   };
 
+  const handleFollowArtist = async () => {
+    try {
+      const result = await commonApi.toggleFollowerArtist(artist._id, currentUser._id);
+      const { updatedFollowerCount, updatedFollowedArtists, isFollowing } = result;
+      setArtist((prev) => ({ ...prev, followers: updatedFollowerCount }));
+      dispatch(updateUserField({ field: 'followedArtists', value: updatedFollowedArtists }));
+      setIsFollowing(isFollowing);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Helmet title={artist.stageName}>
       <div className="artist mt-custom">
@@ -80,8 +100,16 @@ export default function DetailArtistPage() {
             </Title>
             <div className="artist-hero__info d-flex align-items-center">
               <p>{artist.followers && fNumberWithUnits(artist.followers)} người theo dõi</p>
-              <Button uppercase className="px-4" outline medium leftIcon={<BsPersonAdd />}>
-                Quan tâm
+              <Button
+                onClick={handleFollowArtist}
+                uppercase
+                className="px-4"
+                primary={isFollowing}
+                outline={!isFollowing}
+                medium
+                leftIcon={isFollowing ? <BsCheck2 /> : <BsPersonAdd />}
+              >
+                {isFollowing ? 'Đã Quan tâm' : 'Quan tâm'}
               </Button>
             </div>
           </div>

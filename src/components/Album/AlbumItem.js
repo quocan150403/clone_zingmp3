@@ -2,6 +2,7 @@ import {
   BsArrowReturnRight,
   BsDownload,
   BsHeart,
+  BsHeartFill,
   BsLink45Deg,
   BsPlayFill,
   BsTextWrap,
@@ -9,6 +10,7 @@ import {
 } from 'react-icons/bs';
 import { useState, memo, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TippyHeadless from '@tippyjs/react/headless';
@@ -21,7 +23,7 @@ import './Album.scss';
 import images from 'assets/images';
 import { fDate } from 'utils/formatTime';
 
-function AlbumItem({ data, small, detail, isArtist }) {
+function AlbumItem({ data, small, detail, isArtist, isFavoriteAlbum, onClickLike }) {
   const { albumId, isPlaying } = useSelector((state) => state.player);
   const [isShowOption, setIsShowOption] = useState(false);
 
@@ -73,7 +75,7 @@ function AlbumItem({ data, small, detail, isArtist }) {
         <div className="album-wrapper__overlay" />
       </Link>
       <div className="album-info">
-        {isArtist && <p className="album-info__type mb-2">Singer</p>}
+        {isArtist ? <p className="album-info__type mb-2">Singer</p> : null}
         <Link href="/" className="album-info__title">
           {data.name}
         </Link>
@@ -98,7 +100,13 @@ function AlbumItem({ data, small, detail, isArtist }) {
               Phát tất cả
             </Button>
             <div className="mt-4">
-              <Button circle secondary medium leftIcon={<BsHeart />} />
+              <Button
+                onClick={onClickLike}
+                circle
+                secondary
+                medium
+                leftIcon={isFavoriteAlbum ? <BsHeartFill /> : <BsHeart />}
+              />
               <Button circle secondary medium leftIcon={<BsThreeDots />} />
             </div>
           </div>
@@ -113,7 +121,7 @@ AlbumItem.propTypes = {
   props: PropTypes.object,
   small: PropTypes.bool,
   detail: PropTypes.bool,
-  add: PropTypes.bool,
+  onClickLike: PropTypes.any,
 };
 
 export default memo(AlbumItem);

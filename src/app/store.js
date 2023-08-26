@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import playerReducer from './features/playerSlide';
-import userReducer from './features/userSlide';
+import playerReducer from './features/playerSlice';
+import userReducer from './features/userSlice';
 
 const store = configureStore({
   reducer: {

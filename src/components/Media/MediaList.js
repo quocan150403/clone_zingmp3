@@ -5,7 +5,16 @@ import { BsArrowDownUp, BsPlusCircle, BsThreeDots } from 'react-icons/bs';
 import { MediaItem } from 'components';
 import './Media.scss';
 
-function MediaList({ mediaList, isPlaylist, onAddPlaylist, onRemovePlaylist }) {
+function MediaList({
+  tracks,
+  mediaList,
+  isPlaylist,
+  isMusicIcon = true,
+  checkbox = true,
+  onAddPlaylist,
+  onRemovePlaylist,
+  ...props
+}) {
   const [arrayCheck, setArrayCheck] = useState([]);
   const handleCheck = (index) => {
     setArrayCheck((prev) => {
@@ -30,47 +39,50 @@ function MediaList({ mediaList, isPlaylist, onAddPlaylist, onRemovePlaylist }) {
 
   return (
     <div className={`media-wrapper ${arrayCheck.length > 0 ? 'show-action' : ''}`}>
-      <div className="media-wrapper__header d-flex align-items-center">
-        <div className="media-wrapper__action">
-          <div className="media-wrapper__checkbox">
-            <div className="media-checkbox media-checkbox--all">
-              <input
-                id="checkbox-all"
-                type="checkbox"
-                className="media-checkbox__input"
-                onChange={(e) => handleToggleCheckAll(e)}
-              />
-              <label className="media-checkbox__label" htmlFor="checkbox-all"></label>
+      {checkbox && (
+        <div className="media-wrapper__header d-flex align-items-center">
+          <div className="media-wrapper__action">
+            <div className="media-wrapper__checkbox">
+              <div className="media-checkbox media-checkbox--all">
+                <input
+                  id="checkbox-all"
+                  type="checkbox"
+                  className="media-checkbox__input"
+                  onChange={(e) => handleToggleCheckAll(e)}
+                />
+                <label className="media-checkbox__label" htmlFor="checkbox-all"></label>
+              </div>
             </div>
+            <button onClick={handleSubmit} className="media-wrapper__add">
+              <BsPlusCircle />
+              <span>Thêm vào danh sách phát</span>
+            </button>
+            <button className="media-wrapper__option">
+              <BsThreeDots />
+            </button>
           </div>
-          <button onClick={handleSubmit} className="media-wrapper__add">
-            <BsPlusCircle />
-            <span>Thêm vào danh sách phát</span>
-          </button>
-          <button className="media-wrapper__option">
-            <BsThreeDots />
-          </button>
-        </div>
 
-        <span className="media-wrapper__song">
-          <span className="media-wrapper__sort">
-            <BsArrowDownUp />
+          <span className="media-wrapper__song">
+            <span className="media-wrapper__sort">
+              <BsArrowDownUp />
+            </span>
+            Bài hát
           </span>
-          Bài hát
-        </span>
-        <span className="media-wrapper__amount">Thời lượng</span>
-      </div>
+          <span className="media-wrapper__amount">Thời lượng</span>
+        </div>
+      )}
       {mediaList.map((media, index) => (
         <MediaItem
-          tracks={mediaList}
+          props
+          key={index}
+          tracks={tracks || mediaList}
           data={media}
-          checkbox
+          isMusicIcon={isMusicIcon}
+          checkbox={checkbox}
           isBorder
           showAlbum
           isPlaylist={isPlaylist}
-          key={index}
           index={index}
-          media={media}
           arrayCheck={arrayCheck}
           handleCheck={handleCheck}
           onAddPlaylist={onAddPlaylist}

@@ -14,7 +14,11 @@ export default function ZingChartPage() {
         const response = await songApi.getHot(10);
         setSongs(response);
       } catch (error) {
-        console.log(error);
+        if (error.response && error.response.status === 400) {
+          console.log(error.response.data.error);
+        } else {
+          console.log('error! an error occurred. please try again later!');
+        }
       }
     };
     getSong();

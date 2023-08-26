@@ -10,6 +10,15 @@ const userApi = {
   createUser: (data) => {
     return axiosClient.post(`${url}/create-user`, data);
   },
+  createHistorySong: (userId, songId) => {
+    return axiosClient.post(`${url}/history/song`, { songId, userId });
+  },
+  createHistoryAlbum: (userId, albumId) => {
+    return axiosClient.post(`${url}/history/album`, { albumId, userId });
+  },
+  createHistoryPlaylist: (userId, playlistId) => {
+    return axiosClient.post(`${url}/history/playlist`, { playlistId, userId });
+  },
 };
 
 export default userApi;

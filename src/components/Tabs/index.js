@@ -1,1 +1,1 @@
-export { default } from './Tas';
+export { default } from './Tabs';

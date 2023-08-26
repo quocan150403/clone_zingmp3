@@ -16,7 +16,11 @@ export default function GenrePage() {
         });
         setTopic(response);
       } catch (error) {
-        console.log(error);
+        if (error.response && error.response.status === 400) {
+          console.log(error.response.data.error);
+        } else {
+          console.log('Error! an error occurred. please try again later!');
+        }
       }
     };
     getTopic();
