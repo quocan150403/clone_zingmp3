@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Col, Row } from 'reactstrap';
 
 import './Home.scss';
+import Gallery from './Gallery';
 import { Button, MediaItem, Helmet, AlbumList, Section } from 'components';
 import { albumApi, genreApi, songApi } from 'api';
-import Gallery from './Gallery';
 
 export default function HomePage() {
+  const { currentUser } = useSelector((state) => state.user);
   const [songNewList, setSongNewList] = useState([]);
   const [songRankList, setSongRankList] = useState([]);
 
   const [albumList, setAlbumList] = useState([]);
   const [genreList, setGenreList] = useState([]);
+  const [albumHistory, setAlbumHistory] = useState([]);
 
   const itemsPerColumn = 4;
   const columnCount = 3;
@@ -32,6 +35,15 @@ export default function HomePage() {
         setSongRankList(songsRank);
         setGenreList(genres);
         setAlbumList(albums);
+
+        const { historyAlbums } = currentUser;
+        if (historyAlbums) {
+          const resHistoryAlbum = await albumApi.getByIds({
+            ids: historyAlbums.toString(),
+            limit: 7,
+          });
+          setAlbumHistory(resHistoryAlbum);
+        }
       } catch (error) {
         if (error.response && error.response.status === 400) {
           console.log(error.response.data.error);
@@ -42,15 +54,16 @@ export default function HomePage() {
     };
 
     fetchData();
-  }, []);
+  }, [currentUser]);
 
   return (
     <Helmet title="Trang chủ">
       <Gallery />
-
-      {/* <Section title="Gần đây" to={`/recently`}>
-        <AlbumList albums={albumList} small />
-      </Section> */}
+      {albumHistory && (
+        <Section title="Gần đây" to={`/recently`}>
+          <AlbumList albums={albumHistory} small />
+        </Section>
+      )}
 
       {/* New songs */}
       <Section title="Mới phát hành" to={`/new-release`}>
@@ -72,7 +85,14 @@ export default function HomePage() {
               {songNewList
                 .slice(colIndex * itemsPerColumn, (colIndex + 1) * itemsPerColumn)
                 .map((item, index) => (
-                  <MediaItem key={index} tracks={songNewList} data={item} link release />
+                  <MediaItem
+                    key={index}
+                    index={index}
+                    tracks={songNewList}
+                    data={item}
+                    link
+                    release
+                  />
                 ))}
             </Col>
           ))}

@@ -23,7 +23,15 @@ import './Album.scss';
 import images from 'assets/images';
 import { fDate } from 'utils/formatTime';
 
-function AlbumItem({ data, small, detail, isArtist, isFavoriteAlbum, onClickLike }) {
+function AlbumItem({
+  data,
+  small,
+  detail,
+  isArtist,
+  isFavoriteAlbum,
+  type = 'album',
+  onClickLike,
+}) {
   const { albumId, isPlaying } = useSelector((state) => state.player);
   const [isShowOption, setIsShowOption] = useState(false);
 
@@ -36,8 +44,8 @@ function AlbumItem({ data, small, detail, isArtist, isFavoriteAlbum, onClickLike
 
   return (
     <div className={classes}>
-      <Link to={`/album/${data.slug}`} className="album-wrapper br-5">
-        <img className="album-wrapper__image" src={data.imageUrl} alt="" />
+      <Link to={`/${type}/${data.slug}`} className="album-wrapper br-5">
+        <img className="album-wrapper__image" src={data.imageUrl || images.albumDefault} alt="" />
         <div className="album-wrapper__actions">
           <Tippy content="Thêm vào thư viện">
             <div className="album-wrapper__btn">

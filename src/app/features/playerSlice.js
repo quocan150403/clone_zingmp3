@@ -17,11 +17,14 @@ const playerSlide = createSlice({
       state.currentSong = action.payload.song;
       state.tracks = action.payload.tracks;
 
-      state.recentSongs.unshift(action.payload.song);
-      if (state.recentSongs.length > 6) {
-        state.recentSongs.pop();
+      const existingIndex = state.recentSongs.findIndex(
+        (song) => song._id === action.payload.song._id,
+      );
+      if (existingIndex !== -1) {
+        state.recentSongs.splice(existingIndex, 1);
       }
 
+      state.recentSongs.push(action.payload.song);
       state.currentIndex = action.payload.i;
       state.isActive = true;
     },
@@ -34,15 +37,13 @@ const playerSlide = createSlice({
       const nextIndex = action.payload;
       const nextSong = state.tracks[nextIndex];
 
-      const existsInRecent = state.recentSongs.some((song) => song.id === nextSong.id);
+      const existingIndex = state.recentSongs.findIndex((song) => song._id === nextSong._id);
 
-      if (!existsInRecent) {
-        state.recentSongs.unshift(nextSong);
-        if (state.recentSongs.length > 6) {
-          state.recentSongs.pop();
-        }
+      if (existingIndex !== -1) {
+        state.recentSongs.splice(existingIndex, 1);
       }
 
+      state.recentSongs.push(nextSong);
       state.currentSong = nextSong;
       state.currentIndex = nextIndex;
       state.isActive = true;
@@ -52,15 +53,13 @@ const playerSlide = createSlice({
       const prevIndex = action.payload;
       const prevSong = state.tracks[prevIndex];
 
-      const existsInRecent = state.recentSongs.some((song) => song.id === prevSong.id);
+      const existingIndex = state.recentSongs.findIndex((song) => song._id === prevSong._id);
 
-      if (!existsInRecent) {
-        state.recentSongs.unshift(prevSong);
-        if (state.recentSongs.length > 6) {
-          state.recentSongs.pop();
-        }
+      if (existingIndex !== -1) {
+        state.recentSongs.splice(existingIndex, 1);
       }
 
+      state.recentSongs.push(prevSong);
       state.currentSong = prevSong;
       state.currentIndex = prevIndex;
       state.isActive = true;

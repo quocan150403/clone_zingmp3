@@ -70,7 +70,8 @@ function MediaItem({
     if (isCurrentSong) {
       isPlaying ? dispatch(playPause(false)) : dispatch(playPause(true));
     } else {
-      dispatch(setSong({ tracks, song: data, i: index }));
+      const itemIndex = tracks.findIndex((item) => item._id === data._id);
+      dispatch(setSong({ tracks, song: data, i: itemIndex }));
       dispatch(playPause(true));
     }
     if (currentUser._id) {
