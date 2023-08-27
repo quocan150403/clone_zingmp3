@@ -74,7 +74,7 @@ export default function DetailSongPage() {
       const result = await songApi.toggleLike(songId, currentUser._id);
       const { updatedFavorites, updatedSongFavorites, liked } = result;
       setSong((prev) => ({ ...prev, favorites: updatedSongFavorites }));
-      dispatch(updateUser({ field: 'favoriteSongs', value: updatedFavorites }));
+      dispatch(updateUserField({ field: 'favoriteSongs', value: updatedFavorites }));
       setIsFavoriteSong(liked);
       if (liked) {
         toast.success('Đã thêm bài hát vào thư viện');
