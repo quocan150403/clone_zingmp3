@@ -1,0 +1,73 @@
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  &-box {
+    width: 300px;
+    height: 200px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-bar {
+    width: 12px;
+    border-radius: 10px;
+    background: #fff;
+    animation: movement 1.5s ease-in-out infinite;
+
+    &:nth-child(1) {
+      background: #b65252;
+      animation-delay: 1s;
+    }
+    &:nth-child(2) {
+      background: pink;
+      animation-delay: 0.8s;
+    }
+    &:nth-child(3) {
+      background: #b65252;
+      animation-delay: 0.6s;
+    }
+    &:nth-child(4) {
+      background: pink;
+      animation-delay: 0.4s;
+    }
+    &:nth-child(5) {
+      background: #b65252;
+      animation-delay: 0.2s;
+    }
+    &:nth-child(6) {
+      background: pink;
+      animation-delay: 0.2s;
+    }
+    &:nth-child(7) {
+      background: #b65252;
+      animation-delay: 0.4s;
+    }
+    &:nth-child(8) {
+      background: pink;
+      animation-delay: 0.6s;
+    }
+    &:nth-child(9) {
+      background: #b65252;
+      animation-delay: 0.8s;
+    }
+    &:nth-child(10) {
+      background: pink;
+      animation-delay: 1s;
+    }
+  }
+
+  @keyframes movement {
+    0%,
+    100% {
+      height: 2px;
+    }
+    50% {
+      height: 80px;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setError, setSuccess } from 'app/features/userSlice';
 import LoginPage from './pages/LoginPage';
+import LoadingPage from './pages/LoadingPage';
 
 import DefaultLayout from './layouts/DefaultLayout';
 import { publicRoutes, privateRoutes } from './routes';
@@ -49,7 +50,7 @@ function App() {
 
   return (
     <Router>
-      <Suspense fallback={<p> Loading...</p>}>
+      <Suspense fallback={<LoadingPage />}>
         <div className="app" id="app">
           <Routes>
             {publicRoutes.map((route, index) => {

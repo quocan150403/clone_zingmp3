@@ -2,8 +2,18 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './Tabs.scss';
 
-const indexActive = 0;
-function Tabs({ tabs, secondary, uppercase, fullWidth, large, isBorderBottom, ...props }) {
+function Tabs({
+  list,
+  tab,
+  setTab,
+
+  secondary,
+  uppercase,
+  fullWidth,
+  large,
+  isBorderBottom,
+  ...props
+}) {
   const classes = classNames('tabs', {
     secondary,
     large,
@@ -14,9 +24,13 @@ function Tabs({ tabs, secondary, uppercase, fullWidth, large, isBorderBottom, ..
 
   return (
     <div className={classes} {...props}>
-      {tabs.map((tab, index) => (
-        <div key={tab.id} className={classNames('tab__item', { active: index === indexActive })}>
-          {tab.name}
+      {list.map((item) => (
+        <div
+          key={item.id}
+          className={classNames('tab__item', { active: item.id === tab.id })}
+          onClick={() => setTab(item)}
+        >
+          {item.name}
         </div>
       ))}
     </div>

@@ -31,13 +31,15 @@ export default function NewMusicPage() {
           <Col md={12} lg={12} xl={12}>
             {songs.map((item, index) => (
               <MediaItem
+                full
+                isBorder
+                indexChart
+                showAlbum
                 tracks={songs}
                 data={item}
                 key={index}
                 index={index}
                 media={item}
-                indexChart
-                isBorder
               />
             ))}
           </Col>

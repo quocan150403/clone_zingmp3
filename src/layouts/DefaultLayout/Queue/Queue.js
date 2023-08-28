@@ -18,14 +18,14 @@ function Queue({ isShowQueue }) {
     <aside className={`queue ${isShowQueue ? 'open' : ''}`}>
       <div className="queue-container">
         <div className="pt-4 pb-4 p-3 g-3 d-flex align-items-center">
-          <Tabs
+          {/* <Tabs
             secondary
             fullWidth
             tabs={[
               { id: 1, name: 'Danh sách phát' },
               { id: 2, name: 'Nghe gần đây' },
             ]}
-          />
+          /> */}
           <div className="ms-2">
             <Button secondary medium circle leftIcon={<BsAlarm />} />
             <Button secondary medium circle leftIcon={<BsThreeDots />} />

@@ -1,44 +1,52 @@
 import { useState, useEffect } from 'react';
-import { Col, Row } from 'reactstrap';
+import { useSelector } from 'react-redux';
 
-import { AlbumItem, MediaList, Helmet, Section, Button, Tabs, Title } from 'components';
-import { songApi, albumApi } from 'api';
+import { MediaList, Helmet, Section, Tabs, Title, AlbumList, ArtistList } from 'components';
+import { songApi, albumApi, playlistApi, artistApi } from 'api';
 
-const albumList = Array.from({ length: 10 });
 const TABS = [
   {
-    id: 1,
+    id: 0,
     name: 'Bài Hát',
-    to: '/bai-hat',
   },
   {
-    id: 2,
-    name: 'Podcast',
-    to: '/podcast',
-  },
-  {
-    id: 3,
+    id: 1,
     name: 'Album',
-    to: '/album',
-  },
-  {
-    id: 4,
-    name: 'MV',
-    to: '/mv',
   },
 ];
 
-const myArray = Array.from({ length: 5 });
-
 export default function LibraryPage() {
-  const [albums, setAlbums] = useState([]);
-  const [songs, setSongs] = useState([]);
+  const { currentUser } = useSelector((state) => state.user);
+  const [myPlaylist, setMyPlaylist] = useState([]);
+  const [artistsFollowing, setArtistsFollowing] = useState([]);
+  const [songList, setSongList] = useState([]);
+  const [albumList, setAlbumList] = useState([]);
+  const [tab, setTab] = useState(TABS[0]);
 
   useEffect(() => {
-    const getSong = async () => {
+    const fetchData = async () => {
       try {
-        const response = await songApi.getQuery();
-        setSongs(response);
+        if (currentUser._id) {
+          const { favoriteAlbums, favoriteSongs, followedArtists } = currentUser;
+          const [resPlaylist, resFollowedArtists, resValue] = await Promise.all([
+            playlistApi.getQuery({ userId: currentUser._id }),
+            artistApi.getByIds({ ids: followedArtists.toString() }),
+            tab.id === 0
+              ? songApi.getByIds({ ids: favoriteSongs.toString(), limit: 10 })
+              : albumApi.getByIds({ ids: favoriteAlbums.toString(), limit: 10 }),
+          ]);
+
+          setMyPlaylist(resPlaylist);
+          setArtistsFollowing(resFollowedArtists);
+
+          if (tab.id === 0) {
+            setSongList(resValue);
+            setAlbumList([]);
+          } else if (tab.id === 1) {
+            setAlbumList(resValue);
+            setSongList([]);
+          }
+        }
       } catch (error) {
         if (error.response && error.response.status === 400) {
           console.log(error.response.data.error);
@@ -47,52 +55,27 @@ export default function LibraryPage() {
         }
       }
     };
-    getSong();
-  }, []);
-
-  useEffect(() => {
-    const getAlbum = async () => {
-      try {
-        const response = await albumApi.getQuery();
-        setAlbums(response);
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          console.log(error.response.data.error);
-        } else {
-          console.log('error! an error occurred. please try again later!');
-        }
-      }
-    };
-    getAlbum();
-  }, []);
+    fetchData();
+  }, [currentUser, tab]);
 
   return (
     <Helmet title="Thư Viện">
       <div className="library mt-custom">
         <Title>Thư viện</Title>
 
-        <Section title="Album hot ">
-          <Row className="row-custom  g-custom">
-            {albums.map((item, index) => (
-              <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-                <AlbumItem data={item} small />
-              </Col>
-            ))}
-          </Row>
+        <Section title="Nghệ sĩ đang theo dỗi">
+          <ArtistList small artists={artistsFollowing} />
+        </Section>
+
+        <Section title="Playlist của tôi">
+          <AlbumList albums={myPlaylist} />
         </Section>
 
         <div className="div mt-5 mb-5">
-          <Tabs tabs={TABS} uppercase isBorderBottom />
+          <Tabs list={TABS} tab={tab} setTab={setTab} uppercase isBorderBottom />
           <div className="mt-4">
-            <div className="d-flex align-items-center mb-4">
-              <Button medium uppercase primary>
-                Yêu thích
-              </Button>
-              <Button medium uppercase outline>
-                Đã tải lên
-              </Button>
-            </div>
-            <MediaList mediaList={songs} />
+            {tab.id === 0 && <MediaList mediaList={songList} />}
+            {tab.id === 1 && <AlbumList albums={albumList} />}
           </div>
         </div>
       </div>

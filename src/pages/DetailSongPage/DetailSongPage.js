@@ -33,9 +33,8 @@ export default function DetailSongPage() {
   const [isShowOption, setIsShowOption] = useState(false);
   const [albumRelate, setAlbumRelate] = useState([]);
   const [songRecommend, setSongRecommend] = useState([]);
-  const [isFavoriteSong, setIsFavoriteSong] = useState(
-    currentUser.favoriteSongs && currentUser.favoriteSongs.some((item) => item === songId),
-  );
+
+  const [isFavoriteSong, setIsFavoriteSong] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +57,9 @@ export default function DetailSongPage() {
         setAlbumRelate(resAlbumsByArtists);
         setSong(resSong);
         setSongRecommend(resSongsByArtists.filter((item) => item.slug !== slug));
+        if (currentUser && currentUser.favoriteSongs) {
+          setIsFavoriteSong(currentUser.favoriteSongs.includes(_id));
+        }
       } catch (error) {
         if (error.response && error.response.status === 400) {
           console.log(error.response.data.error);
@@ -67,7 +69,7 @@ export default function DetailSongPage() {
       }
     };
     fetchData();
-  }, [slug]);
+  }, [slug, currentUser]);
 
   const handleFavoriteSong = async () => {
     try {
@@ -103,9 +105,9 @@ export default function DetailSongPage() {
                 <p className="playlist-detail__description">
                   {song.favorites && song.favorites} người yêu thích
                 </p>
-                <Button className="mt-3" primary uppercase leftIcon={<BsPlayFill />}>
-                  Phát tất cảMi
-                </Button>
+                {/* <Button className="mt-3" primary uppercase leftIcon={<BsPlayFill />}>
+                  Phát tất cả
+                </Button> */}
 
                 <div className="mt-4 gap-3 d-flex align-items-center justify-content-center">
                   <Tippy content="Thêm vào thư viện" placement="bottom">
@@ -121,7 +123,7 @@ export default function DetailSongPage() {
                     visible={isShowOption}
                     interactive={true}
                     placement="right-end"
-                    offset={[-260, 2]}
+                    offset={[-200, 2]}
                     onClickOutside={() => setIsShowOption(false)}
                     onHide={() => setIsShowOption(false)}
                     appendTo={() => document.body}

@@ -14,6 +14,9 @@
   overflow: hidden;
 
   &.active {
+    .album-wrapper__actions {
+      display: flex;
+    }
     .album-icon__playing {
       display: block;
     }
@@ -73,10 +76,6 @@
         padding: 0 30px;
         align-items: center;
 
-        &__authors {
-          display: none;
-        }
-
         &__title {
           -webkit-line-clamp: 2;
         }
@@ -104,13 +103,6 @@
     .album-info {
       margin: 8px 0;
       margin-left: 16px;
-    }
-  }
-
-  // Sizes
-  &.small {
-    .album-info__authors {
-      display: none;
     }
   }
 }

@@ -16,14 +16,7 @@ const DetailAlbumPage = lazy(() => import('pages/DetailAlbumPage'));
 const DetailArtistPage = lazy(() => import('pages/DetailArtistPage'));
 const DetailPlaylistPage = lazy(() => import('pages/DetailPlaylistPage'));
 const DetailSongPage = lazy(() => import('pages/DetailSongPage'));
-// const Top100Page = lazy(() => import('pages/Top100Page'));
-// const HistoryPage = lazy(() => import('pages/HistoryPage'));
-// const RadioPage = lazy(() => import('pages/RadioPage'));
-// const PlaylistPage = lazy(() => import('pages/LibraryPage/Playlist'));
-// const RegisterPage = lazy(() => import('pages/ArtistRegisterPage'));
-// const ArtistPage = lazy(() => import('pages/ArtistProfilePage'));
-// const ArtistDashboardPage = lazy(() => import('pages/ArtistDashboardPage'));
-// const ArtistUploadPage = lazy(() => import('pages/ArtistUploadPage'));
+const HistoryPage = lazy(() => import('pages/HistoryPage'));
 
 const publicRoutes = [
   { path: config.routes.home, component: HomePage },
@@ -45,8 +38,8 @@ const publicRoutes = [
 
 const privateRoutes = [
   { path: config.routes.library.path, component: LibraryPage },
-  // { path: config.routes.library.history, component: History },
-  // { path: config.routes.library.favorite, component: Library },
+  { path: config.routes.library.history, component: HistoryPage },
+  { path: config.routes.library.favorite, component: LibraryPage },
   // { path: config.routes.library.playlist, component: Playlist },
   // { path: config.routes.library.album, component: Library },
   // { path: config.routes.library.upload, component: Library },

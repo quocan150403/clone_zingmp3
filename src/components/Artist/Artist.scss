@@ -1,5 +1,8 @@
 @import 'assets/styles/mixins';
 .artist-item {
+  &__wrap {
+    position: relative;
+  }
   &__img:hover {
     cursor: pointer;
     .artist-item__icon {
@@ -19,9 +22,9 @@
     display: block;
     width: 100%;
     height: 100%;
-    border-radius: 50%;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
+    border-radius: 50%;
     transition: transform 0.7s;
   }
 
@@ -29,6 +32,7 @@
     @include position(absolute, full);
     background-color: rgba(0, 0, 0, 0.2);
     opacity: 0;
+    border-radius: 50%;
   }
 
   &__icon {
@@ -42,6 +46,21 @@
     display: none;
 
     svg {
+      @include square(20px);
+    }
+  }
+
+  &__play {
+    @include position(absolute, bottom-right);
+    right: 10px;
+    @include square(40px);
+    @include flexbox();
+
+    border-radius: 50%;
+    color: var(--black-color);
+    background-color: var(--white-color);
+    svg {
+      margin-left: 2px;
       @include square(20px);
     }
   }

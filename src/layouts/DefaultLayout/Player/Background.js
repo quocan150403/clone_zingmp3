@@ -18,7 +18,7 @@ function Background({ imageUrl, isShowPlayerPopper, onClickToggleBackground }) {
       <div className="player-background__header d-flex align-items-center justify-content-between">
         <div className="player-background__left"></div>
         <div className="player-background__middle">
-          <Tabs large secondary tabs={TABS} />
+          {/* <Tabs large secondary tabs={TABS} /> */}
         </div>
         <div className="player-background__right">
           <Button circle secondary leftIcon={<BsArrowsAngleExpand />} />

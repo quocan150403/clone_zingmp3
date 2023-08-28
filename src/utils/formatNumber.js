@@ -37,6 +37,7 @@ function result(format, key = '.00') {
 }
 
 export function fNumberWithUnits(number) {
+  if (!number) return number;
   const units = ['K', 'M', 'B', 'T', 'P', 'E', 'Z', 'Y'];
   let unitIndex = 0;
   if (number < 1000) {

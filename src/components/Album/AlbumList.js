@@ -15,7 +15,7 @@ function AlbumList({ albums, small }) {
     <Row className="row-custom g-custom">
       {albums.map((item, index) => (
         <Col key={index} className={classes}>
-          <AlbumItem data={item} small />
+          <AlbumItem data={item} small={small} />
         </Col>
       ))}
     </Row>

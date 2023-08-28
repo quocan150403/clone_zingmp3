@@ -1,3 +1,16 @@
+import {
+  BsArrowRepeat,
+  BsArrowReturnRight,
+  BsDownload,
+  BsLink45Deg,
+  BsPauseFill,
+  BsPen,
+  BsPlayFill,
+  BsTextWrap,
+  BsThreeDots,
+  BsTrash,
+  BsX,
+} from 'react-icons/bs';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
@@ -6,32 +19,12 @@ import Tippy from '@tippyjs/react';
 import TippyHeadless from '@tippyjs/react/headless';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  BsArrowRepeat,
-  BsArrowReturnRight,
-  BsDownload,
-  BsLink45Deg,
-  BsPen,
-  BsPlayFill,
-  BsTextWrap,
-  BsThreeDots,
-  BsTrash,
-  BsX,
-} from 'react-icons/bs';
+import { playPause, setSong } from 'app/features/playerSlice';
 
 import './DetailPlaylistPage.scss';
-import {
-  AlbumItem,
-  MediaList,
-  Helmet,
-  Section,
-  ArtistList,
-  AlbumList,
-  Button,
-  Wrapper,
-  MenuItem,
-} from 'components';
-import { albumApi, playlistApi, songApi, userApi } from 'api';
+import Helmet from 'components/Helmet';
+import { MediaList, Section, ArtistList, AlbumList, Button, Wrapper, MenuItem } from 'components';
+import { playlistApi, songApi, userApi } from 'api';
 import images from 'assets/images';
 import { updateUserField } from 'app/features/userSlice';
 
@@ -40,6 +33,7 @@ export default function DetailAlbumPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
+  const { isPlaying } = useSelector((state) => state.player);
   const [playlist, setPlaylist] = useState({});
   const [songList, setSongList] = useState([]);
   const [image, setImage] = useState('');
@@ -59,19 +53,27 @@ export default function DetailAlbumPage() {
       try {
         const resPlaylist = await playlistApi.getBySlug(slug);
         const { tracks, _id } = resPlaylist;
-        const [resSongRelate] = await Promise.all([
+        const artistIds = handleGetArtistsFromTracks(tracks);
+
+        const [resSongRelate, resSongHot] = await Promise.all([
+          songApi.getByArtistIds({ ids: artistIds.join(), limit: 10 }),
           songApi.getHot(10),
           currentUser._id && userApi.createHistoryPlaylist(currentUser._id, _id),
         ]);
-        if (tracks.length) {
-          const resSong = await songApi.getByIds({ ids: tracks.join(',') });
-          setSongList(resSong);
-        }
 
+        const newSongRelateList = [...tracks, ...resSongHot];
+        setSongRelateList(handleRemoveSongExisted(tracks, newSongRelateList));
+        setSongList(tracks);
         setName(resPlaylist.name);
         setIsPublic(resPlaylist.public);
-        setSongRelateList(resSongRelate);
         setPlaylist(resPlaylist);
+        dispatch(
+          setSong({
+            tracks: [...tracks, ...resSongRelate],
+            song: tracks.length ? tracks[0] : resSongRelate[0],
+            i: 0,
+          }),
+        );
       } catch (error) {
         if (error.response && error.response.status === 400) {
           console.log(error.response.data.error);
@@ -117,6 +119,36 @@ export default function DetailAlbumPage() {
     };
     resetData();
   }, [songList]);
+
+  const handleGetArtistsFromTracks = (songList) => {
+    const artistsRelate = new Set();
+
+    songList.forEach((song) => {
+      song.artists.forEach((artist) => {
+        artistsRelate.add(artist._id);
+      });
+
+      song.composers.forEach((composer) => {
+        artistsRelate.add(composer._id);
+      });
+    });
+
+    return Array.from(artistsRelate);
+  };
+
+  const handleRemoveSongExisted = (tracks, songList) => {
+    const trackIds = new Set(tracks.map((track) => track._id));
+    const filteredSongList = songList.filter((song) => !trackIds.has(song._id));
+    return filteredSongList;
+  };
+
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      dispatch(playPause(false));
+    } else {
+      dispatch(playPause(true));
+    }
+  };
 
   const handleGetArtistsFromSongs = (songList) => {
     const artistsRelate = [];
@@ -242,8 +274,14 @@ export default function DetailAlbumPage() {
                   Tạo bởi {playlist.userId && playlist.userId.fullName}
                 </p>
                 <p className="playlist-detail__description">{isPublic ? 'Công khai' : 'Cá nhân'}</p>
-                <Button className="mt-3" primary uppercase leftIcon={<BsPlayFill />}>
-                  Phát tất cả
+                <Button
+                  onClick={handlePlayPause}
+                  className="mt-3"
+                  primary
+                  uppercase
+                  leftIcon={isPlaying ? <BsPauseFill /> : <BsPlayFill />}
+                >
+                  {isPlaying ? 'Tạm dừng' : 'Phát tất cả'}
                 </Button>
                 <TippyHeadless
                   visible={isShowOption}

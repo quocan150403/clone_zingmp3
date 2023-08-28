@@ -33,15 +33,15 @@ export default function ZingChartPage() {
         <Col md={12} lg={12} xl={12}>
           {songs.map((item, index) => (
             <MediaItem
-              tracks={songs}
+              full
+              isBorder
+              indexChart
               showAlbum
+              tracks={songs}
               data={item}
               key={index}
               index={index}
               media={item}
-              full
-              indexChart
-              isBorder
             />
           ))}
         </Col>
@@ -88,13 +88,12 @@ export default function ZingChartPage() {
                 <div>
                   {songs.map((item, index) => (
                     <MediaItem
-                      tracks={songs}
-                      data={item}
-                      key={index}
-                      index={index}
                       grow
                       indexChart
-                      media={item}
+                      key={index}
+                      index={index}
+                      tracks={songs}
+                      data={item}
                     />
                   ))}
                 </div>

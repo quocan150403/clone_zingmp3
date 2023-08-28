@@ -1,27 +1,43 @@
+import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { Col, Row } from 'reactstrap';
 
-import { AlbumItem, Title, Tabs, Helmet } from 'components';
-import albumApi from 'api/albumApi';
+import { MediaList, Title, Tabs, Helmet, AlbumList } from 'components';
+import { albumApi, playlistApi, songApi } from 'api';
+
+const TABS = [
+  { id: 0, name: 'Bài hát' },
+  { id: 1, name: 'Album' },
+  { id: 2, name: 'Playlist' },
+];
 
 export default function HistoryPage() {
-  const [albums, setAlbums] = useState([]);
+  const [tab, setTab] = useState(TABS[0]);
+  const { currentUser } = useSelector((state) => state.user);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    const getAlbum = async () => {
+    const fetchData = async () => {
       try {
-        const response = await albumApi.getQuery();
-        setAlbums(response);
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          console.log(error.response.data.error);
-        } else {
-          console.log('error! an error occurred. please try again later!');
+        setData([]);
+        if (currentUser._id) {
+          const { favoriteAlbums, favoriteSongs, historyPlaylists } = currentUser;
+          let resValue = [];
+          if (tab.id === 0) {
+            resValue = await songApi.getByIds({ ids: favoriteSongs.toString(), limit: 10 });
+          } else if (tab.id === 1) {
+            resValue = await albumApi.getByIds({ ids: favoriteAlbums.toString(), limit: 10 });
+          } else if (tab.id === 2) {
+            resValue = await playlistApi.getByIds({ ids: historyPlaylists.toString(), limit: 10 });
+          }
+          setData(resValue);
         }
+      } catch (error) {
+        console.error('An error occurred:', error);
       }
     };
-    getAlbum();
-  }, []);
+
+    fetchData();
+  }, [currentUser, tab]);
 
   return (
     <Helmet title="Lịch sử">
@@ -31,25 +47,11 @@ export default function HistoryPage() {
             Phát gần đây
           </Title>
           <div className="vertical-separator" />
-          <Tabs
-            uppercase
-            tabs={[
-              { id: 1, name: 'Bài hát' },
-              { id: 2, name: 'Playlist' },
-              { id: 3, name: 'MV' },
-              { id: 4, name: 'Radio' },
-              { id: 5, name: 'Podcast' },
-            ]}
-          />
+          <Tabs uppercase list={TABS} tab={tab} setTab={setTab} />
         </div>
-        <div className="history-content mt-4">
-          <Row className="row-custom g-custom">
-            {albums.map((item, index) => (
-              <Col key={index} xs={6} sm={4} md={3} lg={'2-4'}>
-                <AlbumItem data={item} small />
-              </Col>
-            ))}
-          </Row>
+        <div className="history-content mt-4 mb-4 mh-100">
+          {tab.id === 0 && data && <MediaList tracks={data} mediaList={data} />}
+          {(tab.id === 1 || tab.id === 2) && data && <AlbumList albums={data} />}
         </div>
       </div>
     </Helmet>
