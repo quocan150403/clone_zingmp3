@@ -56,7 +56,7 @@ function MediaItem({
   }, [currentUser]);
 
   useEffect(() => {
-    if (data.albumId && data.albumId._id) dispatch(setAlbumId(data.albumId._id));
+    if (data?.albumId?._id) dispatch(setAlbumId(data.albumId._id));
   }, [currentSong]);
 
   useEffect(() => {

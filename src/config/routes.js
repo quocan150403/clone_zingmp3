@@ -10,9 +10,9 @@ const routes = {
   detailPlaylist: '/playlist/:slug',
   detailSong: '/song/:slug',
   library: {
-    path: '/my-music',
-    history: '/my-music/history',
-    favorite: '/my-music/favorite',
+    path: '/my-music/*',
+    history: '/my-music/history/*',
+    favorite: '/my-music/song',
     playlist: '/my-music/library/playlist',
     album: '/my-music/album',
     upload: '/my-music/upload',

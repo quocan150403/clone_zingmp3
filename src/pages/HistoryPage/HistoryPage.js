@@ -1,44 +1,16 @@
-import { useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
-
-import { MediaList, Title, Tabs, Helmet, AlbumList } from 'components';
-import { albumApi, playlistApi, songApi } from 'api';
+import { Route, Routes } from 'react-router-dom';
+import { Title, Tabs, Helmet } from 'components';
+import SongHistory from './SongHistory';
+import AlbumHistory from './AlbumHistory';
+import PlaylistHistory from './PlaylistHistory';
 
 const TABS = [
-  { id: 0, name: 'Bài hát' },
-  { id: 1, name: 'Album' },
-  { id: 2, name: 'Playlist' },
+  { id: 0, name: 'Bài hát', path: 'song' },
+  { id: 1, name: 'Album', path: 'album' },
+  { id: 2, name: 'Playlist', path: 'playlist' },
 ];
 
 export default function HistoryPage() {
-  const [tab, setTab] = useState(TABS[0]);
-  const { currentUser } = useSelector((state) => state.user);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setData([]);
-        if (currentUser._id) {
-          const { favoriteAlbums, favoriteSongs, historyPlaylists } = currentUser;
-          let resValue = [];
-          if (tab.id === 0) {
-            resValue = await songApi.getByIds({ ids: favoriteSongs.toString(), limit: 10 });
-          } else if (tab.id === 1) {
-            resValue = await albumApi.getByIds({ ids: favoriteAlbums.toString(), limit: 10 });
-          } else if (tab.id === 2) {
-            resValue = await playlistApi.getByIds({ ids: historyPlaylists.toString(), limit: 10 });
-          }
-          setData(resValue);
-        }
-      } catch (error) {
-        console.error('An error occurred:', error);
-      }
-    };
-
-    fetchData();
-  }, [currentUser, tab]);
-
   return (
     <Helmet title="Lịch sử">
       <div className="history">
@@ -47,11 +19,15 @@ export default function HistoryPage() {
             Phát gần đây
           </Title>
           <div className="vertical-separator" />
-          <Tabs uppercase list={TABS} tab={tab} setTab={setTab} />
+          <Tabs uppercase list={TABS} />
         </div>
         <div className="history-content mt-4 mb-4 mh-100">
-          {tab.id === 0 && data && <MediaList tracks={data} mediaList={data} />}
-          {(tab.id === 1 || tab.id === 2) && data && <AlbumList albums={data} />}
+          <Routes>
+            <Route path="/*" element={<SongHistory />} />
+            <Route path="song" element={<SongHistory />} />
+            <Route path="album" element={<AlbumHistory />} />
+            <Route path="playlist" element={<PlaylistHistory />} />
+          </Routes>
         </div>
       </div>
     </Helmet>

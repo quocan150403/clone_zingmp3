@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './Tabs.scss';
+import { Link, NavLink } from 'react-router-dom';
 
 function Tabs({
   list,
@@ -25,13 +26,9 @@ function Tabs({
   return (
     <div className={classes} {...props}>
       {list.map((item) => (
-        <div
-          key={item.id}
-          className={classNames('tab__item', { active: item.id === tab.id })}
-          onClick={() => setTab(item)}
-        >
+        <NavLink key={item.id} to={item.path} className="tab__item">
           {item.name}
-        </div>
+        </NavLink>
       ))}
     </div>
   );

@@ -25,11 +25,18 @@ export default function DetailAlbumPage() {
       try {
         const response = await albumApi.getBySlug(slug);
         const { _id: albumId, artists } = response;
-        const albumIds = artists.map((item) => item._id).join(',');
+        let albumIds = '';
+        if (artists && artists.length > 0) {
+          albumIds = artists.map((item) => item._id).join(',');
+        }
         const [responseSong, responseAlbumRelate] = await Promise.all([
           songApi.getQuery({ albumId: albumId }),
-          albumApi.getByArtistIds({ ids: albumIds, limit: 6 }),
+          albumIds ? albumApi.getByArtistIds({ ids: albumIds, limit: 6 }) : [],
         ]);
+
+        if (responseSong && responseSong.length > 0) {
+          dispatch(setSong({ tracks: responseSong, song: responseSong[0], i: 0 }));
+        }
 
         setArtistList(artists);
         setAlbum(response);
@@ -38,8 +45,6 @@ export default function DetailAlbumPage() {
         if (currentUser && currentUser.favoriteAlbums) {
           setIsFavoriteAlbum(currentUser.favoriteAlbums.includes(albumId));
         }
-
-        dispatch(setSong({ tracks: responseSong, song: responseSong[0], i: 0 }));
       } catch (error) {
         if (error.response && error.response.status === 400) {
           console.log(error.response.data.error);
@@ -72,7 +77,6 @@ export default function DetailAlbumPage() {
   const handleLikeAlbum = async () => {
     try {
       const result = await commonApi.toggleLikeAlbum(album._id, currentUser._id);
-      console.log(result);
       const { updatedFavorites, updatedItemFavorites, liked } = result;
       setAlbum((prev) => ({ ...prev, favorites: updatedItemFavorites }));
       dispatch(updateUserField({ field: 'favoriteAlbums', value: updatedFavorites }));

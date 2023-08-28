@@ -123,7 +123,7 @@ function AlbumItem({
             <Button primary uppercase leftIcon={<BsPlayFill />}>
               Phát tất cả
             </Button>
-            <div className="mt-4">
+            <div className="mt-4 gap-3 d-flex align-items-center justify-content-center ">
               <Button
                 onClick={onClickLike}
                 circle
@@ -131,7 +131,42 @@ function AlbumItem({
                 medium
                 leftIcon={isFavoriteAlbum ? <BsHeartFill /> : <BsHeart />}
               />
-              <Button circle secondary medium leftIcon={<BsThreeDots />} />
+              {detail && (
+                <TippyHeadless
+                  visible={isShowOption}
+                  interactive={true}
+                  placement="right-end"
+                  offset={[-200, 2]}
+                  onClickOutside={() => setIsShowOption(false)}
+                  onHide={() => setIsShowOption(false)}
+                  appendTo={() => document.body}
+                  render={(attrs) => (
+                    <Wrapper {...attrs} tabIndex="-1" className="pb-3 pt-3 p-0">
+                      <MenuItem
+                        small
+                        option
+                        icon={<BsTextWrap />}
+                        title="Thêm vào danh sách phát"
+                      />
+                      <MenuItem small option icon={<BsDownload />} title="Tải xuống" />
+                      <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
+                      <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                    </Wrapper>
+                  )}
+                >
+                  <Tippy content="Khác">
+                    <div>
+                      <Button
+                        circle
+                        secondary
+                        medium
+                        leftIcon={<BsThreeDots />}
+                        onClick={() => setIsShowOption(!isShowOption)}
+                      />
+                    </div>
+                  </Tippy>
+                </TippyHeadless>
+              )}
             </div>
           </div>
         )}

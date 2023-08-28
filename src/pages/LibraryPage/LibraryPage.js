@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { MediaList, Helmet, Section, Tabs, Title, AlbumList, ArtistList } from 'components';
+import { Helmet, Section, Tabs, Title, AlbumList, ArtistList } from 'components';
 import { songApi, albumApi, playlistApi, artistApi } from 'api';
+import { Route, Routes } from 'react-router-dom';
+import Song from './FavoriteSong';
+import Album from './FavoriteAlbum';
 
 const TABS = [
   {
     id: 0,
     name: 'Bài Hát',
+    path: 'song',
   },
   {
     id: 1,
     name: 'Album',
+    path: 'album',
   },
 ];
 
@@ -19,33 +24,18 @@ export default function LibraryPage() {
   const { currentUser } = useSelector((state) => state.user);
   const [myPlaylist, setMyPlaylist] = useState([]);
   const [artistsFollowing, setArtistsFollowing] = useState([]);
-  const [songList, setSongList] = useState([]);
-  const [albumList, setAlbumList] = useState([]);
-  const [tab, setTab] = useState(TABS[0]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (currentUser._id) {
-          const { favoriteAlbums, favoriteSongs, followedArtists } = currentUser;
-          const [resPlaylist, resFollowedArtists, resValue] = await Promise.all([
+          const { followedArtists } = currentUser;
+          const [resPlaylist, resFollowedArtists] = await Promise.all([
             playlistApi.getQuery({ userId: currentUser._id }),
             artistApi.getByIds({ ids: followedArtists.toString() }),
-            tab.id === 0
-              ? songApi.getByIds({ ids: favoriteSongs.toString(), limit: 10 })
-              : albumApi.getByIds({ ids: favoriteAlbums.toString(), limit: 10 }),
           ]);
-
           setMyPlaylist(resPlaylist);
           setArtistsFollowing(resFollowedArtists);
-
-          if (tab.id === 0) {
-            setSongList(resValue);
-            setAlbumList([]);
-          } else if (tab.id === 1) {
-            setAlbumList(resValue);
-            setSongList([]);
-          }
         }
       } catch (error) {
         if (error.response && error.response.status === 400) {
@@ -56,7 +46,7 @@ export default function LibraryPage() {
       }
     };
     fetchData();
-  }, [currentUser, tab]);
+  }, [currentUser]);
 
   return (
     <Helmet title="Thư Viện">
@@ -72,10 +62,13 @@ export default function LibraryPage() {
         </Section>
 
         <div className="div mt-5 mb-5">
-          <Tabs list={TABS} tab={tab} setTab={setTab} uppercase isBorderBottom />
+          <Tabs list={TABS} uppercase isBorderBottom />
           <div className="mt-4">
-            {tab.id === 0 && <MediaList mediaList={songList} />}
-            {tab.id === 1 && <AlbumList albums={albumList} />}
+            <Routes>
+              <Route path="/" element={<Song />} />
+              <Route path="song" element={<Song />} />
+              <Route path="album" element={<Album />} />
+            </Routes>
           </div>
         </div>
       </div>

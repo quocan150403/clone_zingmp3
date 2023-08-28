@@ -1,26 +1,24 @@
-import { useEffect } from 'react';
-import Modal from 'react-modal';
-import { Suspense, Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Suspense, useLayoutEffect } from 'react';
+import { BrowserRouter as Router, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setError, setSuccess } from 'app/features/userSlice';
-import LoginPage from './pages/LoginPage';
-import LoadingPage from './pages/LoadingPage';
-
-import DefaultLayout from './layouts/DefaultLayout';
-import { publicRoutes, privateRoutes } from './routes';
+import Modal from 'react-modal';
 import { auth } from './config/firebase';
+
+import LoadingPage from './pages/LoadingPage';
 import { userApi } from 'api';
+import { renderRoutes } from 'routes/renderRoutes';
+import { publicRoutes, privateRoutes } from './routes';
 
 Modal.setAppElement('#root');
 
 function App() {
-  const { isAuth } = useSelector((state) => state.user);
+  const { isAuth, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(setLoading());
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const info = {
           UID: user.uid,
@@ -29,14 +27,12 @@ function App() {
           photoURL: user.photoURL,
         };
 
-        userApi
-          .getByUID(info.UID)
-          .then((userData) => {
-            dispatch(setSuccess({ ...info, ...userData }));
-          })
-          .catch((error) => {
-            dispatch(setError(error.message));
-          });
+        try {
+          const userData = await userApi.getByUID(info.UID);
+          dispatch(setSuccess({ ...info, ...userData }));
+        } catch (error) {
+          dispatch(setError(error.message));
+        }
       } else {
         dispatch(setError('User is not signed in'));
         console.log('User is not signed in');
@@ -51,58 +47,16 @@ function App() {
   return (
     <Router>
       <Suspense fallback={<LoadingPage />}>
-        <div className="app" id="app">
-          <Routes>
-            {publicRoutes.map((route, index) => {
-              const Page = route.component;
-              let Layout = DefaultLayout;
-
-              if (route.layout) {
-                Layout = route.layout;
-              } else if (route.layout === null) {
-                Layout = Fragment;
-              }
-
-              return (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  }
-                />
-              );
-            })}
-            {privateRoutes.map((route, index) => {
-              const Page = route.component;
-              let Layout = DefaultLayout;
-
-              if (route.layout) {
-                Layout = route.layout;
-              } else if (route.layout === null) {
-                Layout = Fragment;
-              }
-
-              return (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    isAuth ? (
-                      <Layout>
-                        <Page />
-                      </Layout>
-                    ) : (
-                      <LoginPage />
-                    )
-                  }
-                />
-              );
-            })}
-          </Routes>
-        </div>
+        {loading ? (
+          <LoadingPage />
+        ) : (
+          <div className="app" id="app">
+            <Routes>
+              {renderRoutes(publicRoutes, isAuth)}
+              {renderRoutes(privateRoutes, isAuth)}
+            </Routes>
+          </div>
+        )}
       </Suspense>
     </Router>
   );
