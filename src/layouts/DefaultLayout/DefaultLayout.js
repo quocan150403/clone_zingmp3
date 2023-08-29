@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import Player from './Player';
 import images from 'assets/images';
 import Queue from './Queue/Queue';
+import { AddForm, DeleteForm, EditForm } from 'components/PlaylistForm';
 
 function DefaultLayout({ children }) {
   const [isShowQueue, setIsShowQueue] = useState(false);
@@ -21,6 +22,9 @@ function DefaultLayout({ children }) {
       <main className="app-content">{children}</main>
       <Player isShowQueue={isShowQueue} onChangeIsShowQueue={setIsShowQueue} />
       <Queue isShowQueue={isShowQueue} />
+      <AddForm />
+      <EditForm />
+      <DeleteForm />
     </div>
   );
 }

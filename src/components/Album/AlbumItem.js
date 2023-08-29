@@ -4,13 +4,15 @@ import {
   BsHeart,
   BsHeartFill,
   BsLink45Deg,
+  BsPen,
   BsPlayFill,
   BsTextWrap,
   BsThreeDots,
+  BsTrash,
+  BsXLg,
 } from 'react-icons/bs';
 import { useState, memo, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TippyHeadless from '@tippyjs/react/headless';
@@ -18,6 +20,7 @@ import 'tippy.js/dist/tippy.css'; // optional
 import Tippy from '@tippyjs/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { playPause } from 'app/features/playerSlice';
+import { setCurrentPlaylist, openDeleteForm, openEditForm } from 'app/features/playlistSlice';
 
 import { Button, MenuItem, Wrapper } from 'components';
 import './Album.scss';
@@ -31,6 +34,8 @@ function AlbumItem({
   isArtist,
   isFavoriteAlbum,
   type = 'album',
+  hideLikeBtn,
+  hideMoreBtn,
   onClickLike,
 }) {
   const dispatch = useDispatch();
@@ -45,6 +50,25 @@ function AlbumItem({
     }
   };
 
+  const handleShowOption = (e) => {
+    e.preventDefault();
+    setIsShowOption(!isShowOption);
+  };
+
+  const handleEditPlaylist = (e) => {
+    e.preventDefault();
+    setIsShowOption(false);
+    dispatch(setCurrentPlaylist(data));
+    dispatch(openEditForm());
+  };
+
+  const handleDeletePlaylist = (e) => {
+    e.preventDefault();
+    setIsShowOption(false);
+    dispatch(setCurrentPlaylist(data));
+    dispatch(openDeleteForm());
+  };
+
   const classes = classNames('album', {
     detail,
     small,
@@ -52,15 +76,24 @@ function AlbumItem({
     'is-artist': isArtist,
   });
 
+  const isPlaylist = type === 'playlist';
+
   return (
     <div className={classes}>
       <Link to={`/${type}/${data.slug}`} className="album-wrapper br-5">
         <img className="album-wrapper__image" src={data.imageUrl || images.albumDefault} alt="" />
         <div className="album-wrapper__actions">
-          {!detail && (
+          {!hideLikeBtn && (
             <Tippy content="Thêm vào thư viện">
               <div className="album-wrapper__btn">
                 <BsHeart />
+              </div>
+            </Tippy>
+          )}
+          {isPlaylist && (
+            <Tippy content="Xóa playlist">
+              <div onClick={handleDeletePlaylist} className="album-wrapper__btn">
+                <BsXLg />
               </div>
             </Tippy>
           )}
@@ -68,7 +101,7 @@ function AlbumItem({
             <BsPlayFill className="album-icon__play" />
             <img className="album-icon__playing" src={images.iconPlaying} alt="" />
           </div>
-          {!detail && (
+          {!hideMoreBtn && (
             <TippyHeadless
               visible={isShowOption}
               interactive={true}
@@ -83,11 +116,29 @@ function AlbumItem({
                   <MenuItem small option icon={<BsDownload />} title="Tải xuống" />
                   <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
                   <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                  {isPlaylist && (
+                    <>
+                      <MenuItem
+                        small
+                        option
+                        icon={<BsPen />}
+                        title="Chỉnh sửa playlist"
+                        onClick={handleEditPlaylist}
+                      />
+                      <MenuItem
+                        small
+                        option
+                        icon={<BsTrash />}
+                        title="Xóa playlist"
+                        onClick={handleDeletePlaylist}
+                      />
+                    </>
+                  )}
                 </Wrapper>
               )}
             >
               <Tippy content="Khác">
-                <div className="album-wrapper__btn" onClick={() => setIsShowOption(!isShowOption)}>
+                <div className="album-wrapper__btn" onClick={handleShowOption}>
                   <BsThreeDots />
                 </div>
               </Tippy>

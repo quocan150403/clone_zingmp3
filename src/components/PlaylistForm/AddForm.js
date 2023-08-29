@@ -1,25 +1,46 @@
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-modal';
+import { toast } from 'react-toastify';
 import { BsX } from 'react-icons/bs';
-import { Button } from 'components';
+import { closeAddForm, addPlaylistAsync } from 'app/features/playlistSlice';
 
-export default function AddForm(
-  name,
-  isPublic,
-  isShowModal,
-  onChangeName,
-  onChangePublic,
-  onClickHide,
-  onClickConfirm,
-) {
+import { Button } from 'components';
+import usePlaylistForm from 'hooks/usePlaylistForm';
+
+export default function AddForm() {
+  const isAddFormOpen = useSelector((state) => state.playlist.isAddFormOpen);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const { form, handleNameChange, handlePublicChange, resetForm } = usePlaylistForm();
+
+  const handleCloseAddModal = async () => {
+    dispatch(closeAddForm());
+  };
+
+  const handleAddPlaylist = async () => {
+    handleCloseAddModal();
+    try {
+      const response = await dispatch(addPlaylistAsync({ ...form, userId: currentUser._id }));
+      if (addPlaylistAsync.fulfilled.match(response)) {
+        toast.success('Playlist đã được thêm thành công.');
+        resetForm();
+      } else if (addPlaylistAsync.rejected.match(response)) {
+        toast.error('Lỗi khi thêm playlist. Vui lòng thử lại sau.');
+      }
+    } catch (error) {
+      toast.error('Lỗi khi thêm playlist. Vui lòng thử lại sau.');
+      console.log(error);
+    }
+  };
+
   return (
     <Modal
-      isOpen={isShowModal}
-      onRequestClose={onClickHide}
+      isOpen={isAddFormOpen}
+      onRequestClose={handleCloseAddModal}
       className="add-playlist"
       overlayClassName="overlay"
     >
-      <span onClick={onClickHide} className="add-playlist__close">
+      <span onClick={handleCloseAddModal} className="add-playlist__close">
         <BsX />
       </span>
       <h2 className="add-playlist__heading">Tạo playlist mới</h2>
@@ -27,8 +48,8 @@ export default function AddForm(
         type="text"
         placeholder="Nhập tên playlist"
         className="add-playlist__input"
-        value={name}
-        onChange={onChangeName}
+        value={form.name}
+        onChange={handleNameChange}
       />
       <div className="add-playlist__option d-flex align-items-center justify-content-between">
         <div className="d-flex flex-column">
@@ -41,9 +62,9 @@ export default function AddForm(
             type="checkbox"
             role="switch"
             id="flexSwitchCheckDefault"
-            value={isPublic}
-            checked={isPublic}
-            onChange={onChangePublic}
+            value={form.public}
+            checked={form.public}
+            onChange={handlePublicChange}
           />
         </div>
       </div>
@@ -63,7 +84,7 @@ export default function AddForm(
         </div>
       </div>
       <div className="mt-4">
-        <Button onClick={onClickConfirm} primary uppercase fullWidth>
+        <Button onClick={handleAddPlaylist} primary uppercase fullWidth>
           tạo mới
         </Button>
       </div>

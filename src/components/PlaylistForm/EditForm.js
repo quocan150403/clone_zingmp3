@@ -1,25 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from 'react-modal';
 import { BsX } from 'react-icons/bs';
 import { Button } from 'components';
+import { useDispatch, useSelector } from 'react-redux';
+import usePlaylistForm from 'hooks/usePlaylistForm';
+import { closeEditForm, editPlaylistAsync } from 'app/features/playlistSlice';
+import { toast } from 'react-toastify';
 
-export default function EditForm(
-  name,
-  isPublic,
-  isShowModal,
-  onChangeName,
-  onChangePublic,
-  onClickHide,
-  onClickConfirm,
-) {
+export default function EditForm() {
+  const dispatch = useDispatch();
+  const { isEditFormOpen, currentPlaylist } = useSelector((state) => state.playlist);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const { form, handleNameChange, handlePublicChange, handleUpdateAll } =
+    usePlaylistForm(currentPlaylist);
+
+  useEffect(() => {
+    handleUpdateAll(currentPlaylist);
+  }, [currentPlaylist]);
+
+  const handleCloseEditModal = async () => {
+    dispatch(closeEditForm());
+  };
+
+  const handleEditPlaylist = async () => {
+    handleCloseEditModal();
+    try {
+      const newData = { ...currentPlaylist };
+      const response = await dispatch(editPlaylistAsync(currentPlaylist._id, currentPlaylist));
+      if (editPlaylistAsync.fulfilled.match(response)) {
+        toast.success('Đã sửa playlist thành công.');
+      } else if (editPlaylistAsync.rejected.match(response)) {
+        toast.error('Lỗi khi sửa playlist. Vui lòng thử lại sau.');
+      }
+    } catch (error) {
+      toast.error('Lỗi khi sửa playlist. Vui lòng thử lại sau.');
+      console.log(error);
+    }
+  };
   return (
     <Modal
-      isOpen={isShowModal}
-      onRequestClose={onClickHide}
+      isOpen={isEditFormOpen}
+      onRequestClose={handleCloseEditModal}
       className="add-playlist"
       overlayClassName="overlay"
     >
-      <span onClick={onClickHide} className="add-playlist__close">
+      <span onClick={handleCloseEditModal} className="add-playlist__close">
         <BsX />
       </span>
       <h2 className="add-playlist__heading">Chỉnh sửa playlist</h2>
@@ -27,8 +52,8 @@ export default function EditForm(
         type="text"
         placeholder="Nhập tên playlist"
         className="add-playlist__input"
-        value={name}
-        onChange={onChangeName}
+        value={form?.name}
+        onChange={handleNameChange}
       />
       <div className="add-playlist__option d-flex align-items-center justify-content-between">
         <div className="d-flex flex-column">
@@ -41,9 +66,9 @@ export default function EditForm(
             type="checkbox"
             role="switch"
             id="flexSwitchCheckDefault"
-            value={isPublic}
-            checked={isPublic}
-            onChange={onChangePublic}
+            value={form?.public}
+            checked={form?.public}
+            onChange={handlePublicChange}
           />
         </div>
       </div>
@@ -63,7 +88,7 @@ export default function EditForm(
         </div>
       </div>
       <div className="mt-4">
-        <Button onClick={onClickConfirm} primary uppercase fullWidth>
+        <Button onClick={handleEditPlaylist} primary uppercase fullWidth>
           Lưu
         </Button>
       </div>

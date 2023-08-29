@@ -89,7 +89,7 @@ const playlistSlice = createSlice({
         }
       })
       .addCase(deletePlaylistAsync.fulfilled, (state, action) => {
-        state.playlists = state.playlists.filter((playlist) => playlist.id !== action.payload);
+        state.playlists = state.playlists.filter((playlist) => playlist._id !== action.payload);
       });
   },
 });
