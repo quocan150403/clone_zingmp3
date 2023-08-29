@@ -5,9 +5,9 @@ import AlbumHistory from './AlbumHistory';
 import PlaylistHistory from './PlaylistHistory';
 
 const TABS = [
-  { id: 0, name: 'Bài hát', path: 'song' },
-  { id: 1, name: 'Album', path: 'album' },
-  { id: 2, name: 'Playlist', path: 'playlist' },
+  { id: 0, name: 'Bài hát', to: 'song' },
+  { id: 1, name: 'Album', to: 'album' },
+  { id: 2, name: 'Playlist', to: 'playlist' },
 ];
 
 export default function HistoryPage() {

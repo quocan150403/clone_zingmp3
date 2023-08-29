@@ -21,7 +21,7 @@
 
   &.player-popper {
     background-color: transparent;
-    z-index: 1002;
+    z-index: 1005;
     border: none;
 
     .player-left,
@@ -206,13 +206,13 @@
 
 .player-background {
   @include position(fixed, full);
-  z-index: 1001;
   background-color: var(--primary-bg);
   transition: 0.7s;
   transform: translateY(100%);
 
   &.is-show {
     transform: translateY(0);
+    z-index: 1000;
   }
 }
 
@@ -243,6 +243,13 @@
     line-height: 1.2;
     padding: 15px 0;
   }
+}
+
+.lyrics-detail {
+  text-align: center;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 60px;
 }
 
 .player-progress__main {

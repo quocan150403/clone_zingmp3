@@ -70,59 +70,60 @@ function Player({ isShowQueue, onChangeIsShowQueue }) {
 
   return (
     tracks.length > 0 && (
-      <div className={`player ${isShowPlayerPopper ? 'player-popper' : ''}`}>
-        <Audio
-          muted={muted}
-          volume={volume}
-          repeat={repeat}
-          seekTime={seekTime}
-          isPlaying={isPlaying}
-          currentSong={currentSong}
-          onTimeUpdate={(event) => setSongProgress(event.target.currentTime)}
-          onLoadedData={(event) => setDuration(event.target.duration)}
-          onEnded={handleNextSong}
-        />
-        <Track currentSong={currentSong} />
+      <>
+        <div className={`player ${isShowPlayerPopper ? 'player-popper' : ''}`}>
+          <Audio
+            muted={muted}
+            volume={volume}
+            repeat={repeat}
+            seekTime={seekTime}
+            isPlaying={isPlaying}
+            currentSong={currentSong}
+            onTimeUpdate={(event) => setSongProgress(event.target.currentTime)}
+            onLoadedData={(event) => setDuration(event.target.duration)}
+            onEnded={handleNextSong}
+          />
+          <Track currentSong={currentSong} />
 
-        <div className="player-middle">
-          <div className="d-flex flex-column align-items-center">
-            <Controls
-              isPlaying={isPlaying}
-              repeat={repeat}
-              shuffle={shuffle}
-              onClickPlayPause={handlePlayPause}
-              onClickNextSong={handleNextSong}
-              onClickPrevSong={handlePrevSong}
-              onClickRepeat={() => setRepeat(!repeat)}
-              onClickShuffle={() => setShuffle(!shuffle)}
-            />
+          <div className="player-middle">
+            <div className="d-flex flex-column align-items-center">
+              <Controls
+                isPlaying={isPlaying}
+                repeat={repeat}
+                shuffle={shuffle}
+                onClickPlayPause={handlePlayPause}
+                onClickNextSong={handleNextSong}
+                onClickPrevSong={handlePrevSong}
+                onClickRepeat={() => setRepeat(!repeat)}
+                onClickShuffle={() => setShuffle(!shuffle)}
+              />
 
-            <SeekBar
-              min={0}
-              max={duration}
-              value={songProgress}
-              duration={duration}
-              onChangeSeekTime={setSeekTime}
-            />
+              <SeekBar
+                min={0}
+                max={duration}
+                value={songProgress}
+                duration={duration}
+                onChangeSeekTime={setSeekTime}
+              />
+            </div>
           </div>
+
+          <Options
+            muted={muted}
+            volume={volume}
+            isShowQueue={isShowQueue}
+            onClickShowQueue={onChangeIsShowQueue}
+            onClickToggleBackground={setIsShowPlayerPopper}
+            onChangeVolume={setVolume}
+            onClickToggleMuted={setMuted}
+          />
         </div>
-
-        <Options
-          muted={muted}
-          volume={volume}
-          isShowQueue={isShowQueue}
-          onClickShowQueue={onChangeIsShowQueue}
-          onClickToggleBackground={setIsShowPlayerPopper}
-          onChangeVolume={setVolume}
-          onClickToggleMuted={setMuted}
-        />
-
         <Background
           imageUrl={currentSong.imageUrl}
           isShowPlayerPopper={isShowPlayerPopper}
           onClickToggleBackground={setIsShowPlayerPopper}
         />
-      </div>
+      </>
     )
   );
 }

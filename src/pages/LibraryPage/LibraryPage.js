@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { Helmet, Section, Tabs, Title, AlbumList, ArtistList } from 'components';
-import { songApi, albumApi, playlistApi, artistApi } from 'api';
-import { Route, Routes } from 'react-router-dom';
+import { playlistApi, artistApi } from 'api';
 import Song from './FavoriteSong';
 import Album from './FavoriteAlbum';
 
@@ -11,12 +11,12 @@ const TABS = [
   {
     id: 0,
     name: 'Bài Hát',
-    path: 'song',
+    to: 'song',
   },
   {
     id: 1,
     name: 'Album',
-    path: 'album',
+    to: 'album',
   },
 ];
 

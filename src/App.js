@@ -2,6 +2,7 @@ import { Suspense, useLayoutEffect } from 'react';
 import { BrowserRouter as Router, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setError, setSuccess } from 'app/features/userSlice';
+import { fetchPlaylistsAsync } from 'app/features/playlistSlice';
 import Modal from 'react-modal';
 import { auth } from './config/firebase';
 
@@ -29,6 +30,7 @@ function App() {
 
         try {
           const userData = await userApi.getByUID(info.UID);
+          await dispatch(fetchPlaylistsAsync(userData._id));
           dispatch(setSuccess({ ...info, ...userData }));
         } catch (error) {
           dispatch(setError(error.message));

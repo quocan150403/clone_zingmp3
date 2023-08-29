@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState } from 'react';
 import './DefaultLayout.scss';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -25,4 +25,4 @@ function DefaultLayout({ children }) {
   );
 }
 
-export default memo(DefaultLayout);
+export default DefaultLayout;

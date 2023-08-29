@@ -1,24 +1,37 @@
-import { NavLink } from 'react-router-dom';
-
-import { Helmet, Title, Tabs } from 'components';
+import { Helmet, Tabs, Title } from 'components';
+import { Route, Routes } from 'react-router-dom';
+import PlaylistAll from './PlaylistAll';
+import PlaylistOwner from './PlaylistOwner';
+const TABS = [
+  {
+    id: 1,
+    name: 'Tất cả',
+    to: '*',
+  },
+  {
+    id: 2,
+    name: 'Của tôi',
+    to: 'owner',
+  },
+];
 
 export default function PlaylistPage() {
   return (
-    <Helmet title="Playlist">
-      <div className="history">
+    <Helmet title="Nhạc cá nhân">
+      <div>
         <div className="is-border-bottom d-flex align-items-center">
           <Title className="mb-0" small hideIcon>
             Playlist
           </Title>
           <div className="vertical-separator" />
-          {/* <Tabs
-            tabs={[
-              { id: 1, name: 'Tất cả' },
-              { id: 2, name: 'Của tôi' },
-            ]}
-          /> */}
+          <Tabs uppercase list={TABS} />
         </div>
-        <div className="history-content"></div>
+        <div className="mt-4">
+          <Routes>
+            <Route path="/*" element={<PlaylistAll />} />
+            <Route path="owner" element={<PlaylistOwner />} />
+          </Routes>
+        </div>
       </div>
     </Helmet>
   );

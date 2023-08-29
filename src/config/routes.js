@@ -13,7 +13,7 @@ const routes = {
     path: '/my-music/*',
     history: '/my-music/history/*',
     favorite: '/my-music/song',
-    playlist: '/my-music/library/playlist',
+    playlist: '/my-music/library/playlist/*',
     album: '/my-music/album',
     upload: '/my-music/upload',
   },
