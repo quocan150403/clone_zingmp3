@@ -43,7 +43,12 @@ export default function MediaItemOptions({
         </Tippy>
       )}
       <Tippy content="Thêm vào thư viện">
-        <span onClick={onClickLike} className="media-right__option media-right__option--heart">
+        <span
+          onClick={onClickLike}
+          className={`media-right__option media-right__option--heart ${
+            isFavoriteSong ? 'active' : null
+          }`}
+        >
           {isFavoriteSong ? <BsHeartFill /> : <BsHeart />}
         </span>
       </Tippy>

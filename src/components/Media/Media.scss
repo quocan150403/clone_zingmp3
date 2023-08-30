@@ -365,7 +365,7 @@ $width-checkbox: 20px;
           svg {
             margin-top: 0;
             font-size: 18px;
-            color: var(--text-color);
+            color: var(--purple-primary);
           }
 
           &--more {
@@ -639,6 +639,12 @@ $width-checkbox: 20px;
 
     &--more svg:last-child {
       display: none;
+    }
+
+    &.active {
+      > svg {
+        color: var(--purple-primary);
+      }
     }
 
     > svg {

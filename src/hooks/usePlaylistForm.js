@@ -22,7 +22,6 @@ export default function usePlaylistForm(initialState = initialValue) {
 
   const handleUpdateAll = (data) => {
     if (!data) return;
-    console.log(data);
     setForm((form) => {
       form.name = data.name;
       form.public = data.public;

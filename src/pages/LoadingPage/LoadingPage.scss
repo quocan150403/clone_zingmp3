@@ -16,47 +16,46 @@
   &-bar {
     width: 12px;
     border-radius: 10px;
-    background: #fff;
     animation: movement 1.5s ease-in-out infinite;
 
     &:nth-child(1) {
-      background: #b65252;
+      background: var(--purple-primary);
       animation-delay: 1s;
     }
     &:nth-child(2) {
-      background: pink;
+      background: var(--link-text-hover);
       animation-delay: 0.8s;
     }
     &:nth-child(3) {
-      background: #b65252;
+      background: var(--purple-primary);
       animation-delay: 0.6s;
     }
     &:nth-child(4) {
-      background: pink;
+      background: var(--link-text-hover);
       animation-delay: 0.4s;
     }
     &:nth-child(5) {
-      background: #b65252;
+      background: var(--purple-primary);
       animation-delay: 0.2s;
     }
     &:nth-child(6) {
-      background: pink;
+      background: var(--link-text-hover);
       animation-delay: 0.2s;
     }
     &:nth-child(7) {
-      background: #b65252;
+      background: var(--purple-primary);
       animation-delay: 0.4s;
     }
     &:nth-child(8) {
-      background: pink;
+      background: var(--link-text-hover);
       animation-delay: 0.6s;
     }
     &:nth-child(9) {
-      background: #b65252;
+      background: var(--purple-primary);
       animation-delay: 0.8s;
     }
     &:nth-child(10) {
-      background: pink;
+      background: var(--link-text-hover);
       animation-delay: 1s;
     }
   }

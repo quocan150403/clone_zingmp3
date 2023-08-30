@@ -27,7 +27,7 @@ export const addPlaylistAsync = createAsyncThunk(
 
 export const editPlaylistAsync = createAsyncThunk(
   'playlist/editPlaylistAsync',
-  async (id, playlistData) => {
+  async ({ id, playlistData }) => {
     const response = await playlistApi.update(id, playlistData);
     return response;
   },

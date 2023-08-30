@@ -10,7 +10,6 @@ import { toast } from 'react-toastify';
 export default function EditForm() {
   const dispatch = useDispatch();
   const { isEditFormOpen, currentPlaylist } = useSelector((state) => state.playlist);
-  const currentUser = useSelector((state) => state.user.currentUser);
   const { form, handleNameChange, handlePublicChange, handleUpdateAll } =
     usePlaylistForm(currentPlaylist);
 
@@ -25,8 +24,14 @@ export default function EditForm() {
   const handleEditPlaylist = async () => {
     handleCloseEditModal();
     try {
-      const newData = { ...currentPlaylist };
-      const response = await dispatch(editPlaylistAsync(currentPlaylist._id, currentPlaylist));
+      const newData = {
+        name: currentPlaylist.name,
+        public: currentPlaylist.public,
+        userId: currentPlaylist.userId,
+      };
+      const response = await dispatch(
+        editPlaylistAsync({ id: currentPlaylist._id, playlistData: newData }),
+      );
       if (editPlaylistAsync.fulfilled.match(response)) {
         toast.success('Đã sửa playlist thành công.');
       } else if (editPlaylistAsync.rejected.match(response)) {
