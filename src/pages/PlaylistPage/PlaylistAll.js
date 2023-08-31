@@ -1,11 +1,19 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { playlistApi } from 'api';
 import { AlbumList } from 'components';
+import { openAddForm } from 'app/features/playlistSlice';
 
 export default function PlaylistAll() {
   const { currentUser } = useSelector((state) => state.user);
+  const { playlists } = useSelector((state) => state.playlist);
+
   const [playlistList, setPlaylistList] = useState([]);
+  const dispatch = useDispatch();
+
+  const handleAddPlaylist = () => {
+    dispatch(openAddForm());
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,5 +37,13 @@ export default function PlaylistAll() {
     fetchData();
   }, [currentUser]);
 
-  return <AlbumList showAdd albums={playlistList} />;
+  return (
+    <AlbumList
+      showAdd
+      hideLikeBtn
+      type="playlist"
+      albums={playlistList}
+      onClickAdd={handleAddPlaylist}
+    />
+  );
 }

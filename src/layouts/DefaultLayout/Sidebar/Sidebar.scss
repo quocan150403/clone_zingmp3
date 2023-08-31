@@ -11,10 +11,6 @@ $icon-expand-size: 24px;
   background-color: var(--sidebar-bg);
   -webkit-tap-highlight-color: transparent;
   transition: width 0.3s ease-out;
-
-  &.is-player {
-    height: calc(100% - var(--player-height));
-  }
 }
 
 .sidebar-separate {
@@ -66,7 +62,6 @@ $icon-expand-size: 24px;
 
 .sidebar-subnav {
   @extend %scrollbar;
-
   width: 100%;
 }
 
@@ -79,7 +74,7 @@ $icon-expand-size: 24px;
   padding: 10px 22px;
   white-space: nowrap;
   overflow: hidden;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  // border-top: 1px solid rgba(255, 255, 255, 0.1);
 
   &__inner {
     width: 100%;
@@ -127,7 +122,7 @@ $icon-expand-size: 24px;
     color: var(--text-item-hover);
 
     .sidebar-playlist__expand {
-      color: #000;
+      color: var(--text-color);
       display: flex;
     }
   }
@@ -169,6 +164,16 @@ $icon-expand-size: 24px;
   }
 }
 
+.sidebar-playlist__add {
+  @include flexbox(flex-start);
+  @extend %text-truncate;
+
+  border-top: 1px solid var(--bg-content-color);
+  position: relative;
+  width: 100%;
+  padding: 4px 22px;
+}
+
 @include media-breakpoint(tablet) {
   .sidebar {
     @include position(fixed, top-left);
@@ -196,9 +201,7 @@ $icon-expand-size: 24px;
   }
 
   .sidebar-playlist {
-    justify-content: center;
     padding: 10px 22px;
-    border-top: 1px solid var(--border-primary);
 
     &__inner {
       display: none;

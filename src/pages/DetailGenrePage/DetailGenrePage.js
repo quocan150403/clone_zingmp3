@@ -7,7 +7,7 @@ import { albumApi, genreApi } from 'api';
 export default function DetailGenrePage() {
   const { slug } = useParams();
   const [albumList, setAlbumList] = useState([]);
-  const [genre, setGenre] = useState();
+  const [genre, setGenre] = useState({});
 
   useEffect(() => {
     const getAlbums = async () => {
@@ -30,13 +30,17 @@ export default function DetailGenrePage() {
 
   return (
     <Helmet title="Thể loại">
-      <section className="mb-5">
-        <CardItem image={genre && genre.imageUrl} />
-      </section>
+      <div>
+        <img
+          className="rounded max-h object-fit-cover mb-5"
+          src={genre?.imageUrl}
+          alt={genre?.name}
+        />
 
-      <Section title={genre && genre.name}>
-        <AlbumList albums={albumList} />
-      </Section>
+        <Section title={genre && genre.name}>
+          <AlbumList albums={albumList} />
+        </Section>
+      </div>
     </Helmet>
   );
 }

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import usePlaylistForm from 'hooks/usePlaylistForm';
 import { closeEditForm, editPlaylistAsync } from 'app/features/playlistSlice';
 import { toast } from 'react-toastify';
+import './PlaylistForm.scss';
 
 export default function EditForm() {
   const dispatch = useDispatch();
@@ -25,8 +26,8 @@ export default function EditForm() {
     handleCloseEditModal();
     try {
       const newData = {
-        name: currentPlaylist.name,
-        public: currentPlaylist.public,
+        name: form.name,
+        public: form.public,
         userId: currentPlaylist.userId,
       };
       const response = await dispatch(

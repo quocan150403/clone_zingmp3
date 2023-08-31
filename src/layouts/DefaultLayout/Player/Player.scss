@@ -204,54 +204,6 @@
   }
 }
 
-.player-background {
-  @include position(fixed, full);
-  background-color: var(--primary-bg);
-  transition: 0.7s;
-  transform: translateY(100%);
-
-  &.is-show {
-    transform: translateY(0);
-    z-index: 1000;
-  }
-}
-
-.player-background__header {
-  padding: 20px;
-}
-
-.lyrics {
-  @include flexbox(center, flex-start, column);
-  @extend %scrollbar;
-
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  max-height: calc(100vh - (110px + 82px));
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  &__item {
-    padding: 20px 0;
-    letter-spacing: -1px;
-    color: var(--white);
-    font-weight: 700;
-    font-size: 46px;
-    line-height: inherit;
-    line-height: 1.2;
-    padding: 15px 0;
-  }
-}
-
-.lyrics-detail {
-  text-align: center;
-  color: var(--white);
-  font-weight: 700;
-  font-size: 60px;
-}
-
 .player-progress__main {
   min-width: 460px;
 }
@@ -338,3 +290,100 @@
     }
   }
 }
+
+.player-background {
+  @include position(fixed, full);
+  background-color: var(--primary-bg);
+  transition: 0.7s;
+  transform: translateY(100%);
+
+  &.is-show {
+    transform: translateY(0);
+    z-index: 1000;
+  }
+
+  &__header {
+    height: 80px;
+  }
+
+  &__content {
+    overflow: hidden;
+    height: calc(100% - (var(--player-height) + 80px));
+  }
+
+  &__image {
+    width: 350px;
+    height: 350px;
+  }
+
+  &__name {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  &__artists {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+      color: var(--purple-primary);
+    }
+  }
+}
+
+.player-background__karaoke {
+  height: 100%;
+  width: 100%;
+
+  ul {
+    height: 100%;
+    width: 100%;
+    @include flexbox(center, center, column);
+  }
+
+  li {
+    text-align: center;
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: 60px;
+    padding: 20px 0;
+  }
+}
+
+.player-background__lyrics {
+  @extend %scrollbar;
+  max-height: 480px;
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 90px;
+  color: var(--text-color);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// .lyrics {
+//   @include flexbox(center, flex-start, column);
+
+//   margin: 0;
+//   padding: 0;
+//   list-style: none;
+//
+
+//
+
+//   &__item {
+//     padding: 20px 0;
+//     letter-spacing: -1px;
+//     color: var(--white);
+//     font-weight: 700;
+//     font-size: 46px;
+//     line-height: inherit;
+//     line-height: 1.2;
+//     padding: 15px 0;
+//   }
+// }

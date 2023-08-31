@@ -7,6 +7,7 @@ import {
   setCurrentPlaylist,
 } from 'app/features/playlistSlice';
 import { Button } from 'components';
+import './PlaylistForm.scss';
 
 export default function DeleteForm() {
   const { isDeleteFormOpen, currentPlaylist } = useSelector((state) => state.playlist);

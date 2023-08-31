@@ -119,7 +119,7 @@ function Player({ isShowQueue, onChangeIsShowQueue }) {
           />
         </div>
         <Background
-          imageUrl={currentSong.imageUrl}
+          currentSong={currentSong}
           isShowPlayerPopper={isShowPlayerPopper}
           onClickToggleBackground={setIsShowPlayerPopper}
         />

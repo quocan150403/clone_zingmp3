@@ -109,7 +109,7 @@
     align-items: center;
     border-radius: 12px;
     padding: 16px;
-    background-color: rgb(166, 200, 203);
+    background-color: var(--sidebar-bg);
 
     .album-wrapper {
       width: 150px;
@@ -119,6 +119,7 @@
     .album-info {
       margin: 8px 0;
       margin-left: 16px;
+      color: var(--text-color);
     }
   }
 }

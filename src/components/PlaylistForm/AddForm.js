@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { BsX } from 'react-icons/bs';
 import { closeAddForm, addPlaylistAsync } from 'app/features/playlistSlice';
 
+import './PlaylistForm.scss';
 import { Button } from 'components';
 import usePlaylistForm from 'hooks/usePlaylistForm';
 

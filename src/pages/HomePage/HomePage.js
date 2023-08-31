@@ -60,7 +60,7 @@ export default function HomePage() {
     <Helmet title="Trang chủ">
       <Gallery />
       {albumHistory && (
-        <Section title="Gần đây" to={`/recently`}>
+        <Section title="Gần đây" to="/my-music/history/album">
           <AlbumList albums={albumHistory} small />
         </Section>
       )}
@@ -112,7 +112,7 @@ export default function HomePage() {
       })}
 
       {/* Rating */}
-      <Section title="BXH Nhạc mới" to="/top100">
+      <Section title="BXH Nhạc mới" to="/moi-phat-hanh">
         <Row className="g-custom">
           {songRankList.map((item, index) => (
             <Col key={index} xs={12} sm={4} md={6} lg={4}>

@@ -5,6 +5,7 @@ import { Col, Container, Row } from 'reactstrap';
 import Button from 'components/Button';
 import Tabs from 'components/Tabs';
 import { BsArrowsAngleExpand, BsChevronDown, BsGear } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const TABS = [
   { id: 1, name: 'Danh sách phát' },
@@ -12,7 +13,7 @@ const TABS = [
   { id: 3, name: 'Lời bài hát' },
 ];
 
-function Background({ imageUrl, isShowPlayerPopper, onClickToggleBackground }) {
+function Background({ currentSong, isShowPlayerPopper, onClickToggleBackground }) {
   const [tab, setTab] = useState(TABS[0]);
 
   return (
@@ -34,51 +35,61 @@ function Background({ imageUrl, isShowPlayerPopper, onClickToggleBackground }) {
         </div>
       </div>
       <div className="player-background__content">
-        <Container>
-          <div>{tab.id === 1 && <div>Danh sách phát</div>}</div>
-          <div>
-            {tab.id === 2 && (
-              <Row className="g-5 align-items-center">
-                <Col xs="12">
-                  <h1 className="lyrics-detail">Bài hát mới nhất là một bài hát hay</h1>
-                </Col>
-                <Col xs="12">
-                  <h1 className="lyrics-detail">Bài hát mới nhất là một bài hát hay</h1>
-                </Col>
-                <Col xs="12">
-                  <h1 className="lyrics-detail">Bài hát mới nhất là một bài hát hay</h1>
-                </Col>
-              </Row>
-            )}
+        {tab.id === 1 && (
+          <div className="d-flex mt-4 mb-3 flex-column align-items-center justify-content-center">
+            <div className="player-background__image mb-5">
+              <img className="rounded-circle" src={currentSong?.imageUrl} alt="" />
+            </div>
+            <h2 className="player-background__name">{currentSong?.name}</h2>
+            <div className="d-flex align-items-center">
+              {currentSong.artists &&
+                currentSong.artists.map((artist, index) => (
+                  <Link
+                    key={index}
+                    className="player-background__artists"
+                    to={`/artist/${artist.slug}`}
+                  >
+                    {artist.name}
+                  </Link>
+                ))}
+            </div>
           </div>
-          <div>
-            {tab.id === 3 && (
-              <Row>
-                <Col xs={NaN} md="0" lg="5">
-                  <div className="me-5">
-                    <img className="rounded" src={imageUrl} alt="" />
-                  </div>
-                </Col>
-                <Col xs="12" md="12" lg="7">
-                  <div className="ms-5 player-background__lyrics">
-                    <ul className="lyrics">
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                      <li className="lyrics__item">Bài hát: Euphoria</li>
-                    </ul>
-                  </div>
-                </Col>
-              </Row>
-            )}
+        )}
+        {tab.id === 2 && (
+          <div className="player-background__karaoke">
+            <ul>
+              <li>Bài hát đang phát mới nhất</li>
+              <li>Bài hát đang phát mới nhất</li>
+            </ul>
           </div>
-        </Container>
+        )}
+        {tab.id === 3 && (
+          <Container>
+            <Row>
+              <Col xs={NaN} md="0" lg="5">
+                <div className="me-5">
+                  <img className="rounded" src={currentSong?.imageUrl} alt="" />
+                </div>
+              </Col>
+              <Col xs="12" md="12" lg="7">
+                <div className="ms-2 player-background__lyrics">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde, molestiae neque.
+                  Id, quod eius quas, et eligendi vero voluptas nihil quisquam perspiciatis
+                  excepturi optio, pariatur atque quibusdam autem totam. Distinctio. Lorem ipsum
+                  dolor sit amet, consectetur adipisicing elit. Unde, molestiae neque. Id, quod eius
+                  quas, et eligendi vero voluptas nihil quisquam perspiciatis excepturi optio,
+                  pariatur atque quibusdam autem totam. Distinctio. Lorem ipsum dolor sit amet,
+                  consectetur adipisicing elit. Unde, molestiae neque. Id, quod eius quas, et
+                  eligendi vero voluptas nihil quisquam perspiciatis excepturi optio, pariatur atque
+                  quibusdam autem totam. Distinctio. Lorem ipsum dolor sit amet, consectetur
+                  adipisicing elit. Unde, molestiae neque. Id, quod eius quas, et eligendi vero
+                  voluptas nihil quisquam perspiciatis excepturi optio, pariatur atque quibusdam
+                  autem totam. Distinctio.
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        )}
       </div>
     </div>
   );

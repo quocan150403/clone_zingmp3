@@ -11,8 +11,8 @@ import {
   BsTrash,
   BsXLg,
 } from 'react-icons/bs';
-import { useState, memo, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, memo, Fragment, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TippyHeadless from '@tippyjs/react/headless';
@@ -26,21 +26,24 @@ import { Button, MenuItem, Wrapper } from 'components';
 import './Album.scss';
 import images from 'assets/images';
 import { fDate } from 'utils/formatTime';
+import { commonApi } from 'api';
+import { updateUserField } from 'app/features/userSlice';
+import { toast } from 'react-toastify';
 
-function AlbumItem({
-  data,
-  small,
-  detail,
-  isArtist,
-  isFavoriteAlbum,
-  type = 'album',
-  hideLikeBtn,
-  hideMoreBtn,
-  onClickLike,
-}) {
+function AlbumItem({ data, small, detail, isArtist, type = 'album', hideLikeBtn, hideMoreBtn }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { albumId, isPlaying } = useSelector((state) => state.player);
+  const { currentUser, isAuth } = useSelector((state) => state.user);
   const [isShowOption, setIsShowOption] = useState(false);
+  const [isFavoriteAlbum, setIsFavoriteAlbum] = useState(false);
+
+  useEffect(() => {
+    if (currentUser && currentUser.favoriteAlbums) {
+      setIsFavoriteAlbum(currentUser.favoriteAlbums.includes(data._id));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   const handlePlayPause = async () => {
     if (isPlaying) {
@@ -60,6 +63,24 @@ function AlbumItem({
     setIsShowOption(false);
     dispatch(setCurrentPlaylist(data));
     dispatch(openEditForm());
+  };
+
+  const handleClickHeart = async (e) => {
+    e.preventDefault();
+    if (!isAuth) navigate('/login');
+    try {
+      const result = await commonApi.toggleLikeAlbum(data._id, currentUser._id);
+      const { updatedFavorites, liked } = result;
+      dispatch(updateUserField({ field: 'favoriteAlbums', value: updatedFavorites }));
+      setIsFavoriteAlbum(liked);
+      if (liked) {
+        toast.success('Đã thêm album vào thư viện');
+      } else {
+        toast.success('Đã xóa album khỏi thư viện');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDeletePlaylist = (e) => {
@@ -85,8 +106,8 @@ function AlbumItem({
         <div className="album-wrapper__actions">
           {!hideLikeBtn && (
             <Tippy content="Thêm vào thư viện">
-              <div className="album-wrapper__btn">
-                <BsHeart />
+              <div onClick={handleClickHeart} className="album-wrapper__btn">
+                {isFavoriteAlbum ? <BsHeartFill /> : <BsHeart />}
               </div>
             </Tippy>
           )}
@@ -176,7 +197,7 @@ function AlbumItem({
             </Button>
             <div className="mt-4 gap-3 d-flex align-items-center justify-content-center ">
               <Button
-                onClick={onClickLike}
+                onClick={handleClickHeart}
                 circle
                 secondary
                 medium
@@ -230,7 +251,6 @@ AlbumItem.propTypes = {
   data: PropTypes.object,
   small: PropTypes.bool,
   detail: PropTypes.bool,
-  onClickLike: PropTypes.any,
 };
 
 export default memo(AlbumItem);

@@ -74,36 +74,29 @@ export default function DetailAlbumPage() {
     updateHistoryAlbum();
   }, [album._id, currentUser._id]);
 
-  const handleLikeAlbum = async () => {
-    try {
-      const result = await commonApi.toggleLikeAlbum(album._id, currentUser._id);
-      const { updatedFavorites, updatedItemFavorites, liked } = result;
-      setAlbum((prev) => ({ ...prev, favorites: updatedItemFavorites }));
-      dispatch(updateUserField({ field: 'favoriteAlbums', value: updatedFavorites }));
-      setIsFavoriteAlbum(liked);
-      if (liked) {
-        toast.success('Đã thêm album vào thư viện');
-      } else {
-        toast.success('Đã xóa album khỏi thư viện');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleLikeAlbum = async () => {
+  //   try {
+  //     const result = await commonApi.toggleLikeAlbum(album._id, currentUser._id);
+  //     const { updatedFavorites, updatedItemFavorites, liked } = result;
+  //     setAlbum((prev) => ({ ...prev, favorites: updatedItemFavorites }));
+  //     dispatch(updateUserField({ field: 'favoriteAlbums', value: updatedFavorites }));
+  //     setIsFavoriteAlbum(liked);
+  //     if (liked) {
+  //       toast.success('Đã thêm album vào thư viện');
+  //     } else {
+  //       toast.success('Đã xóa album khỏi thư viện');
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <Helmet title="Chi tiết">
       <div className="detail mt-custom">
         <Row className="mb-5">
           <Col xs={12} lg={4} xl={3}>
-            {album && (
-              <AlbumItem
-                detail
-                data={album}
-                isFavoriteAlbum={isFavoriteAlbum}
-                onClickLike={handleLikeAlbum}
-              />
-            )}
+            {album && <AlbumItem detail data={album} />}
           </Col>
           <Col xs={12} lg={8} xl={9}>
             <div>

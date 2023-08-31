@@ -5,7 +5,7 @@ import AlbumHistory from './AlbumHistory';
 import PlaylistHistory from './PlaylistHistory';
 
 const TABS = [
-  { id: 0, name: 'Bài hát', to: 'song' },
+  { id: 0, name: 'Bài hát', to: '*' },
   { id: 1, name: 'Album', to: 'album' },
   { id: 2, name: 'Playlist', to: 'playlist' },
 ];

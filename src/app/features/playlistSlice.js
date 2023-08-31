@@ -82,7 +82,7 @@ const playlistSlice = createSlice({
       })
       .addCase(editPlaylistAsync.fulfilled, (state, action) => {
         const updatedIndex = state.playlists.findIndex(
-          (playlist) => playlist.id === action.payload.id,
+          (playlist) => playlist._id === action.payload._id,
         );
         if (updatedIndex !== -1) {
           state.playlists[updatedIndex] = action.payload;

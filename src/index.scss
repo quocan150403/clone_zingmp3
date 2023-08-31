@@ -31,9 +31,9 @@
     inset 0 1px 1px hsla(0, 0%, 100%, 0.3);
   --tab-active-bg: hsla(0, 0%, 100%, 0.3);
   --border-player: rgba(0, 0, 0, 0.05);
+  --alpha-bg: hsla(0, 0%, 100%, 0.3);
 
   //
-  // --alpha-bg: hsla(0, 0%, 100%, 0.3);
   // --bg-content-color: hsla(0, 0%, 100%, 0.3);
   // --border-box: rgba(0, 0, 0, 0.2);
   // --border-primary: rgba(0, 0, 0, 0.1);
@@ -82,11 +82,6 @@ body {
   background: var(--layout-bg);
 }
 
-// p,
-// div {
-//   word-break: break-word;
-// }
-
 i {
   display: block;
 }
@@ -112,11 +107,6 @@ img {
 // Classes for layout
 .mt-custom {
   margin-top: 50px;
-}
-
-.mx-custom {
-  // margin-left: 4vw;
-  // margin-right: 4vw;
 }
 
 @include media-breakpoint(desktop) {
@@ -244,10 +234,16 @@ img {
   opacity: 0.7;
 }
 
+.max-h {
+  max-height: 300px;
+}
+
 .no-image-bg {
   background-color: var(--alpha-bg);
   padding: 30px 0;
+  border-radius: 4px;
 }
+
 .no-image {
   width: 90px;
   height: 90px;
