@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { updateUserField } from 'app/features/userSlice';
-import { setSong, playPause, setAlbumId } from 'app/features/playerSlice';
+import { setSong, playPause, setAlbum } from 'app/features/playerSlice';
 
 import './Media.scss';
 import { songApi, userApi } from 'api';
@@ -41,7 +41,7 @@ function MediaItem({
   onRemovePlaylist,
   handleCheck,
 }) {
-  const { currentSong, isActive, albumId, isPlaying } = useSelector((state) => state.player);
+  const { currentSong, isActive, isPlaying } = useSelector((state) => state.player);
   const { currentUser, isAuth } = useSelector((state) => state.user);
   const [isShowOption, setIsShowOption] = useState(false);
   const [isFavoriteSong, setIsFavoriteSong] = useState(false);
@@ -56,7 +56,7 @@ function MediaItem({
   }, [currentUser]);
 
   useEffect(() => {
-    if (data?.albumId?._id) dispatch(setAlbumId(data.albumId._id));
+    if (data?.albumId?._id) dispatch(setAlbum(data.albumId));
   }, [currentSong]);
 
   useEffect(() => {

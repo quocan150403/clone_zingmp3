@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  albumId: '',
+  album: {},
   recentSongs: [],
   tracks: [],
   currentIndex: 0,
@@ -26,12 +26,12 @@ const playerSlide = createSlice({
       }
 
       state.recentSongs.push(action.payload.song);
-      state.currentIndex = action.payload.i;
+      state.currentIndex = action.payload.i || 0;
       state.isActive = true;
     },
 
-    setAlbumId: (state, action) => {
-      state.albumId = action.payload;
+    setAlbum: (state, action) => {
+      state.album = action.payload;
     },
 
     playPause: (state, action) => {
@@ -73,5 +73,5 @@ const playerSlide = createSlice({
 });
 
 const { reducer, actions } = playerSlide;
-export const { setSong, setAlbumId, playPause, nextSong, prevSong } = actions;
+export const { setSong, setAlbum, playPause, nextSong, prevSong } = actions;
 export default reducer;

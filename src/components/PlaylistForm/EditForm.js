@@ -11,11 +11,11 @@ import './PlaylistForm.scss';
 export default function EditForm() {
   const dispatch = useDispatch();
   const { isEditFormOpen, currentPlaylist } = useSelector((state) => state.playlist);
-  const { form, handleNameChange, handlePublicChange, handleUpdateAll } =
+  const { form, setAllForms, handleNameChange, handlePublicChange } =
     usePlaylistForm(currentPlaylist);
 
   useEffect(() => {
-    handleUpdateAll(currentPlaylist);
+    setAllForms(currentPlaylist);
   }, [currentPlaylist]);
 
   const handleCloseEditModal = async () => {

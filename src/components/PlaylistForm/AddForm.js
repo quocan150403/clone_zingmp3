@@ -20,8 +20,13 @@ export default function AddForm() {
 
   const handleAddPlaylist = async () => {
     handleCloseAddModal();
+    const newData = {
+      name: form.name,
+      public: form.public,
+      userId: currentUser._id,
+    };
     try {
-      const response = await dispatch(addPlaylistAsync({ ...form, userId: currentUser._id }));
+      const response = await dispatch(addPlaylistAsync(newData));
       if (addPlaylistAsync.fulfilled.match(response)) {
         toast.success('Playlist đã được thêm thành công.');
         resetForm();

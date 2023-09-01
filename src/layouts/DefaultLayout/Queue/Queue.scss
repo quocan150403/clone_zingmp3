@@ -4,6 +4,7 @@
 .queue {
   @include position(fixed, top-right);
   width: 330px;
+  height: 100%;
   z-index: 600;
   transform: translateX(100%);
   transition: transform 0.6s ease-in-out;
@@ -16,7 +17,7 @@
     z-index: 2;
     border: none;
     box-shadow: var(--box-shadow-queue);
-    bottom: 90px;
+    height: calc(100% - 90px);
     background-color: var(--sidebar-popup-bg);
   }
 }
@@ -29,11 +30,11 @@
     font-size: 14px;
     text-transform: none;
     margin-bottom: 0;
-    color: var(--text-primary);
+    color: var(--text-color);
   }
 
   p {
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
 
   a {

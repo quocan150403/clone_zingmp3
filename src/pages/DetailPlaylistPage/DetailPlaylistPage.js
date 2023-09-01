@@ -9,10 +9,13 @@ import {
   BsTextWrap,
   BsThreeDots,
   BsTrash,
+  BsX,
 } from 'react-icons/bs';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
+import Modal from 'react-modal';
+import Tippy from '@tippyjs/react';
 import TippyHeadless from '@tippyjs/react/headless';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,22 +27,24 @@ import { MediaList, Section, ArtistList, AlbumList, Button, Wrapper, MenuItem } 
 import { playlistApi, songApi, userApi } from 'api';
 import images from 'assets/images';
 import { updateUserField } from 'app/features/userSlice';
-import Tippy from '@tippyjs/react/headless';
-import { openDeleteForm, openEditForm, setCurrentPlaylist } from 'app/features/playlistSlice';
+import usePlaylistForm from 'hooks/usePlaylistForm';
+import { deletePlaylistAsync, editPlaylistAsync } from 'app/features/playlistSlice';
 
-export default function DetailPlaylistPage() {
+export default function DetailAlbumPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-  const { isPlaying } = useSelector((state) => state.player);
-  const { playlists } = useSelector((state) => state.playlist);
+  const { isPlaying, tracks } = useSelector((state) => state.player);
 
-  const [playlist, setPlaylist] = useState({});
-  const [songList, setSongList] = useState([]);
+  const { form, setAllForms, handleNameChange, handlePublicChange } = usePlaylistForm();
+
   const [image, setImage] = useState('');
   const [isShowOption, setIsShowOption] = useState(false);
+  const [isShowModalEditPlaylist, setIsShowModalEditPlaylist] = useState(false);
+  const [isShowModalDeletePlaylist, setIsShowModalDeletePlaylist] = useState(false);
 
+  const [songList, setSongList] = useState([]);
   const [songRelateList, setSongRelateList] = useState([]);
   const [albumRelate, setAlbumRelate] = useState([]);
   const [artistList, setArtistList] = useState([]);
@@ -48,57 +53,41 @@ export default function DetailPlaylistPage() {
     const fetchData = async () => {
       try {
         const resPlaylist = await playlistApi.getBySlug(slug);
-        const { tracks, _id } = resPlaylist;
-        const artistIds = handleGetArtistsFromTracks(tracks);
+        const { tracks: tracksOfSong, _id: playlistId } = resPlaylist;
 
-        const [resSongHot, resSongRelate] = await Promise.all([
-          songApi.getHot(10),
-          artistIds.length && songApi.getByArtistIds({ ids: artistIds.join(), limit: 10 }),
-          currentUser._id && userApi.createHistoryPlaylist(currentUser._id, _id),
-        ]);
+        // const artistIds = handleGetArtistsFromTracks(tracks);
+        // if (artistIds.length) {
+        //   fetchSongPromises.push(songApi.getByArtistIds({ ids: artistIds.join(), limit: 10 }));
+        // }
 
-        const newSongRelateList = [...tracks, ...resSongHot];
-        setSongRelateList(handleRemoveSongExisted(tracks, newSongRelateList));
-        setSongList(tracks);
-        setPlaylist(resPlaylist);
-        dispatch(
-          setSong({
-            tracks: [...tracks, ...resSongRelate],
-            song: tracks.length ? tracks[0] : resSongRelate[0],
-            i: 0,
-          }),
-        );
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          console.log(error.response.data.error);
-        } else {
-          console.log('error! an error occurred. please try again later!');
+        const fetchSongPromises = [songApi.getHot(10)];
+
+        if (currentUser._id) {
+          fetchSongPromises.push(userApi.createHistoryPlaylist(currentUser._id, playlistId));
         }
+
+        const [resSongHot] = await Promise.all(fetchSongPromises);
+        const filteredSongRelateList = handleRemoveSongExisted(tracksOfSong, resSongHot);
+
+        setSongRelateList(filteredSongRelateList);
+        setSongList(tracksOfSong);
+        setAllForms(resPlaylist);
+
+        if (tracksOfSong.length > 0 && tracks.length === 0) {
+          dispatch(
+            setSong({
+              tracks: [...tracksOfSong, ...filteredSongRelateList],
+              song: tracksOfSong[0],
+              i: 0,
+            }),
+          );
+        }
+      } catch (error) {
+        console.error(error);
       }
     };
     fetchData();
   }, [slug, currentUser]);
-
-  useEffect(() => {
-    const updateHistoryPlayList = async () => {
-      try {
-        if (currentUser._id && playlist._id) {
-          const historyPlaylist = await userApi.createHistoryPlaylist(
-            currentUser._id,
-            playlist._id,
-          );
-          dispatch(updateUserField({ ...historyPlaylist }));
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          console.log(error.response.data.error);
-        } else {
-          console.log('error! an error occurred. please try again later!');
-        }
-      }
-    };
-    updateHistoryPlayList();
-  }, [playlist._id, currentUser._id]);
 
   useEffect(() => {
     const resetData = async () => {
@@ -113,6 +102,101 @@ export default function DetailPlaylistPage() {
     };
     resetData();
   }, [songList]);
+
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      dispatch(playPause(false));
+    } else {
+      dispatch(playPause(true));
+    }
+  };
+
+  const handleAddSongToPlaylist = async (idSong) => {
+    try {
+      const resSong = await toast.promise(playlistApi.addSongToPlaylist(form._id, idSong), {
+        pending: 'Đag thêm...',
+      });
+      toast.dismiss();
+      toast.success(`Thêm bài hát ${resSong.name} vào playlist thành công.`);
+      setSongRelateList(songRelateList.filter((item) => item._id !== idSong));
+      setSongList((prev) => [...prev, resSong]);
+    } catch (error) {
+      console.log(error);
+      toast.error('Thêm thất bại');
+    }
+  };
+
+  const handleRemoveSongFromPlaylist = async (idSong) => {
+    try {
+      await toast.promise(playlistApi.removeSongFromPlaylist(form._id, idSong), {
+        pending: 'Đag xóa...',
+      });
+      toast.dismiss();
+      toast.success(`Xóa bài hát khỏi playlist thành công.`);
+      setSongList(songList.filter((item) => item._id !== idSong));
+    } catch (error) {
+      console.log(error);
+      toast.error('Xóa thất bại');
+    }
+  };
+
+  const handleShowModalEdit = () => {
+    setIsShowOption(false);
+    setIsShowModalEditPlaylist(true);
+  };
+
+  const handleEditPlaylist = async () => {
+    setIsShowModalEditPlaylist(false);
+    const newForm = {
+      name: form.name,
+      public: form.public,
+      userId: form.userId._id,
+    };
+
+    try {
+      const response = await dispatch(editPlaylistAsync({ id: form._id, playlistData: newForm }));
+      if (editPlaylistAsync.fulfilled.match(response)) {
+        toast.success('Đã sửa playlist thành công.');
+      } else if (editPlaylistAsync.rejected.match(response)) {
+        toast.error('Lỗi khi sửa playlist. Vui lòng thử lại sau.');
+      }
+      toast.dismiss();
+      navigate(`/playlist/${response.slug}`);
+      toast.success(`Sửa playlist ${response.name} thành công`);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error('Đã xảy ra lỗi');
+      }
+    }
+  };
+
+  const handleShowModalDelete = () => {
+    setIsShowOption(false);
+    setIsShowModalDeletePlaylist(true);
+  };
+
+  const handleDeletePlaylist = async () => {
+    setIsShowModalDeletePlaylist(false);
+    try {
+      const response = await dispatch(deletePlaylistAsync(form._id));
+      if (deletePlaylistAsync.fulfilled.match(response)) {
+        toast.success('Đã xóa playlist thành công.');
+      } else if (deletePlaylistAsync.rejected.match(response)) {
+        toast.error('Lỗi khi xóa playlist. Vui lòng thử lại sau.');
+      }
+      toast.dismiss();
+      navigate('/');
+      toast.success(`Delete playlist ${response.name} thành công`);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error('Đã xảy ra lỗi');
+      }
+    }
+  };
 
   const handleGetArtistsFromTracks = (songList) => {
     const artistsRelate = new Set();
@@ -130,23 +214,8 @@ export default function DetailPlaylistPage() {
     return Array.from(artistsRelate);
   };
 
-  const handleRemoveSongExisted = (tracks, songList) => {
-    const trackIds = new Set(tracks.map((track) => track._id));
-    const filteredSongList = songList.filter((song) => !trackIds.has(song._id));
-    return filteredSongList;
-  };
-
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      dispatch(playPause(false));
-    } else {
-      dispatch(playPause(true));
-    }
-  };
-
   const handleGetArtistsFromSongs = (songList) => {
     const artistsRelate = [];
-
     songList.forEach((song) => {
       song.artists.forEach((artist) => {
         if (!artistsRelate.some((item) => item._id === artist._id)) {
@@ -158,45 +227,10 @@ export default function DetailPlaylistPage() {
     return artistsRelate;
   };
 
-  const handleAddSongToPlaylist = async (idSong) => {
-    try {
-      const resSong = await toast.promise(playlistApi.addSongToPlaylist(playlist._id, idSong), {
-        pending: 'Đag thêm...',
-      });
-      toast.dismiss();
-      toast.success(`Thêm bài hát ${resSong.name} vào playlist thành công.`);
-      setSongRelateList(songRelateList.filter((item) => item._id !== idSong));
-      setSongList((prev) => [...prev, resSong]);
-    } catch (error) {
-      console.log(error);
-      toast.error('Thêm thất bại');
-    }
-  };
-
-  const handleRemoveSongFromPlaylist = async (idSong) => {
-    try {
-      await toast.promise(playlistApi.removeSongFromPlaylist(playlist._id, idSong), {
-        pending: 'Đag xóa...',
-      });
-      toast.dismiss();
-      toast.success(`Xóa bài hát khỏi playlist thành công.`);
-      setSongList(songList.filter((item) => item._id !== idSong));
-    } catch (error) {
-      console.log(error);
-      toast.error('Xóa thất bại');
-    }
-  };
-
-  const handleShowModalEdit = () => {
-    setIsShowOption(false);
-    dispatch(setCurrentPlaylist(playlist));
-    dispatch(openEditForm());
-  };
-
-  const handleShowModalDelete = () => {
-    setIsShowOption(false);
-    dispatch(setCurrentPlaylist(playlist));
-    dispatch(openDeleteForm());
+  const handleRemoveSongExisted = (tracks, songList) => {
+    const trackIds = new Set(tracks.map((track) => track._id));
+    const filteredSongList = songList.filter((song) => !trackIds.has(song._id));
+    return filteredSongList;
   };
 
   return (
@@ -210,16 +244,19 @@ export default function DetailPlaylistPage() {
               </div>
               <div className="playlist-detail__inner">
                 <div className="mt-3 mb-1 d-flex align-items-center justify-content-center">
-                  <h2 className="playlist-detail__title">{playlist.name}</h2>
-                  <span onClick={handleShowModalEdit} className="ms-3 cursor-pointer ">
+                  <h2 className="playlist-detail__title">{form.name}</h2>
+                  <span
+                    onClick={handleShowModalEdit}
+                    className="ms-3 cursor-pointer playlist-detail__edit"
+                  >
                     <BsPen />
                   </span>
                 </div>
                 <p className="playlist-detail__description">
-                  Tạo bởi {playlist.userId && playlist.userId.fullName}
+                  Tạo bởi {form.userId && form.userId?.fullName}
                 </p>
                 <p className="playlist-detail__description">
-                  {playlist.public ? 'Công khai' : 'Cá nhân'}
+                  {form.public ? 'Công khai' : 'Cá nhân'}
                 </p>
                 <Button
                   onClick={handlePlayPause}
@@ -318,6 +355,89 @@ export default function DetailPlaylistPage() {
         <Section title="Có thể bạn sẽ thích">
           <AlbumList albums={albumRelate} />
         </Section>
+
+        {/* Modal edit playlist */}
+        <Modal
+          isOpen={isShowModalEditPlaylist}
+          onRequestClose={() => setIsShowModalEditPlaylist(false)}
+          className="add-playlist"
+          overlayClassName="overlay"
+        >
+          <span onClick={() => setIsShowModalEditPlaylist(false)} className="add-playlist__close">
+            <BsX />
+          </span>
+          <h2 className="add-playlist__heading">Chỉnh sửa playlist</h2>
+          <input
+            type="text"
+            placeholder="Nhập tên playlist"
+            className="add-playlist__input"
+            value={form.name}
+            onChange={handleNameChange}
+          />
+          <div className="add-playlist__option d-flex align-items-center justify-content-between">
+            <div className="d-flex flex-column">
+              <h3 className="add-playlist__title">Công khai</h3>
+              <p className="add-playlist__subtitle">Mọi người có thể tìm thấy playlist này.</p>
+            </div>
+            <div className="form-check form-switch">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+                value={form.public}
+                checked={form.public}
+                onChange={handlePublicChange}
+              />
+            </div>
+          </div>
+          <div className="add-playlist__option d-flex align-items-center justify-content-between">
+            <div className="d-flex flex-column">
+              <h3 className="add-playlist__title">Phát ngẫu nhiên</h3>
+              <p className="add-playlist__subtitle">Luôn phát ngẫu nhiên tất cả bài hát </p>
+            </div>
+            <div className="form-check form-switch">
+              <input
+                defaultChecked
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+              />
+            </div>
+          </div>
+          <div className="mt-4">
+            <Button onClick={handleEditPlaylist} primary uppercase fullWidth>
+              Lưu
+            </Button>
+          </div>
+        </Modal>
+
+        {/* Modal delete playlist */}
+        <Modal
+          isOpen={isShowModalDeletePlaylist}
+          onRequestClose={() => setIsShowModalDeletePlaylist(false)}
+          overlayClassName="overlay"
+          className="modal-default"
+        >
+          <div className="p-4 d-flex flex-column">
+            <h4 className="fw-bold fs-4">Xóa playlist</h4>
+            <p className="text-wrap">
+              Playlist của bạn sẽ bị xóa khỏi thư viện cá nhân. Các bài hát do bạn tải lên sẽ vẫn
+              được giữ lại.
+              <br />
+              Bạn có muốn xóa?
+            </p>
+            <div className="d-flex justify-content-end">
+              <Button onClick={() => setIsShowModalDeletePlaylist(false)} secondary uppercase>
+                Không
+              </Button>
+              <Button onClick={handleDeletePlaylist} primary uppercase>
+                Có
+              </Button>
+            </div>
+          </div>
+        </Modal>
       </div>
     </Helmet>
   );

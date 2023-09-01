@@ -4,6 +4,7 @@ import {
   BsHeart,
   BsHeartFill,
   BsLink45Deg,
+  BsPauseFill,
   BsPen,
   BsPlayFill,
   BsTextWrap,
@@ -33,7 +34,7 @@ import { toast } from 'react-toastify';
 function AlbumItem({ data, small, detail, isArtist, type = 'album', hideLikeBtn, hideMoreBtn }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { albumId, isPlaying } = useSelector((state) => state.player);
+  const { album, isPlaying } = useSelector((state) => state.player);
   const { currentUser, isAuth } = useSelector((state) => state.user);
   const [isShowOption, setIsShowOption] = useState(false);
   const [isFavoriteAlbum, setIsFavoriteAlbum] = useState(false);
@@ -45,7 +46,7 @@ function AlbumItem({ data, small, detail, isArtist, type = 'album', hideLikeBtn,
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
-  const handlePlayPause = async () => {
+  const handlePlayPause = () => {
     if (isPlaying) {
       dispatch(playPause(false));
     } else {
@@ -93,7 +94,7 @@ function AlbumItem({ data, small, detail, isArtist, type = 'album', hideLikeBtn,
   const classes = classNames('album', {
     detail,
     small,
-    active: albumId === data._id && isPlaying,
+    active: album._id === data._id && isPlaying,
     'is-artist': isArtist,
   });
 
@@ -192,8 +193,14 @@ function AlbumItem({ data, small, detail, isArtist, type = 'album', hideLikeBtn,
         {detail && (
           <div>
             <p className="album-info__likes mb-4">{data.favorites} người yêu thích</p>
-            <Button primary uppercase leftIcon={<BsPlayFill />}>
-              Phát tất cả
+            <Button
+              onClick={handlePlayPause}
+              className="mt-3"
+              primary
+              uppercase
+              leftIcon={isPlaying ? <BsPauseFill /> : <BsPlayFill />}
+            >
+              {isPlaying ? 'Tạm dừng' : 'Phát tất cả'}
             </Button>
             <div className="mt-4 gap-3 d-flex align-items-center justify-content-center ">
               <Button
