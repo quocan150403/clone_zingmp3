@@ -11,7 +11,7 @@ import Track from './Track';
 import Background from './Background';
 import Audio from './Audio';
 import './Player.scss';
-import { userApi } from 'api';
+import { songApi, userApi } from 'api';
 import { updateUserField } from 'app/features/userSlice';
 
 function Player({ isShowQueue, onChangeIsShowQueue }) {
@@ -49,7 +49,10 @@ function Player({ isShowQueue, onChangeIsShowQueue }) {
       dispatch(nextSong(Math.floor(Math.random() * tracks.length)));
     }
     if (currentUser._id) {
-      const { field, value } = await userApi.createHistorySong(currentUser._id, currentSong._id);
+      const userId = currentUser._id;
+      const songId = currentSong._id;
+      await songApi.increasePlayCount(songId, userId);
+      const { field, value } = await userApi.createHistorySong(userId, songId);
       dispatch(updateUserField({ field, value }));
     }
   }, [currentIndex, dispatch, shuffle, tracks.length]);
@@ -63,7 +66,10 @@ function Player({ isShowQueue, onChangeIsShowQueue }) {
       dispatch(prevSong(currentIndex - 1));
     }
     if (currentUser._id) {
-      const { field, value } = await userApi.createHistorySong(currentUser._id, currentSong._id);
+      const userId = currentUser._id;
+      const songId = currentSong._id;
+      await songApi.increasePlayCount(songId, userId);
+      const { field, value } = await userApi.createHistorySong(userId, songId);
       dispatch(updateUserField({ field, value }));
     }
   }, [currentIndex, dispatch, shuffle, tracks.length]);
@@ -119,6 +125,7 @@ function Player({ isShowQueue, onChangeIsShowQueue }) {
           />
         </div>
         <Background
+          isPlaying={isPlaying}
           currentSong={currentSong}
           isShowPlayerPopper={isShowPlayerPopper}
           onClickToggleBackground={setIsShowPlayerPopper}

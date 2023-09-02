@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { playlistApi } from 'api';
-import { AlbumList } from 'components';
+import { AlbumList, Nodata } from 'components';
 
 export default function PlaylistHistory() {
   const { currentUser } = useSelector((state) => state.user);
@@ -29,5 +29,9 @@ export default function PlaylistHistory() {
     fetchData();
   }, [currentUser]);
 
-  return <AlbumList albums={playlistList} />;
+  return playlistList?.length ? (
+    <AlbumList albums={playlistList} />
+  ) : (
+    <Nodata message="Không có playlist nào" />
+  );
 }

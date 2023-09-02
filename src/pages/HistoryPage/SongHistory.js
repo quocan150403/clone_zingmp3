@@ -1,5 +1,5 @@
 import { songApi } from 'api';
-import { MediaList } from 'components';
+import { MediaItem, MediaList, Nodata } from 'components';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -10,8 +10,8 @@ export default function SongHistory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (currentUser._id) {
-          const { historySongs } = currentUser;
+        const { historySongs } = currentUser;
+        if (historySongs.length > 0) {
           const resSongList = await songApi.getByIds({
             ids: historySongs.toString(),
             limit: 10,
@@ -29,5 +29,19 @@ export default function SongHistory() {
     fetchData();
   }, [currentUser]);
 
-  return <MediaList tracks={songList} mediaList={songList} />;
+  return songList?.length ? (
+    songList.map((item, index) => (
+      <MediaItem
+        full
+        isBorder
+        showAlbum
+        index={index}
+        key={item._id}
+        data={item}
+        tracks={songList}
+      />
+    ))
+  ) : (
+    <Nodata message="Không có bài hát nào" />
+  );
 }

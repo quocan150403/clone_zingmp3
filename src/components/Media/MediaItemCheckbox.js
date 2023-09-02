@@ -6,8 +6,8 @@ export default function MediaItemCheckbox({
   indexChart,
   checkbox,
   isMusicIcon,
-  checked,
-  handleChecked,
+  checkedList,
+  onChangeChecked,
 }) {
   const classNameIndex = classNames('media-left__order', {
     'outline--blue': index === 0,
@@ -32,8 +32,8 @@ export default function MediaItemCheckbox({
                 type="checkbox"
                 id={`checkbox-${index}`}
                 className="media-checkbox__input"
-                checked={checked}
-                onChange={handleChecked}
+                checked={checkedList}
+                onChange={onChangeChecked}
               />
               <label className="media-checkbox__label" htmlFor={`checkbox-${index}`} />
             </div>

@@ -55,7 +55,7 @@ function Sidebar() {
   };
 
   const handleCheckAndShowModalAddPlaylist = () => {
-    if (!isAuth) navigate('/login');
+    if (!isAuth) return navigate('/login');
     dispatch(openAddForm());
   };
 

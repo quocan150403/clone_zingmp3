@@ -4,19 +4,25 @@ import { useSelector } from 'react-redux';
 
 import { Helmet, Section, Tabs, Title, AlbumList, ArtistList } from 'components';
 import { playlistApi, artistApi } from 'api';
-import Song from './FavoriteSong';
-import Album from './FavoriteAlbum';
+import FavoriteSong from './FavoriteSong';
+import FavoriteAlbum from './FavoriteAlbum';
+import UploadSong from './UploadSong';
 
 const TABS = [
   {
     id: 0,
     name: 'Bài Hát',
-    to: 'song',
+    to: '*',
   },
   {
     id: 1,
     name: 'Album',
     to: 'album',
+  },
+  {
+    id: 2,
+    name: 'Đã tải lên',
+    to: 'upload',
   },
 ];
 
@@ -30,10 +36,14 @@ export default function LibraryPage() {
       try {
         if (currentUser._id) {
           const { followedArtists } = currentUser;
-          const [resPlaylist, resFollowedArtists] = await Promise.all([
-            playlistApi.getQuery({ userId: currentUser._id }),
-            artistApi.getByIds({ ids: followedArtists.toString() }),
-          ]);
+          const fetchPromiseAll = [playlistApi.getQuery({ userId: currentUser._id })];
+
+          if (followedArtists.length > 0) {
+            fetchPromiseAll.push(artistApi.getByIds({ ids: followedArtists.toString() }));
+          }
+
+          const [resPlaylist, resFollowedArtists] = await Promise.all(fetchPromiseAll);
+
           setMyPlaylist(resPlaylist);
           setArtistsFollowing(resFollowedArtists);
         }
@@ -53,21 +63,26 @@ export default function LibraryPage() {
       <div className="library mt-custom">
         <Title>Thư viện</Title>
 
-        <Section title="Nghệ sĩ đang theo dỗi">
-          <ArtistList small artists={artistsFollowing} />
-        </Section>
+        {artistsFollowing?.length ? (
+          <Section title="Nghệ sĩ đang theo dỗi">
+            <ArtistList small artists={artistsFollowing} />
+          </Section>
+        ) : null}
 
-        <Section title="Playlist của tôi">
-          <AlbumList albums={myPlaylist} />
-        </Section>
+        {myPlaylist?.length ? (
+          <Section title="Playlist của tôi">
+            <AlbumList albums={myPlaylist} />
+          </Section>
+        ) : null}
 
         <div className="div mt-5 mb-5">
           <Tabs list={TABS} uppercase isBorderBottom />
           <div className="mt-4">
             <Routes>
-              <Route path="/" element={<Song />} />
-              <Route path="song" element={<Song />} />
-              <Route path="album" element={<Album />} />
+              <Route path="song" element={<FavoriteSong />} />
+              <Route path="/*" element={<FavoriteSong />} />
+              <Route path="album" element={<FavoriteAlbum />} />
+              <Route path="upload" element={<UploadSong />} />
             </Routes>
           </div>
         </div>

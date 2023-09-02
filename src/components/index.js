@@ -10,3 +10,4 @@ export { default as Wrapper } from './Wrapper';
 export { default as MenuItem } from './Wrapper/MenuItem';
 export { default as Tabs } from './Tabs';
 export { default as Title } from './Title';
+export { default as Nodata } from './Nodata';

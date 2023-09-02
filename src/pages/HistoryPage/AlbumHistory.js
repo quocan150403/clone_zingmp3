@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { albumApi } from 'api';
-import { AlbumList } from 'components';
+import { AlbumList, Nodata } from 'components';
 
 export default function AlbumHistory() {
   const { currentUser } = useSelector((state) => state.user);
@@ -29,5 +29,9 @@ export default function AlbumHistory() {
     fetchData();
   }, [currentUser]);
 
-  return <AlbumList albums={albumList} />;
+  return albumList?.length ? (
+    <AlbumList albums={albumList} />
+  ) : (
+    <Nodata message="Không có album nào" />
+  );
 }

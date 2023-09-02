@@ -12,7 +12,7 @@ const routes = {
   library: {
     path: '/my-music/*',
     history: '/my-music/history/*',
-    favorite: '/my-music/song',
+    favorite: '/my-music/*',
     playlist: '/my-music/library/playlist/*',
     album: '/my-music/album',
     upload: '/my-music/upload',

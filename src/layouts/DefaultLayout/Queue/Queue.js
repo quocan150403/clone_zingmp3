@@ -18,9 +18,9 @@ function Queue({ isShowQueue }) {
     (state) => state.player,
   );
   const { currentUser } = useSelector((state) => state.user);
-
   const [tab, setTab] = useState(TABS[0]);
   const [songList, setSongList] = useState([]);
+
   const nextSongs = tracks
     .filter((item) => !recentSongs.some((recent) => recent._id === item._id))
     .slice(currentIndex)
@@ -30,16 +30,14 @@ function Queue({ isShowQueue }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (currentUser._id) {
-          const { historySongs } = currentUser;
-          if (!historySongs) return;
-          const newHistorySongs = historySongs.filter((item) => item !== currentSong._id);
-          const resSongList = await songApi.getByIds({
-            ids: newHistorySongs.toString(),
-            limit: 10,
-          });
-          setSongList(resSongList);
-        }
+        const { historySongs } = currentUser;
+        if (historySongs.length <= 0) return;
+        const newHistorySongs = historySongs.filter((item) => item !== currentSong._id);
+        const resSongList = await songApi.getByIds({
+          ids: newHistorySongs.toString(),
+          limit: 10,
+        });
+        setSongList(resSongList);
       } catch (error) {
         if (error.response && error.response.status === 400) {
           console.log(error.response.data.error);

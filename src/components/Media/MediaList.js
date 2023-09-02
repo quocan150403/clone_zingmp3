@@ -15,9 +15,10 @@ function MediaList({
   onRemovePlaylist,
   ...props
 }) {
-  const [arrayCheck, setArrayCheck] = useState([]);
+  const [checkedList, setCheckedList] = useState([]);
+
   const handleCheck = (index) => {
-    setArrayCheck((prev) => {
+    setCheckedList((prev) => {
       if (prev.includes(index)) {
         return prev.filter((item) => item !== index);
       }
@@ -27,18 +28,16 @@ function MediaList({
 
   const handleToggleCheckAll = (e) => {
     if (e.target.checked) {
-      setArrayCheck(mediaList.map((item, index) => index));
+      setCheckedList(mediaList.map((item, index) => index));
     } else {
-      setArrayCheck([]);
+      setCheckedList([]);
     }
   };
 
-  const handleSubmit = () => {
-    console.log(arrayCheck);
-  };
+  const handleSubmit = () => {};
 
   return (
-    <div className={`media-wrapper ${arrayCheck.length > 0 ? 'show-action' : ''}`}>
+    <div className={`media-wrapper ${checkedList.length > 0 ? 'show-action' : ''}`}>
       {checkbox && (
         <div className="media-wrapper__header d-flex align-items-center">
           <div className="media-wrapper__action">
@@ -83,8 +82,8 @@ function MediaList({
           showAlbum
           isPlaylist={isPlaylist}
           index={index}
-          arrayCheck={arrayCheck}
-          handleCheck={handleCheck}
+          checkedList={checkedList}
+          onChangeChecked={handleCheck}
           onAddPlaylist={onAddPlaylist}
           onRemovePlaylist={onRemovePlaylist}
         />

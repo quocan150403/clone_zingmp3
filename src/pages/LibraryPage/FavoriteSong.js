@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { songApi } from 'api';
-import { MediaList } from 'components';
+import { MediaList, Nodata } from 'components';
 
 export default function FavoriteSong() {
   const { currentUser } = useSelector((state) => state.user);
@@ -10,8 +10,8 @@ export default function FavoriteSong() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (currentUser._id) {
-          const { favoriteSongs } = currentUser;
+        const { favoriteSongs } = currentUser;
+        if (favoriteSongs.length) {
           const resSongList = await songApi.getByIds({
             ids: favoriteSongs.toString(),
             limit: 10,
@@ -29,5 +29,9 @@ export default function FavoriteSong() {
     fetchData();
   }, [currentUser]);
 
-  return <MediaList tracks={songList} mediaList={songList} />;
+  return songList?.length ? (
+    <MediaList mediaList={songList} checkbox />
+  ) : (
+    <Nodata message="Không có bài hát nào" />
+  );
 }

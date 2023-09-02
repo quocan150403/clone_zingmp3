@@ -12,7 +12,6 @@ import {
   BsHeart,
   BsHeartFill,
   BsLink45Deg,
-  BsPlayFill,
   BsTextWrap,
   BsThreeDots,
 } from 'react-icons/bs';
@@ -166,9 +165,11 @@ export default function DetailSongPage() {
           </Col>
         </Row>
 
-        <Section title="Có thể bạn sẽ thích">
-          <AlbumList albums={albumRelate} />
-        </Section>
+        {albumRelate?.length ? (
+          <Section title="Có thể bạn sẽ thích">
+            <AlbumList albums={albumRelate} />
+          </Section>
+        ) : null}
       </div>
     </Helmet>
   );

@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Container, Row } from 'reactstrap';
 
@@ -13,8 +13,9 @@ const TABS = [
   { id: 3, name: 'Lời bài hát' },
 ];
 
-function Background({ currentSong, isShowPlayerPopper, onClickToggleBackground }) {
+function Background({ currentSong, isPlaying, isShowPlayerPopper, onClickToggleBackground }) {
   const [tab, setTab] = useState(TABS[0]);
+  const thumbRef = useRef(null);
 
   return (
     <div className={`player-background ${isShowPlayerPopper ? 'is-show' : ''}`}>
@@ -37,8 +38,8 @@ function Background({ currentSong, isShowPlayerPopper, onClickToggleBackground }
       <div className="player-background__content">
         {tab.id === 1 && (
           <div className="d-flex mt-4 mb-3 flex-column align-items-center justify-content-center">
-            <div className="player-background__image mb-5">
-              <img className="rounded-circle" src={currentSong?.imageUrl} alt="" />
+            <div className="mb-5 player-background__image">
+              <img ref={thumbRef} className="rounded-circle" src={currentSong?.imageUrl} alt="" />
             </div>
             <h2 className="player-background__name">{currentSong?.name}</h2>
             <div className="d-flex align-items-center">

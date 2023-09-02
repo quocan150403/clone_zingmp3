@@ -23,7 +23,16 @@ import { playPause, setSong } from 'app/features/playerSlice';
 
 import './DetailPlaylistPage.scss';
 import Helmet from 'components/Helmet';
-import { MediaList, Section, ArtistList, AlbumList, Button, Wrapper, MenuItem } from 'components';
+import {
+  MediaList,
+  Section,
+  ArtistList,
+  AlbumList,
+  Button,
+  Wrapper,
+  MenuItem,
+  Nodata,
+} from 'components';
 import { playlistApi, songApi, userApi } from 'api';
 import images from 'assets/images';
 import { updateUserField } from 'app/features/userSlice';
@@ -323,10 +332,7 @@ export default function DetailAlbumPage() {
               {songList.length ? (
                 <MediaList onRemovePlaylist={handleRemoveSongFromPlaylist} mediaList={songList} />
               ) : (
-                <div className="no-image-bg d-flex flex-column align-items-center justify-content-center">
-                  <div className="no-image" />
-                  <h6 className="no-image-title">Không có bài hát nào trong playlist này</h6>
-                </div>
+                <Nodata message="Không có bài hát nào trong playlist này" />
               )}
               <div className="mt-4 mb-4 d-flex align-items-center justify-content-between">
                 <div className="d-flex flex-column">

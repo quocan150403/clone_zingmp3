@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { albumApi } from 'api';
-import { AlbumList } from 'components';
+import { AlbumList, Nodata } from 'components';
 
 export default function FavoriteALbum() {
   const { currentUser } = useSelector((state) => state.user);
@@ -10,8 +10,8 @@ export default function FavoriteALbum() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (currentUser._id) {
-          const { favoriteAlbums } = currentUser;
+        const { favoriteAlbums } = currentUser;
+        if (favoriteAlbums.length) {
           const resAlbumList = await albumApi.getByIds({
             ids: favoriteAlbums.toString(),
             limit: 10,
@@ -29,5 +29,9 @@ export default function FavoriteALbum() {
     fetchData();
   }, [currentUser]);
 
-  return <AlbumList albums={albumList} />;
+  return albumList?.length ? (
+    <AlbumList albums={albumList} />
+  ) : (
+    <Nodata message="Không có album nào" />
+  );
 }

@@ -35,11 +35,11 @@ function MediaItem({
   isBorder = false,
   showAlbum = false,
   responsive = false,
-  arrayCheck = [],
+  checkedList = [],
   isPlaylist,
   onAddPlaylist,
   onRemovePlaylist,
-  handleCheck,
+  onChangeChecked,
 }) {
   const { currentSong, isActive, isPlaying } = useSelector((state) => state.player);
   const { currentUser, isAuth } = useSelector((state) => state.user);
@@ -99,7 +99,7 @@ function MediaItem({
   };
 
   const classes = classNames('media-item', {
-    checked: arrayCheck.includes(index),
+    checked: checkedList.includes(index),
     active: isActive && currentSong._id === data._id,
     playing: isPlaying && isActive && currentSong._id === data._id,
     rank,
@@ -123,8 +123,8 @@ function MediaItem({
           indexChart={indexChart}
           checkbox={checkbox}
           isMusicIcon={isMusicIcon}
-          checked={arrayCheck.includes(index)}
-          handleChecked={() => handleCheck(index)}
+          checkedList={checkedList.includes(index)}
+          onChangeChecked={() => onChangeChecked(index)}
         />
 
         <div className="media-left__inner">
@@ -176,8 +176,8 @@ MediaItem.propTypes = {
   checkbox: PropTypes.bool,
   indexChart: PropTypes.bool,
   isBorder: PropTypes.bool,
-  arrayCheck: PropTypes.array,
-  handleCheck: PropTypes.func,
+  checkedList: PropTypes.array,
+  onChangeChecked: PropTypes.func,
 };
 
 export default memo(MediaItem);

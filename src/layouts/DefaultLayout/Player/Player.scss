@@ -296,6 +296,7 @@
   background-color: var(--primary-bg);
   transition: 0.7s;
   transform: translateY(100%);
+  padding: 0 20px;
 
   &.is-show {
     transform: translateY(0);

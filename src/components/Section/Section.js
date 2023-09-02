@@ -5,7 +5,7 @@ import { BsChevronRight } from 'react-icons/bs';
 
 import './Section.scss';
 
-function Section({ title, to, children, info, className }) {
+function Section({ title, showAll, to, children, info, className }) {
   return (
     <section className={`section ${className || ''}`}>
       <div className="d-flex justify-content-between section-header">
@@ -26,7 +26,7 @@ function Section({ title, to, children, info, className }) {
           </Link>
         )}
         <div className="section__action">
-          {!!to && (
+          {showAll && (
             <Link to={to}>
               <span>Tất Cả</span>
               <BsChevronRight />

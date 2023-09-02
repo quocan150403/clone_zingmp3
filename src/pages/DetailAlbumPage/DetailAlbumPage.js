@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
-import { playPause, setSong } from 'app/features/playerSlice';
+import { setSong } from 'app/features/playerSlice';
 
-import { AlbumItem, MediaList, Helmet, Section, ArtistList, AlbumList } from 'components';
+import { AlbumItem, MediaList, Helmet, Section, ArtistList, AlbumList, Nodata } from 'components';
 import { albumApi, songApi, userApi } from 'api';
 import { updateUserField } from 'app/features/userSlice';
 
@@ -26,24 +26,16 @@ export default function DetailAlbumPage() {
         const { _id: albumId, artists } = response;
 
         const fetchPromises = [songApi.getQuery({ albumId: albumId })];
-
         if (artists && artists.length > 0) {
           const albumIds = artists.map((item) => item._id).join(',');
           fetchPromises.push(albumApi.getByArtistIds({ ids: albumIds, limit: 5 }));
         }
-
-        if (currentUser._id) {
-          fetchPromises.push(userApi.createHistoryAlbum(currentUser._id, albumId));
-        }
-
-        const [responseSong, responseAlbumRelate, historyAlbum] = await Promise.all(fetchPromises);
+        const [responseSong, responseAlbumRelate] = await Promise.all(fetchPromises);
 
         setArtistList(artists);
         setAlbum(response);
         setSongList(responseSong);
         setAlbumRelate(responseAlbumRelate.filter((album) => album._id !== albumId));
-
-        dispatch(updateUserField({ ...historyAlbum }));
 
         if (responseSong.length > 0 && tracks.length === 0) {
           dispatch(setSong({ tracks: responseSong, song: responseSong[0] }));
@@ -52,12 +44,26 @@ export default function DetailAlbumPage() {
         if (error.response && error.response.status === 400) {
           console.log(error.response.data.error);
         } else {
-          console.log('error! an error occurred. please try again later!');
+          console.log('error! an error occurred.');
         }
       }
     };
     fetchData();
   }, [slug, currentUser]);
+
+  useEffect(() => {
+    const updateHistoryAlbum = async () => {
+      try {
+        if (currentUser._id && album._id) {
+          const historyAlbum = await userApi.createHistoryAlbum(currentUser._id, album._id);
+          dispatch(updateUserField({ ...historyAlbum }));
+        }
+      } catch (error) {
+        console.log('error! an error occurred:', error);
+      }
+    };
+    updateHistoryAlbum();
+  }, [album._id, currentUser._id]);
 
   return (
     <Helmet title="Chi tiết">
@@ -71,10 +77,7 @@ export default function DetailAlbumPage() {
               {songList.length > 0 ? (
                 <MediaList mediaList={songList} />
               ) : (
-                <div className="no-image-bg d-flex flex-column align-items-center justify-content-center">
-                  <div className="no-image" />
-                  <h6 className="no-image-title">Không có bài hát nào trong album này</h6>
-                </div>
+                <Nodata message="Không có bài hát nào trong album này" />
               )}
             </div>
           </Col>

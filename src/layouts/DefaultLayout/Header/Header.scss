@@ -120,15 +120,6 @@ $width-search: 540px;
   }
 }
 
-@keyframes spinner {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .header-search__input {
   position: absolute;
   top: 0;

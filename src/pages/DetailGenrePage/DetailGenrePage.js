@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { AlbumList, CardItem, Helmet, Section } from 'components';
+import { AlbumList, CardItem, Helmet, Nodata, Section } from 'components';
 import { albumApi, genreApi } from 'api';
 
 export default function DetailGenrePage() {
@@ -37,9 +37,13 @@ export default function DetailGenrePage() {
           alt={genre?.name}
         />
 
-        <Section title={genre && genre.name}>
-          <AlbumList albums={albumList} />
-        </Section>
+        {albumList?.length ? (
+          <Section title={genre && genre.name}>
+            <AlbumList albums={albumList} />
+          </Section>
+        ) : (
+          <Nodata message="Không có album nào trong thể loại này" />
+        )}
       </div>
     </Helmet>
   );

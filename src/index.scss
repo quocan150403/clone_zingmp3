@@ -276,6 +276,15 @@ img {
   color: var(--text-color);
 }
 
+@keyframes spinner {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 // Classes for responsive
 @media (min-width: 1024px) {
   .d-none-desktop {

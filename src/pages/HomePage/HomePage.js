@@ -29,27 +29,30 @@ export default function HomePage() {
         ]);
 
         const genreIds = genres.map((item) => item._id).join(',');
-        const albums = await albumApi.getByGenreIds({ ids: genreIds });
+        const requests = [];
 
+        if (genreIds.length > 0) {
+          requests.push(albumApi.getByGenreIds({ ids: genreIds }));
+        }
+
+        if (currentUser.historyAlbums.length > 0) {
+          requests.push(
+            albumApi.getByIds({
+              ids: currentUser.historyAlbums.toString(),
+              limit: 7,
+            }),
+          );
+        }
+
+        const [albumsResult, historyAlbumResult] = await Promise.all(requests);
+
+        if (albumsResult) setAlbumList(albumsResult);
+        if (historyAlbumResult) setAlbumHistory(historyAlbumResult);
         setSongNewList(songsNew);
         setSongRankList(songsRank);
         setGenreList(genres);
-        setAlbumList(albums);
-
-        const { historyAlbums } = currentUser;
-        if (historyAlbums) {
-          const resHistoryAlbum = await albumApi.getByIds({
-            ids: historyAlbums.toString(),
-            limit: 7,
-          });
-          setAlbumHistory(resHistoryAlbum);
-        }
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          console.log(error.response.data.error);
-        } else {
-          console.log('error! an error occurred. please try again later!');
-        }
+        console.log('Lỗi! Đã xảy ra một lỗi. Vui lòng thử lại sau!', error);
       }
     };
 
@@ -59,8 +62,8 @@ export default function HomePage() {
   return (
     <Helmet title="Trang chủ">
       <Gallery />
-      {albumHistory && (
-        <Section title="Gần đây" to="/my-music/history/album">
+      {albumHistory.length > 0 && (
+        <Section title="Gần đây" to="/my-music/history/album" showAll={albumHistory.length >= 7}>
           <AlbumList albums={albumHistory} small />
         </Section>
       )}

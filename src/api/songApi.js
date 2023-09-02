@@ -30,6 +30,11 @@ const songApi = {
       songId,
       userId,
     }),
+  increasePlayCount: (songId, userId) =>
+    axiosClient.post(`${url}/increase-count`, {
+      songId,
+      userId,
+    }),
 };
 
 export default songApi;
