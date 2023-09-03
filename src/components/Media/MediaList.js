@@ -1,9 +1,17 @@
 import { useState, memo } from 'react';
 import PropTypes from 'prop-types';
-import { BsArrowDownUp, BsPlusCircle, BsThreeDots } from 'react-icons/bs';
+import {
+  BsArrowDownUp,
+  BsChevronRight,
+  BsMusicNoteList,
+  BsPlusCircle,
+  BsThreeDots,
+} from 'react-icons/bs';
+import TippyHeadless from '@tippyjs/react/headless';
 
-import { MediaItem } from 'components';
+import { MediaItem, MenuItem, Wrapper } from 'components';
 import './Media.scss';
+import { useSelector } from 'react-redux';
 
 function MediaList({
   tracks,
@@ -15,7 +23,10 @@ function MediaList({
   onRemovePlaylist,
   ...props
 }) {
+  const { isEditFormOpen, currentPlaylist } = useSelector((state) => state.playlist);
   const [checkedList, setCheckedList] = useState([]);
+  const [isShowOption, setIsShowOption] = useState(false);
+  const [isShowPlaylist, setIsShowPlaylist] = useState(false);
 
   const handleCheck = (index) => {
     setCheckedList((prev) => {
@@ -37,37 +48,86 @@ function MediaList({
   const handleSubmit = () => {};
 
   return (
-    <div className={`media-wrapper ${checkedList.length > 0 ? 'show-action' : ''}`}>
+    <div className={`media-wrapper`}>
       {checkbox && (
         <div className="media-wrapper__header d-flex align-items-center">
-          <div className="media-wrapper__action">
-            <div className="media-wrapper__checkbox">
-              <div className="media-checkbox media-checkbox--all">
-                <input
-                  id="checkbox-all"
-                  type="checkbox"
-                  className="media-checkbox__input"
-                  onChange={(e) => handleToggleCheckAll(e)}
-                />
-                <label className="media-checkbox__label" htmlFor="checkbox-all"></label>
+          {checkedList.length > 0 ? (
+            <div className="media-wrapper__action media-wrapper__first">
+              <div className="media-wrapper__checkbox">
+                <div className="media-checkbox media-checkbox--all">
+                  <input
+                    id="checkbox-all"
+                    type="checkbox"
+                    className="media-checkbox__input"
+                    onChange={(e) => handleToggleCheckAll(e)}
+                  />
+                  <label className="media-checkbox__label" htmlFor="checkbox-all"></label>
+                </div>
               </div>
+              <button onClick={handleSubmit} className="media-wrapper__add">
+                <BsPlusCircle />
+                <span>Thêm vào danh sách phát</span>
+              </button>
+              <TippyHeadless
+                visible={isShowOption}
+                interactive={true}
+                placement="right-end"
+                offset={[-50, 2]}
+                onClickOutside={() => setIsShowOption(false)}
+                onHide={() => setIsShowOption(false)}
+                appendTo={() => document.body}
+                render={(attrs) => (
+                  <Wrapper
+                    {...attrs}
+                    tabIndex="-1"
+                    className="p-0"
+                    onClick={() => setIsShowPlaylist(true)}
+                  >
+                    <MenuItem
+                      small
+                      option
+                      icon={<BsPlusCircle />}
+                      title="Thêm vào playlist"
+                      iconExpand={<BsChevronRight />}
+                    />
+                  </Wrapper>
+                )}
+              >
+                <button
+                  onClick={() => setIsShowOption(!isShowOption)}
+                  className="media-wrapper__option"
+                >
+                  <BsThreeDots />
+                </button>
+              </TippyHeadless>
+              <TippyHeadless
+                visible={isShowPlaylist}
+                interactive={true}
+                placement="right-end"
+                offset={[-50, 2]}
+                onClickOutside={() => setIsShowPlaylist(false)}
+                onHide={() => setIsShowPlaylist(false)}
+                appendTo={() => document.body}
+                render={(attrs) => (
+                  <Wrapper {...attrs} tabIndex="-1" className="p-0">
+                    {currentPlaylist?.length &&
+                      currentPlaylist.map((item) => (
+                        <MenuItem small option icon={<BsMusicNoteList />} title={item.name} />
+                      ))}
+                  </Wrapper>
+                )}
+              />
             </div>
-            <button onClick={handleSubmit} className="media-wrapper__add">
-              <BsPlusCircle />
-              <span>Thêm vào danh sách phát</span>
-            </button>
-            <button className="media-wrapper__option">
-              <BsThreeDots />
-            </button>
-          </div>
-
-          <span className="media-wrapper__song">
-            <span className="media-wrapper__sort">
-              <BsArrowDownUp />
-            </span>
-            Bài hát
-          </span>
-          <span className="media-wrapper__amount">Thời lượng</span>
+          ) : (
+            <div className="media-wrapper__first">
+              <span className="media-wrapper__sort">
+                <BsArrowDownUp />
+              </span>
+              Bài hát
+            </div>
+          )}
+          <div className="media-wrapper__second">Album</div>
+          <div className="media-wrapper__third">Thời lượng</div>
         </div>
       )}
       {mediaList.map((media, index) => (

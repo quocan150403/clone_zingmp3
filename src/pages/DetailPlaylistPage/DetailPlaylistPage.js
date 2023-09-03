@@ -20,6 +20,9 @@ import TippyHeadless from '@tippyjs/react/headless';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { playPause, setSong } from 'app/features/playerSlice';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import './DetailPlaylistPage.scss';
 import Helmet from 'components/Helmet';
@@ -35,9 +38,12 @@ import {
 } from 'components';
 import { playlistApi, songApi, userApi } from 'api';
 import images from 'assets/images';
-import { updateUserField } from 'app/features/userSlice';
-import usePlaylistForm from 'hooks/usePlaylistForm';
 import { deletePlaylistAsync, editPlaylistAsync } from 'app/features/playlistSlice';
+
+const schema = yup.object().shape({
+  name: yup.string().required('Name is required'),
+  public: yup.boolean().required('Password is required'),
+});
 
 export default function DetailAlbumPage() {
   const { slug } = useParams();
@@ -46,8 +52,7 @@ export default function DetailAlbumPage() {
   const { currentUser } = useSelector((state) => state.user);
   const { isPlaying, tracks } = useSelector((state) => state.player);
 
-  const { form, setAllForms, handleNameChange, handlePublicChange } = usePlaylistForm();
-
+  const [playlist, setPlaylist] = useState({});
   const [image, setImage] = useState('');
   const [isShowOption, setIsShowOption] = useState(false);
   const [isShowModalEditPlaylist, setIsShowModalEditPlaylist] = useState(false);
@@ -57,6 +62,15 @@ export default function DetailAlbumPage() {
   const [songRelateList, setSongRelateList] = useState([]);
   const [albumRelate, setAlbumRelate] = useState([]);
   const [artistList, setArtistList] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,7 +94,9 @@ export default function DetailAlbumPage() {
 
         setSongRelateList(filteredSongRelateList);
         setSongList(tracksOfSong);
-        setAllForms(resPlaylist);
+        setPlaylist(resPlaylist);
+        setValue('name', resPlaylist.name);
+        setValue('public', resPlaylist.public);
 
         if (tracksOfSong.length > 0 && tracks.length === 0) {
           dispatch(
@@ -122,7 +138,7 @@ export default function DetailAlbumPage() {
 
   const handleAddSongToPlaylist = async (idSong) => {
     try {
-      const resSong = await toast.promise(playlistApi.addSongToPlaylist(form._id, idSong), {
+      const resSong = await toast.promise(playlistApi.addSongToPlaylist(playlist._id, idSong), {
         pending: 'Đag thêm...',
       });
       toast.dismiss();
@@ -137,7 +153,7 @@ export default function DetailAlbumPage() {
 
   const handleRemoveSongFromPlaylist = async (idSong) => {
     try {
-      await toast.promise(playlistApi.removeSongFromPlaylist(form._id, idSong), {
+      await toast.promise(playlistApi.removeSongFromPlaylist(playlist._id, idSong), {
         pending: 'Đag xóa...',
       });
       toast.dismiss();
@@ -154,28 +170,29 @@ export default function DetailAlbumPage() {
     setIsShowModalEditPlaylist(true);
   };
 
-  const handleEditPlaylist = async () => {
+  const onSubmitEditForm = async (data) => {
     setIsShowModalEditPlaylist(false);
-    const newForm = {
-      name: form.name,
-      public: form.public,
-      userId: form.userId._id,
-    };
-
-    try {
-      const response = await dispatch(editPlaylistAsync({ id: form._id, playlistData: newForm }));
-      if (editPlaylistAsync.fulfilled.match(response)) {
-        toast.success('Đã sửa playlist thành công.');
-      } else if (editPlaylistAsync.rejected.match(response)) {
-        toast.error('Lỗi khi sửa playlist. Vui lòng thử lại sau.');
-      }
-      toast.dismiss();
-      navigate(`/playlist/${response.slug}`);
-      toast.success(`Sửa playlist ${response.name} thành công`);
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        toast.error(error.response.data.error);
-      } else {
+    if (playlist._id) {
+      toast.loading('Đang chỉnh sửa');
+      try {
+        const newData = {
+          name: data.name,
+          public: data.public,
+          userId: playlist.userId._id,
+        };
+        const response = await dispatch(
+          editPlaylistAsync({ id: playlist._id, playlistData: newData }),
+        );
+        if (editPlaylistAsync.fulfilled.match(response)) {
+          toast.dismiss();
+          const newPlaylist = response.payload;
+          console.log(newPlaylist);
+          navigate(`/playlist/${newPlaylist.slug}`);
+          toast.success(`Sửa playlist ${newPlaylist.name} thành công`);
+        } else if (editPlaylistAsync.rejected.match(response)) {
+          toast.error('Lỗi khi sửa playlist. Vui lòng thử lại sau.');
+        }
+      } catch (error) {
         toast.error('Đã xảy ra lỗi');
       }
     }
@@ -189,7 +206,7 @@ export default function DetailAlbumPage() {
   const handleDeletePlaylist = async () => {
     setIsShowModalDeletePlaylist(false);
     try {
-      const response = await dispatch(deletePlaylistAsync(form._id));
+      const response = await dispatch(deletePlaylistAsync(playlist._id));
       if (deletePlaylistAsync.fulfilled.match(response)) {
         toast.success('Đã xóa playlist thành công.');
       } else if (deletePlaylistAsync.rejected.match(response)) {
@@ -253,7 +270,7 @@ export default function DetailAlbumPage() {
               </div>
               <div className="playlist-detail__inner">
                 <div className="mt-3 mb-1 d-flex align-items-center justify-content-center">
-                  <h2 className="playlist-detail__title">{form.name}</h2>
+                  <h2 className="playlist-detail__title">{playlist.name}</h2>
                   <span
                     onClick={handleShowModalEdit}
                     className="ms-3 cursor-pointer playlist-detail__edit"
@@ -262,10 +279,10 @@ export default function DetailAlbumPage() {
                   </span>
                 </div>
                 <p className="playlist-detail__description">
-                  Tạo bởi {form.userId && form.userId?.fullName}
+                  Tạo bởi {playlist.userId && playlist.userId?.fullName}
                 </p>
                 <p className="playlist-detail__description">
-                  {form.public ? 'Công khai' : 'Cá nhân'}
+                  {playlist.public ? 'Công khai' : 'Cá nhân'}
                 </p>
                 <Button
                   onClick={handlePlayPause}
@@ -372,51 +389,52 @@ export default function DetailAlbumPage() {
           <span onClick={() => setIsShowModalEditPlaylist(false)} className="add-playlist__close">
             <BsX />
           </span>
-          <h2 className="add-playlist__heading">Chỉnh sửa playlist</h2>
-          <input
-            type="text"
-            placeholder="Nhập tên playlist"
-            className="add-playlist__input"
-            value={form.name}
-            onChange={handleNameChange}
-          />
-          <div className="add-playlist__option d-flex align-items-center justify-content-between">
-            <div className="d-flex flex-column">
-              <h3 className="add-playlist__title">Công khai</h3>
-              <p className="add-playlist__subtitle">Mọi người có thể tìm thấy playlist này.</p>
+          <form onSubmit={handleSubmit(onSubmitEditForm)}>
+            <h2 className="add-playlist__heading">Chỉnh sửa playlist</h2>
+            <input
+              type="text"
+              placeholder="Nhập tên playlist"
+              className="add-playlist__input"
+              {...register('name')}
+            />
+            {errors.name && <p className="form-error">{errors.name.message}</p>}
+            <div className="add-playlist__option d-flex align-items-center justify-content-between">
+              <div className="d-flex flex-column">
+                <h3 className="add-playlist__title">Công khai</h3>
+                <p className="add-playlist__subtitle">Mọi người có thể tìm thấy playlist này.</p>
+              </div>
+              <div className="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                  defaultChecked
+                  {...register('public')}
+                />
+              </div>
             </div>
-            <div className="form-check form-switch">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-                value={form.public}
-                checked={form.public}
-                onChange={handlePublicChange}
-              />
+            <div className="add-playlist__option d-flex align-items-center justify-content-between">
+              <div className="d-flex flex-column">
+                <h3 className="add-playlist__title">Phát ngẫu nhiên</h3>
+                <p className="add-playlist__subtitle">Luôn phát ngẫu nhiên tất cả bài hát </p>
+              </div>
+              <div className="form-check form-switch">
+                <input
+                  defaultChecked
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                />
+              </div>
             </div>
-          </div>
-          <div className="add-playlist__option d-flex align-items-center justify-content-between">
-            <div className="d-flex flex-column">
-              <h3 className="add-playlist__title">Phát ngẫu nhiên</h3>
-              <p className="add-playlist__subtitle">Luôn phát ngẫu nhiên tất cả bài hát </p>
+            <div className="mt-4">
+              <Button type="submit" primary uppercase fullWidth>
+                Lưu
+              </Button>
             </div>
-            <div className="form-check form-switch">
-              <input
-                defaultChecked
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              />
-            </div>
-          </div>
-          <div className="mt-4">
-            <Button onClick={handleEditPlaylist} primary uppercase fullWidth>
-              Lưu
-            </Button>
-          </div>
+          </form>
         </Modal>
 
         {/* Modal delete playlist */}

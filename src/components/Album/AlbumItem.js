@@ -171,7 +171,7 @@ function AlbumItem({ data, small, detail, isArtist, type = 'album', hideLikeBtn,
       </Link>
       <div className="album-info">
         {isArtist ? <p className="album-info__type mb-2">Singer</p> : null}
-        <Link href="/" className="album-info__title">
+        <Link to={`/${type}/${data.slug}`} className="album-info__title">
           {data.name}
         </Link>
         {detail && <p className="album-info__likes">Cập nhật: {fDate(data.updatedAt)} </p>}

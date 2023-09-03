@@ -1,6 +1,14 @@
 @import 'assets/styles/placeholders';
 @import 'assets/styles/mixins';
 
+.form-error {
+  color: red;
+  font-size: 13px;
+  margin-bottom: 0;
+  padding: 0px 13px;
+  margin-top: 6px;
+}
+
 .add-playlist {
   @include position(absolute, center);
   width: 330px;

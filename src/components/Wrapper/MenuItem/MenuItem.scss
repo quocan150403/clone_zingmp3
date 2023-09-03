@@ -27,7 +27,7 @@ $padding-icon: 12px;
     color: var(--text-item-hover);
 
     .menu-item__expand {
-      color: #000;
+      color: var(--text-item-hover);
       display: flex;
     }
   }
