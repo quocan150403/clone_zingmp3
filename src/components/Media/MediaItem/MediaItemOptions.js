@@ -23,7 +23,7 @@ import Wrapper from 'components/Wrapper/Wrapper';
 import MenuItem from 'components/Wrapper/MenuItem/MenuItem';
 
 export default function MediaItemOptions({
-  isPlaylist,
+  isShowActionsPlaylist,
   isShowOption,
   isFavoriteSong,
   imageUrl,
@@ -35,7 +35,7 @@ export default function MediaItemOptions({
 }) {
   return (
     <div className="media-right">
-      {!isPlaylist && (
+      {!isShowActionsPlaylist && (
         <Tippy content="Phát cùng lời bài hát">
           <span className="media-right__option media-right__option--mic">
             <BsFillMicFill />
@@ -52,14 +52,14 @@ export default function MediaItemOptions({
           {isFavoriteSong ? <BsHeartFill /> : <BsHeart />}
         </span>
       </Tippy>
-      {isPlaylist && (
+      {isShowActionsPlaylist && (
         <Tippy content="Thêm vào playlist">
           <span onClick={onClickAdd} className="media-right__option">
             <BsPlusCircleDotted />
           </span>
         </Tippy>
       )}
-      {!isPlaylist && (
+      {!isShowActionsPlaylist && (
         <TippyHeadless
           visible={isShowOption}
           interactive={true}
@@ -99,11 +99,11 @@ export default function MediaItemOptions({
                     Chặn
                   </div>
                 </div>
-                <MenuItem small option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
-                <MenuItem small option icon={<BsCollectionPlay />} title="Phát tiếp theo" />
-                <MenuItem small option icon={<BsPlusCircle />} title="Thêm vào playlist" />
-                <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
-                <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                <MenuItem medium option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
+                <MenuItem medium option icon={<BsCollectionPlay />} title="Phát tiếp theo" />
+                <MenuItem medium option icon={<BsPlusCircle />} title="Thêm vào playlist" />
+                <MenuItem medium option icon={<BsLink45Deg />} title="Sao chép link" />
+                <MenuItem medium option icon={<BsArrowReturnRight />} title="Chia sẻ" />
                 {onClickTrash && (
                   <MenuItem
                     onClick={onClickTrash}

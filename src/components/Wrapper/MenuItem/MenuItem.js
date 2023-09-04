@@ -9,6 +9,7 @@ import './MenuItem.scss';
 function MenuItem({
   option,
   responsive,
+  medium,
   small,
   to,
   icon,
@@ -22,6 +23,7 @@ function MenuItem({
   const classes = classNames('menu-item', {
     option,
     small,
+    medium,
     responsive,
   });
 

@@ -1,18 +1,18 @@
-import { memo } from 'react';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import './Wrapper.scss';
 
-function Wrapper({ children, className = 'pt-3 pb-3', ...props }) {
+const Wrapper = forwardRef(({ children, className = 'pt-3 pb-3', ...props }, ref) => {
   return (
-    <div className={`wrapper ${className}`} {...props}>
+    <div ref={ref} className={`wrapper ${className}`} {...props}>
       {children}
     </div>
   );
-}
+});
 
 Wrapper.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
 };
 
-export default memo(Wrapper);
+export default Wrapper;

@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { updateUserField } from 'app/features/userSlice';
 import { setSong, playPause, setAlbum } from 'app/features/playerSlice';
 
-import './Media.scss';
+import './MediaItem.scss';
 import { songApi, userApi } from 'api';
 import { fMinutes } from 'utils/formatTime';
 import MediaItemImage from './MediaItemImage';
@@ -36,7 +36,7 @@ function MediaItem({
   showAlbum = false,
   responsive = false,
   checkedList = [],
-  isPlaylist,
+  isShowActionsPlaylist,
   onAddPlaylist,
   onRemovePlaylist,
   onChangeChecked,
@@ -99,7 +99,7 @@ function MediaItem({
   };
 
   const classes = classNames('media-item', {
-    checked: checkedList.includes(index),
+    checked: checkedList.includes(data._id),
     active: isActive && currentSong._id === data._id,
     playing: isPlaying && isActive && currentSong._id === data._id,
     rank,
@@ -123,8 +123,8 @@ function MediaItem({
           indexChart={indexChart}
           checkbox={checkbox}
           isMusicIcon={isMusicIcon}
-          checkedList={checkedList.includes(index)}
-          onChangeChecked={() => onChangeChecked(index)}
+          checkedList={checkedList.includes(data._id)}
+          onChangeChecked={() => onChangeChecked(data._id)}
         />
 
         <div className="media-left__inner">
@@ -145,8 +145,8 @@ function MediaItem({
       <span className="media-middle">{fMinutes(data.duration)}</span>
       {!rank && (
         <MediaItemOptions
-          isPlaylist={isPlaylist}
           isShowOption={isShowOption}
+          isShowActionsPlaylist={isShowActionsPlaylist}
           isFavoriteSong={isFavoriteSong}
           imageUrl={data.imageUrl}
           onClickLike={handleToggleLike}

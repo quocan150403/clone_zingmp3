@@ -134,9 +134,9 @@ export default function DetailSongPage() {
                           icon={<BsTextWrap />}
                           title="Thêm vào danh sách phát"
                         />
-                        <MenuItem small option icon={<BsDownload />} title="Tải xuống" />
-                        <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
-                        <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                        <MenuItem medium option icon={<BsDownload />} title="Tải xuống" />
+                        <MenuItem medium option icon={<BsLink45Deg />} title="Sao chép link" />
+                        <MenuItem medium option icon={<BsArrowReturnRight />} title="Chia sẻ" />
                       </Wrapper>
                     )}
                   >

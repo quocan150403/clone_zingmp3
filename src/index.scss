@@ -247,8 +247,7 @@ img {
 .no-image {
   width: 90px;
   height: 90px;
-  background: url('https://zjs.zadn.vn/zmp3-desktop/releases/v1.3.18/static/media/music-icon.cfa4aa91.svg')
-    no-repeat center center / contain;
+  background: url('assets/images/others/music-icon.svg') no-repeat center center / contain;
   margin-bottom: 20px;
 }
 
@@ -274,6 +273,15 @@ img {
   overflow: hidden;
   background-color: var(--primary-bg);
   color: var(--text-color);
+}
+.mw-230 {
+  min-width: 230px;
+}
+.mw-126 {
+  min-width: 126px;
+}
+.mh-260 {
+  min-height: 260px;
 }
 
 @keyframes spinner {

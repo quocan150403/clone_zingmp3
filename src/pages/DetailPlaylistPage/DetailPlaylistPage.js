@@ -138,13 +138,13 @@ export default function DetailAlbumPage() {
 
   const handleAddSongToPlaylist = async (idSong) => {
     try {
-      const resSong = await toast.promise(playlistApi.addSongToPlaylist(playlist._id, idSong), {
+      const resSongs = await toast.promise(playlistApi.addSongsToPlaylist(playlist._id, [idSong]), {
         pending: 'Đag thêm...',
       });
       toast.dismiss();
-      toast.success(`Thêm bài hát ${resSong.name} vào playlist thành công.`);
+      toast.success(`Thêm bài hát vào playlist thành công.`);
       setSongRelateList(songRelateList.filter((item) => item._id !== idSong));
-      setSongList((prev) => [...prev, resSong]);
+      setSongList((prev) => [...prev, ...resSongs]);
     } catch (error) {
       console.log(error);
       toast.error('Thêm thất bại');
@@ -153,12 +153,26 @@ export default function DetailAlbumPage() {
 
   const handleRemoveSongFromPlaylist = async (idSong) => {
     try {
-      await toast.promise(playlistApi.removeSongFromPlaylist(playlist._id, idSong), {
+      await toast.promise(playlistApi.removeSongsFromPlaylist(playlist._id, [idSong]), {
         pending: 'Đag xóa...',
       });
       toast.dismiss();
       toast.success(`Xóa bài hát khỏi playlist thành công.`);
       setSongList(songList.filter((item) => item._id !== idSong));
+    } catch (error) {
+      console.log(error);
+      toast.error('Xóa thất bại');
+    }
+  };
+
+  const handleRemoveSongList = async (songIds) => {
+    try {
+      await toast.promise(playlistApi.removeSongsFromPlaylist(playlist._id, songIds), {
+        pending: 'Đag xóa...',
+      });
+      toast.dismiss();
+      toast.success(`Xóa tất cả bài hát đã chọn khỏi playlist thành công.`);
+      setSongList(songList.filter((item) => !songIds.includes(item._id)));
     } catch (error) {
       console.log(error);
       toast.error('Xóa thất bại');
@@ -309,9 +323,9 @@ export default function DetailAlbumPage() {
                         icon={<BsTextWrap />}
                         title="Thêm vào danh sách phát"
                       />
-                      <MenuItem small option icon={<BsDownload />} title="Tải xuống" />
-                      <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
-                      <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                      <MenuItem medium option icon={<BsDownload />} title="Tải xuống" />
+                      <MenuItem medium option icon={<BsLink45Deg />} title="Sao chép link" />
+                      <MenuItem medium option icon={<BsArrowReturnRight />} title="Chia sẻ" />
                       <MenuItem
                         onClick={handleShowModalEdit}
                         small
@@ -347,7 +361,12 @@ export default function DetailAlbumPage() {
           <Col xs={12} lg={8} xl={9}>
             <div>
               {songList.length ? (
-                <MediaList onRemovePlaylist={handleRemoveSongFromPlaylist} mediaList={songList} />
+                <MediaList
+                  mediaList={songList}
+                  setMediaList={setSongList}
+                  onRemoveList={handleRemoveSongList}
+                  onRemovePlaylist={handleRemoveSongFromPlaylist}
+                />
               ) : (
                 <Nodata message="Không có bài hát nào trong playlist này" />
               )}
@@ -363,9 +382,11 @@ export default function DetailAlbumPage() {
                 </Button>
               </div>
               <MediaList
-                isPlaylist
-                onAddPlaylist={handleAddSongToPlaylist}
+                isShowActionsPlaylist
+                checkbox={false}
                 mediaList={songRelateList}
+                setMediaList={setSongList}
+                onAddPlaylist={handleAddSongToPlaylist}
               />
             </div>
           </Col>

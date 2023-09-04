@@ -66,8 +66,27 @@ $padding-icon: 12px;
   }
 
   // Sizes
-  &.small {
+
+  &.medium {
     padding: 8px 20px 8px 14px;
+    .menu-item__title {
+      max-width: 100%;
+    }
+
+    svg {
+      width: 16px !important;
+      height: 16px !important;
+    }
+  }
+
+  &.small {
+    padding: 6px 8px;
+
+    .menu-item__title {
+      font-size: 12.5px;
+      max-width: 100%;
+    }
+
     svg {
       width: 16px !important;
       height: 16px !important;

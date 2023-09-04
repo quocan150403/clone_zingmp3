@@ -134,10 +134,10 @@ function AlbumItem({ data, small, detail, isArtist, type = 'album', hideLikeBtn,
               appendTo={() => document.body}
               render={(attrs) => (
                 <Wrapper {...attrs} tabIndex="-1" className="pb-3 pt-3 p-0">
-                  <MenuItem small option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
-                  <MenuItem small option icon={<BsDownload />} title="Tải xuống" />
-                  <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
-                  <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                  <MenuItem medium option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
+                  <MenuItem medium option icon={<BsDownload />} title="Tải xuống" />
+                  <MenuItem medium option icon={<BsLink45Deg />} title="Sao chép link" />
+                  <MenuItem medium option icon={<BsArrowReturnRight />} title="Chia sẻ" />
                   {isPlaylist && (
                     <>
                       <MenuItem
@@ -227,9 +227,9 @@ function AlbumItem({ data, small, detail, isArtist, type = 'album', hideLikeBtn,
                         icon={<BsTextWrap />}
                         title="Thêm vào danh sách phát"
                       />
-                      <MenuItem small option icon={<BsDownload />} title="Tải xuống" />
-                      <MenuItem small option icon={<BsLink45Deg />} title="Sao chép link" />
-                      <MenuItem small option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                      <MenuItem medium option icon={<BsDownload />} title="Tải xuống" />
+                      <MenuItem medium option icon={<BsLink45Deg />} title="Sao chép link" />
+                      <MenuItem medium option icon={<BsArrowReturnRight />} title="Chia sẻ" />
                     </Wrapper>
                   )}
                 >
