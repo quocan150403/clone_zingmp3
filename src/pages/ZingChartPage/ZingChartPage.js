@@ -56,7 +56,7 @@ export default function ZingChartPage() {
               />
             ))}
           </Col>
-          <div className="text-center mt-5">
+          <div className="text-center mt-lg-5 my-4">
             <Button onClick={onClickShowAll} outline>
               {isFull ? 'Ẩn bớt' : 'Xem thêm'}
             </Button>

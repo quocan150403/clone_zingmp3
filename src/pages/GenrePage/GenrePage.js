@@ -33,7 +33,7 @@ export default function GenrePage() {
       </section>
 
       <Section title="Thể loại">
-        <Row className="row-custom g-custom">
+        <Row className="g-4">
           {topic.map((item, index) => (
             <Col key={index} xs="6" sm="4" lg="4" xl="3">
               <CardItem link={'/hub/' + item.slug} image={item.imageUrl} name={item.name} />

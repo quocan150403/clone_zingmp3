@@ -12,6 +12,7 @@ const Button = forwardRef(
       primary = false,
       secondary = false,
       outline = false,
+      outlineBold = false,
       circle = false,
       column = false,
       rounded = false,
@@ -66,6 +67,7 @@ const Button = forwardRef(
       large,
       uppercase,
       active,
+      'outline-bold': outlineBold,
       'full-width': fullWidth,
     });
 

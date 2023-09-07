@@ -73,7 +73,7 @@ function Sidebar() {
     dispatch(openDeleteForm());
   };
 
-  const isOpen = isToggle ? 'is-open' : null;
+  const isOpen = isToggle ? 'is-open' : '';
 
   return (
     <aside className={`sidebar ${isOpen}`}>
@@ -117,93 +117,99 @@ function Sidebar() {
           title="Thư viện"
         />
       </nav>
-
       <div className="sidebar-separate d-none-mobile" />
 
-      <nav className="sidebar-subnav d-none-mobile">
-        <MenuItem
-          responsive={!isToggle}
-          to={config.routes.library.history}
-          icon={<HistoryIcon />}
-          title="Nghe gần đây"
-        />
+      {!isAuth ? (
+        <div className="sidebar__login-btn rounded d-flex flex-column align-items-center justify-content-center d-none-mobile-tablet">
+          <h5 className="sidebar__login-text">Đăng nhập để khám phá playlist dành riêng cho bạn</h5>
+          <Button outlineBold>Đăng nhập</Button>
+        </div>
+      ) : (
+        <nav className="sidebar-subnav d-none-mobile">
+          <MenuItem
+            responsive={!isToggle}
+            to={config.routes.library.history}
+            icon={<HistoryIcon />}
+            title="Nghe gần đây"
+          />
 
-        <MenuItem
-          responsive={!isToggle}
-          to={config.routes.library.favorite}
-          icon={<FavoriteIcon />}
-          title="Bài hát yêu thích"
-        />
+          <MenuItem
+            responsive={!isToggle}
+            to={config.routes.library.favorite}
+            icon={<FavoriteIcon />}
+            title="Bài hát yêu thích"
+          />
 
-        <MenuItem
-          responsive={!isToggle}
-          to={config.routes.library.playlist}
-          icon={<PlaylistIcon />}
-          title="Playlist"
-        />
-        <MenuItem
-          responsive={!isToggle}
-          to={config.routes.library.album}
-          icon={<AlbumIcon />}
-          title="Album"
-        />
-        <MenuItem
-          responsive={!isToggle}
-          to={config.routes.library.upload}
-          icon={<UploadIcon />}
-          title="Đã tải lên"
-        />
+          <MenuItem
+            responsive={!isToggle}
+            to={config.routes.library.playlist}
+            icon={<PlaylistIcon />}
+            title="Playlist"
+          />
+          <MenuItem
+            responsive={!isToggle}
+            to={config.routes.library.album}
+            icon={<AlbumIcon />}
+            title="Album"
+          />
+          <MenuItem
+            responsive={!isToggle}
+            to={config.routes.library.upload}
+            icon={<UploadIcon />}
+            title="Đã tải lên"
+          />
 
-        <div className="sidebar-separate" />
-        <TippyHeadless
-          visible={isShowOption}
-          interactive={true}
-          placement="right-end"
-          offset={[-260, 2]}
-          onClickOutside={() => setIsShowOption(false)}
-          onHide={() => setIsShowOption(false)}
-          appendTo={() => document.body}
-          render={(attrs) => (
-            <Wrapper {...attrs} tabIndex="-1" className="pb-3 pt-3 p-0">
-              <MenuItem medium option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
-              <MenuItem medium option icon={<BsDownload />} title="Tải xuống" />
-              <MenuItem medium option icon={<BsLink45Deg />} title="Sao chép link" />
-              <MenuItem medium option icon={<BsArrowReturnRight />} title="Chia sẻ" />
-              <MenuItem
-                onClick={handleShowModalEdit}
-                small
-                option
-                icon={<BsPen />}
-                title="Chỉnh sửa playlist"
-              />
-              <MenuItem
-                onClick={handleShowModalDelete}
-                small
-                option
-                icon={<BsTrash />}
-                title="Xóa playlist"
-              />
-            </Wrapper>
-          )}
-        >
-          <div className="sidebar-subnav__library">
-            {playlists.map((item, index) => (
-              <Link key={index} to={`/playlist/${item.slug}`} className="sidebar-playlist">
-                <div className="sidebar-playlist__title">{item.name}</div>
+          <div className="sidebar-separate" />
+          <TippyHeadless
+            visible={isShowOption}
+            interactive={true}
+            placement="right-end"
+            offset={[-260, 2]}
+            onClickOutside={() => setIsShowOption(false)}
+            onHide={() => setIsShowOption(false)}
+            appendTo={() => document.body}
+            render={(attrs) => (
+              <Wrapper {...attrs} tabIndex="-1" className="pb-3 pt-3 p-0">
+                <MenuItem medium option icon={<BsTextWrap />} title="Thêm vào danh sách phát" />
+                <MenuItem medium option icon={<BsDownload />} title="Tải xuống" />
+                <MenuItem medium option icon={<BsLink45Deg />} title="Sao chép link" />
+                <MenuItem medium option icon={<BsArrowReturnRight />} title="Chia sẻ" />
+                <MenuItem
+                  onClick={handleShowModalEdit}
+                  small
+                  option
+                  icon={<BsPen />}
+                  title="Chỉnh sửa playlist"
+                />
+                <MenuItem
+                  onClick={handleShowModalDelete}
+                  small
+                  option
+                  icon={<BsTrash />}
+                  title="Xóa playlist"
+                />
+              </Wrapper>
+            )}
+          >
+            <div className="sidebar-subnav__library">
+              {playlists.map((item, index) => (
+                <Link key={index} to={`/playlist/${item.slug}`} className="sidebar-playlist">
+                  <div className="sidebar-playlist__title">{item.name}</div>
 
-                <Tippy content="Khác">
-                  <div
-                    onClick={(e) => handleShowOptions(e, item)}
-                    className="sidebar-playlist__expand"
-                  >
-                    <BsThreeDots />
-                  </div>
-                </Tippy>
-              </Link>
-            ))}
-          </div>
-        </TippyHeadless>
-      </nav>
+                  <Tippy content="Khác">
+                    <div
+                      onClick={(e) => handleShowOptions(e, item)}
+                      className="sidebar-playlist__expand"
+                    >
+                      <BsThreeDots />
+                    </div>
+                  </Tippy>
+                </Link>
+              ))}
+            </div>
+          </TippyHeadless>
+        </nav>
+      )}
 
       <div className="sidebar-playlist__add d-none-mobile">
         <div onClick={handleCheckAndShowModalAddPlaylist} className="sidebar-playlist__inner">

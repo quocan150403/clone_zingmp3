@@ -24,6 +24,21 @@ const FIELDS = [
     label: 'Mặc định',
     field: '',
   },
+  {
+    id: 2,
+    label: 'Tên bài hát (A-Z)',
+    field: 'name',
+  },
+  {
+    id: 3,
+    label: 'Tên ca sĩ (A-Z)',
+    field: 'name',
+  },
+  {
+    id: 4,
+    label: 'Tên album (A-Z)',
+    field: 'name',
+  },
 ];
 
 function MediaList({

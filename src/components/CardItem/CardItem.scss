@@ -28,4 +28,10 @@
     white-space: nowrap;
     color: var(--white-color);
   }
+
+  @include media-breakpoint(mobile) {
+    &__name {
+      font-size: 22px;
+    }
+  }
 }

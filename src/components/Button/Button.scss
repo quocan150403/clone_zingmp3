@@ -159,6 +159,17 @@
     }
   }
 
+  &.outline-bold {
+    color: var(--text-color);
+    background-color: transparent;
+    border: 1px solid var(--white-color);
+    font-weight: 500;
+
+    &:hover {
+      filter: brightness(90%);
+    }
+  }
+
   &.active {
     background-color: var(--link-text-hover);
     color: var(--text-color);

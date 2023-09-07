@@ -409,6 +409,10 @@ $image-size: 40px;
     color: var(--text-item-hover);
     text-decoration: underline;
   }
+
+  @include media-breakpoint(mobile) {
+    display: none;
+  }
 }
 
 .media-middle {

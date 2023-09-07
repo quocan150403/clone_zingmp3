@@ -21,7 +21,6 @@
   &-container {
     width: 640px;
     max-width: calc(100vw - 32px);
-    // min-height: 600px;
     padding: 48px 16px;
 
     position: relative;
@@ -114,9 +113,11 @@
   padding: 24px 16px 0;
   text-align: center;
 
-  a {
+  span {
     color: var(--primary-color);
     font-weight: 600;
+    user-select: none;
+    cursor: pointer;
   }
 }
 

@@ -35,7 +35,7 @@ export default function HomePage() {
           requests.push(albumApi.getByGenreIds({ ids: genreIds }));
         }
 
-        if (currentUser.historyAlbums.length > 0) {
+        if (currentUser?.historyAlbums?.length > 0) {
           requests.push(
             albumApi.getByIds({
               ids: currentUser.historyAlbums.toString(),

@@ -67,8 +67,18 @@ export default function LoginPage() {
           <Link to="/" className="login-logo">
             <img src={images.logoSmall} alt="logo" />
           </Link>
-          <h1 className="login-title">Đăng nhập vào ZingMp3</h1>
+          <h1 className="login-title">
+            {isRegister ? 'Đăng nhập vào' : 'Đăng ký tài khoản'} ZingMp3
+          </h1>
           <div className="login-body">
+            <div className="login-item">
+              <div className="login-item__img">
+                <img src={images.socials.personal} alt="" />
+              </div>
+              <div className="login-item__text">
+                <span>Đăng nhập bằng số điện thoại</span>
+              </div>
+            </div>
             <div className="login-item">
               <div className="login-item__img">
                 <img src={images.socials.personal} alt="" />
@@ -128,7 +138,10 @@ export default function LoginPage() {
             </div> */}
           </div>
           <p className="login-footer">
-            Bạn chưa có tài khoản? <a href="/">Đăng ký</a>
+            Bạn {isRegister ? 'có' : ' chưa có'} tài khoản?
+            <span onClick={() => setIsRegister(!isRegister)}>
+              {isRegister ? 'Đăng ký' : 'Đăng nhập'}
+            </span>
           </p>
         </div>
       </div>
