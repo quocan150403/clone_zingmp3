@@ -3,15 +3,20 @@ import { BrowserRouter as Router, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setError, setSuccess } from 'app/features/userSlice';
 import { fetchPlaylistsAsync } from 'app/features/playlistSlice';
+import firebaseConfig from 'config/firebase';
 import Modal from 'react-modal';
-import { auth } from './config/firebase';
-
-import LoadingPage from './pages/LoadingPage';
+import { initializeApp } from 'firebase/app';
 import { userApi } from 'api';
 import { renderRoutes } from 'routes/renderRoutes';
 import { publicRoutes, privateRoutes } from './routes';
+import LoadingPage from './pages/LoadingPage';
+import { getAuth } from 'firebase/auth';
+import AuthForm from 'components/AuthForm';
 
 Modal.setAppElement('#root');
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 function App() {
   const { isAuth, loading } = useSelector((state) => state.user);
@@ -21,17 +26,17 @@ function App() {
     dispatch(setLoading());
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        const info = {
-          UID: user.uid,
-          displayName: user.displayName,
+        const userInfo = {
           email: user.email,
-          photoURL: user.photoURL,
+          fullName: user.displayName,
+          imageUrl: user.photoURL,
+          UID: user.uid,
         };
 
         try {
-          const userData = await userApi.getByUID(info.UID);
-          await dispatch(fetchPlaylistsAsync(userData._id));
-          dispatch(setSuccess({ ...info, ...userData }));
+          const userRes = await userApi.getByUID(userInfo.UID);
+          await dispatch(fetchPlaylistsAsync(userRes._id));
+          dispatch(setSuccess({ ...userInfo, ...userRes }));
         } catch (error) {
           dispatch(setError(error.message));
         }
@@ -52,11 +57,12 @@ function App() {
         {loading ? (
           <LoadingPage />
         ) : (
-          <div className="app" id="app">
+          <div className="app position-relative" id="app">
             <Routes>
               {renderRoutes(publicRoutes, isAuth)}
               {renderRoutes(privateRoutes, isAuth)}
             </Routes>
+            <AuthForm auth={auth} />
           </div>
         )}
       </Suspense>

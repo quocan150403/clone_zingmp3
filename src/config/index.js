@@ -1,5 +1,4 @@
 import routes from './routes';
-import { auth } from './firebase';
-const config = { routes, auth };
+const config = { routes };
 
 export default config;

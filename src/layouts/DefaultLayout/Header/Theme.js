@@ -13,7 +13,7 @@ const THEMES = [
     list: [
       {
         name: 'Zing Music Awards',
-        image: './assets/img/modalThemes/modalTheme1/theme1.jpg',
+        image: images.themeModal.theme11,
         background: images.themes.theme11,
         playerBackground: images.themes.player,
         colors: {
@@ -36,7 +36,7 @@ const THEMES = [
       },
       {
         name: 'Tháp Eiffel',
-        image: './assets/img/modalThemes/modalTheme1/theme2.jpg',
+        image: images.themeModal.theme12,
         background: images.themes.theme12,
         colors: {
           bgContentColor: '#ffffff1a',
@@ -63,7 +63,7 @@ const THEMES = [
     list: [
       {
         name: 'Rosé',
-        image: './assets/img/modalThemes/modalTheme2/theme1.jpg',
+        image: images.themeModal.theme21,
         background: images.themes.theme21,
         colors: {
           bgContentColor: '#ffffff1a',
@@ -85,7 +85,7 @@ const THEMES = [
       },
       {
         name: 'IU',
-        image: './assets/img/modalThemes/modalTheme2/theme2.jpg',
+        image: images.themeModal.theme22,
         background: images.themes.theme22,
         colors: {
           bgContentColor: 'rgba(0,0,0,0.05)',
@@ -107,7 +107,7 @@ const THEMES = [
       },
       {
         name: 'Ji Chang Wook',
-        image: './assets/img/modalThemes/modalTheme2/theme3.jpg',
+        image: images.themeModal.theme23,
         background: images.themes.theme23,
         colors: {
           bgContentColor: '#ffffff4d',
@@ -129,7 +129,7 @@ const THEMES = [
       },
       {
         name: 'Lisa',
-        image: './assets/img/modalThemes/modalTheme2/theme4.jpg',
+        image: images.themeModal.theme24,
         background: images.themes.theme24,
         colors: {
           bgContentColor: 'rgba(0,0,0,0.05)',
@@ -151,7 +151,7 @@ const THEMES = [
       },
       {
         name: 'Jennie Kim',
-        image: './assets/img/modalThemes/modalTheme2/theme5.jpg',
+        image: images.themeModal.theme25,
         background: images.themes.theme25,
         colors: {
           bgContentColor: 'rgba(0,0,0,0.05)',
@@ -173,7 +173,7 @@ const THEMES = [
       },
       {
         name: 'Jisoo',
-        image: './assets/img/modalThemes/modalTheme2/theme6.jpg',
+        image: images.themeModal.theme26,
         background: images.themes.theme26,
         colors: {
           bgContentColor: 'rgba(0,0,0,0.05)',
@@ -200,7 +200,7 @@ const THEMES = [
     list: [
       {
         name: 'Tối',
-        image: './assets/img/modalThemes/modalTheme3/theme1.jpg',
+        image: images.themeModal.theme31,
         colors: {
           bgContentColor: '#ffffff1a',
           borderBox: 'rgb(255 255 255 / 20%)',
@@ -221,7 +221,7 @@ const THEMES = [
       },
       {
         name: 'Tím',
-        image: './assets/img/modalThemes/modalTheme3/theme2.jpg',
+        image: images.themeModal.theme32,
         colors: {
           bgContentColor: '#ffffff1a',
           borderBox: 'rgb(255 255 255 / 20%)',
@@ -242,7 +242,7 @@ const THEMES = [
       },
       {
         name: 'Xanh Đậm',
-        image: './assets/img/modalThemes/modalTheme3/theme3.jpg',
+        image: images.themeModal.theme33,
         colors: {
           bgContentColor: '#ffffff1a',
           borderBox: 'rgb(255 255 255 / 20%)',
@@ -263,7 +263,7 @@ const THEMES = [
       },
       {
         name: 'Xanh Biển',
-        image: './assets/img/modalThemes/modalTheme3/theme4.jpg',
+        image: images.themeModal.theme34,
         colors: {
           bgContentColor: '#ffffff1a',
           borderBox: 'rgb(255 255 255 / 20%)',
@@ -284,7 +284,7 @@ const THEMES = [
       },
       {
         name: 'Xanh Lá',
-        image: './assets/img/modalThemes/modalTheme3/theme5.jpg',
+        image: images.themeModal.theme35,
         colors: {
           bgContentColor: '#ffffff1a',
           borderBox: 'rgb(255 255 255 / 20%)',
@@ -305,7 +305,7 @@ const THEMES = [
       },
       {
         name: 'Nâu',
-        image: './assets/img/modalThemes/modalTheme3/theme6.jpg',
+        image: images.themeModal.theme36,
         colors: {
           bgContentColor: '#ffffff1a',
           borderBox: 'rgb(255 255 255 / 20%)',
@@ -326,7 +326,7 @@ const THEMES = [
       },
       {
         name: 'Hồng',
-        image: './assets/img/modalThemes/modalTheme3/theme7.jpg',
+        image: images.themeModal.theme37,
         colors: {
           bgContentColor: '#ffffff1a',
           borderBox: 'rgb(255 255 255 / 20%)',
@@ -347,7 +347,7 @@ const THEMES = [
       },
       {
         name: 'Đỏ',
-        image: './assets/img/modalThemes/modalTheme3/theme8.jpg',
+        image: images.themeModal.theme38,
         colors: {
           bgContentColor: '#ffffff1a',
           borderBox: 'rgb(255 255 255 / 20%)',
@@ -373,7 +373,7 @@ const THEMES = [
     list: [
       {
         name: 'Sáng',
-        image: './assets/img/modalThemes/modalTheme4/theme1.jpg',
+        image: images.themeModal.theme41,
         colors: {
           bgContentColor: 'rgba(0,0,0,0.05)',
           borderBox: 'rgba(0,0,0,0.2)',
@@ -394,7 +394,7 @@ const THEMES = [
       },
       {
         name: 'Xám',
-        image: './assets/img/modalThemes/modalTheme4/theme2.jpg',
+        image: images.themeModal.theme42,
         colors: {
           bgContentColor: 'rgba(0,0,0,0.05)',
           borderBox: 'rgba(0,0,0,0.2)',
@@ -415,7 +415,7 @@ const THEMES = [
       },
       {
         name: 'Xanh Nhạt',
-        image: './assets/img/modalThemes/modalTheme4/theme3.jpg',
+        image: images.themeModal.theme43,
         colors: {
           bgContentColor: '#ffffff4d',
           borderBox: 'rgba(0,0,0,0.2)',
@@ -436,7 +436,7 @@ const THEMES = [
       },
       {
         name: 'Hồng Cánh Sen',
-        image: './assets/img/modalThemes/modalTheme4/theme4.jpg',
+        image: images.themeModal.theme44,
         colors: {
           bgContentColor: 'rgba(0,0,0,0.05)',
           borderBox: 'rgba(0,0,0,0.2)',
@@ -460,8 +460,6 @@ const THEMES = [
 ];
 
 function Theme({ isOpen, onRequestClose }) {
-  const [themeList, setThemeList] = useState(THEMES);
-
   const handleApplyTheme = (currentThemeColor) => {
     const colors = currentThemeColor.colors;
     document.documentElement.style.setProperty('--bg-content-color', colors.bgContentColor);
@@ -481,20 +479,23 @@ function Theme({ isOpen, onRequestClose }) {
     document.documentElement.style.setProperty('--placeholder-text', colors.placeholderText);
 
     const appEl = document.querySelector('.app-container');
-    // const playerEl = document.querySelector('.player');
-    // const playerBackground = document.querySelector('.player-background');
+    const playerEl = document.querySelector('.player');
+    const playerBackground = document.querySelector('.player-background');
     if (currentThemeColor?.background) {
       appEl.style.backgroundImage = `url('${currentThemeColor.background}')`;
-      // playerBackground.style.backgroundImage = `url('${currentThemeColor.background}')`;
+      if (playerBackground)
+        playerBackground.style.backgroundImage = `url('${currentThemeColor.background}')`;
     } else {
       appEl.style.backgroundImage = 'none';
-      // playerBackground.style.backgroundImage = 'none';
+      if (playerBackground) playerBackground.style.backgroundImage = 'none';
     }
-    // if (currentThemeColor?.playerBackground) {
-    //   playerEl.style.backgroundImage = `url('${currentThemeColor.playerBackground}')`;
-    // } else {
-    //   playerEl.style.backgroundImage = 'none';
-    // }
+
+    if (playerEl)
+      if (currentThemeColor?.playerBackground) {
+        playerEl.style.backgroundImage = `url('${currentThemeColor.playerBackground}')`;
+      } else {
+        playerEl.style.backgroundImage = 'none';
+      }
   };
 
   return (
@@ -512,7 +513,7 @@ function Theme({ isOpen, onRequestClose }) {
         <h3>Giao Diện</h3>
       </div>
       <div className="theme-container">
-        {themeList.map((theme, index) => (
+        {THEMES.map((theme, index) => (
           <div key={index} className="theme-item">
             <h3 className="theme-container__title">{theme.type}</h3>
             <Row className="g-4">
@@ -520,7 +521,7 @@ function Theme({ isOpen, onRequestClose }) {
                 <Col key={index} xs="6" sm="4" md="3" xl="2">
                   <div className="theme-container__item">
                     <div className="theme-container__overlay"></div>
-                    <img src={images.theme} alt="" />
+                    <img src={item.image} alt="theme" />
                     <div className="theme-container__inner">
                       <Button
                         onClick={() => handleApplyTheme(item)}

@@ -4,11 +4,18 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     currentUser: {},
+    isShowAuthForm: false,
     isAuth: false,
     loading: false,
     error: null,
   },
   reducers: {
+    openAuthForm: (state) => {
+      state.isShowAuthForm = true;
+    },
+    closeAuthForm: (state) => {
+      state.isShowAuthForm = false;
+    },
     setLoading: (state) => {
       state.loading = true;
       state.error = null;
@@ -40,5 +47,13 @@ const userSlice = createSlice({
 });
 
 const { reducer, actions } = userSlice;
-export const { setLoading, setError, setSuccess, logout, updateUserField } = actions;
+export const {
+  setLoading,
+  setError,
+  setSuccess,
+  logout,
+  updateUserField,
+  openAuthForm,
+  closeAuthForm,
+} = actions;
 export default reducer;

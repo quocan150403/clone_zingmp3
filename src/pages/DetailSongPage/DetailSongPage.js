@@ -20,6 +20,7 @@ import './DetailSongPage.scss';
 import { MediaList, Helmet, Section, AlbumList, Button, Wrapper, MenuItem } from 'components';
 import { albumApi, songApi } from 'api';
 import images from 'assets/images';
+import { fNumberWithUnits } from 'utils/formatNumber';
 
 export default function DetailSongPage() {
   const { slug } = useParams();
@@ -102,11 +103,8 @@ export default function DetailSongPage() {
                   {song.artists && song.artists.map((item) => item.name).join(', ')}
                 </p>
                 <p className="playlist-detail__description">
-                  {song.favorites && song.favorites} người yêu thích
+                  {song.favorites && fNumberWithUnits(song.favorites)} người yêu thích
                 </p>
-                {/* <Button className="mt-3" primary uppercase leftIcon={<BsPlayFill />}>
-                  Phát tất cả
-                </Button> */}
 
                 <div className="mt-4 gap-3 d-flex align-items-center justify-content-center">
                   <Tippy content="Thêm vào thư viện" placement="bottom">

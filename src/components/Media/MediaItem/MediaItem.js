@@ -9,7 +9,7 @@ import { setSong, playPause, setAlbum } from 'app/features/playerSlice';
 
 import './MediaItem.scss';
 import { songApi, userApi } from 'api';
-import { fMinutes } from 'utils/formatTime';
+import { fMinutes, fSeconds } from 'utils/formatTime';
 import MediaItemImage from './MediaItemImage';
 import MediaItemCheckbox from './MediaItemCheckbox';
 import MediaItemInfo from './MediaItemInfo';
@@ -142,7 +142,7 @@ function MediaItem({
         </div>
       </div>
       {showAlbum && <MediaItemAlbum albumId={data.albumId} />}
-      <span className="media-middle">{fMinutes(data.duration)}</span>
+      <span className="media-middle">{fSeconds(data.duration)}</span>
       {!rank && (
         <MediaItemOptions
           isShowOption={isShowOption}

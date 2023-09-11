@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Route } from 'react-router-dom';
 
 import DefaultLayout from 'layouts/DefaultLayout/DefaultLayout';
-import LoginPage from 'pages/LoginPage/LoginPage';
+import LoginPage from 'pages/LoginPage/AuthForm';
 
 export const renderRoutes = (routes, isAuth) => {
   return routes.map((route, index) => {

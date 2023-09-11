@@ -58,10 +58,7 @@ function Background({ currentSong, isPlaying, isShowPlayerPopper, onClickToggleB
         )}
         {tab.id === 2 && (
           <div className="player-background__karaoke">
-            <ul>
-              <li>Bài hát đang phát mới nhất</li>
-              <li>Bài hát đang phát mới nhất</li>
-            </ul>
+            <pre className="player-background__text">{currentSong.lyric}</pre>
           </div>
         )}
         {tab.id === 3 && (
@@ -74,18 +71,7 @@ function Background({ currentSong, isPlaying, isShowPlayerPopper, onClickToggleB
               </Col>
               <Col xs="12" md="12" lg="7">
                 <div className="ms-2 player-background__lyrics">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde, molestiae neque.
-                  Id, quod eius quas, et eligendi vero voluptas nihil quisquam perspiciatis
-                  excepturi optio, pariatur atque quibusdam autem totam. Distinctio. Lorem ipsum
-                  dolor sit amet, consectetur adipisicing elit. Unde, molestiae neque. Id, quod eius
-                  quas, et eligendi vero voluptas nihil quisquam perspiciatis excepturi optio,
-                  pariatur atque quibusdam autem totam. Distinctio. Lorem ipsum dolor sit amet,
-                  consectetur adipisicing elit. Unde, molestiae neque. Id, quod eius quas, et
-                  eligendi vero voluptas nihil quisquam perspiciatis excepturi optio, pariatur atque
-                  quibusdam autem totam. Distinctio. Lorem ipsum dolor sit amet, consectetur
-                  adipisicing elit. Unde, molestiae neque. Id, quod eius quas, et eligendi vero
-                  voluptas nihil quisquam perspiciatis excepturi optio, pariatur atque quibusdam
-                  autem totam. Distinctio.
+                  <pre>{currentSong.lyric}</pre>
                 </div>
               </Col>
             </Row>

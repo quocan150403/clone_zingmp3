@@ -73,7 +73,7 @@ export default function EditForm() {
         <BsX />
       </span>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="add-playlist__heading">Tạo playlist mới</h2>
+        <h2 className="add-playlist__heading">Chỉnh sửa playlist</h2>
         <input
           name="name"
           className="add-playlist__input"
@@ -115,7 +115,7 @@ export default function EditForm() {
         </div>
         <div className="mt-4">
           <Button type="submit" primary uppercase fullWidth>
-            tạo mới
+            Lưu
           </Button>
         </div>
       </form>

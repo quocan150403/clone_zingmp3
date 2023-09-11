@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
 import Tippy from '@tippyjs/react';
-import { BsBadge4K, BsMic, BsMusicNoteList, BsVolumeMute, BsVolumeUp } from 'react-icons/bs';
+import { BsMic, BsMusicNoteList, BsVolumeMute, BsVolumeUp } from 'react-icons/bs';
 
 function Options({
   muted,
@@ -19,11 +19,11 @@ function Options({
   return (
     <div className="player-right d-none-mobile">
       <div className="d-flex align-items-center justify-content-end">
-        <Tippy content="MV">
+        {/* <Tippy content="MV">
           <div className="player-right__btn">
             <BsBadge4K />
           </div>
-        </Tippy>
+        </Tippy> */}
         <Tippy content="Xem lời bài hát">
           <div onClick={() => onClickToggleBackground(true)} className="player-right__btn">
             <BsMic />

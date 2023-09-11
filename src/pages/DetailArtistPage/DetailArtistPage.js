@@ -147,7 +147,7 @@ export default function DetailArtistPage() {
             {artistRelate && <ArtistList artists={artistRelate} />}
           </Section>
 
-          <Row>
+          {/* <Row>
             <Col sm={10}>
               <Section title="Về nghệ sĩ">
                 <Row className="g-5">
@@ -168,7 +168,7 @@ export default function DetailArtistPage() {
                 </Row>
               </Section>
             </Col>
-          </Row>
+          </Row> */}
         </section>
       </div>
     </Helmet>

@@ -81,3 +81,17 @@ export function fMinutes(floatValue) {
 
   return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
+
+export function fSeconds(number) {
+  if (isNaN(number)) {
+    return '00:00';
+  }
+
+  const minutes = Math.floor(number / 60);
+  const seconds = Math.floor(number % 60);
+
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(seconds).padStart(2, '0');
+
+  return `${formattedMinutes}:${formattedSeconds}`;
+}

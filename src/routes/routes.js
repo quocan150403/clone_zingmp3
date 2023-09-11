@@ -1,11 +1,7 @@
 import { lazy } from 'react';
 import config from '../config';
 
-// Layouts
-import SimpleLayout from 'layouts/SimpleLayout';
-
 // Pages
-const LoginPage = lazy(() => import('pages/LoginPage'));
 const HomePage = lazy(() => import('pages/HomePage'));
 const ZingChartPage = lazy(() => import('pages/ZingChartPage'));
 const GenrePage = lazy(() => import('pages/GenrePage'));
@@ -21,7 +17,6 @@ const PlaylistPage = lazy(() => import('pages/PlaylistPage'));
 
 const publicRoutes = [
   { path: config.routes.home, component: HomePage },
-  { path: config.routes.login, component: LoginPage, layout: SimpleLayout },
   { path: config.routes.genre, component: GenrePage },
   { path: config.routes.zingChart, component: ZingChartPage },
   { path: config.routes.newMusic, component: NewMusicPage },

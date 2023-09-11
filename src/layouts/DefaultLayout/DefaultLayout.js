@@ -24,7 +24,18 @@ function DefaultLayout({ children }) {
       <Player isShowQueue={isShowQueue} onChangeIsShowQueue={setIsShowQueue} />
       <Queue isShowQueue={isShowQueue} />
 
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2500}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <AddForm />
       <EditForm />
       <DeleteForm />

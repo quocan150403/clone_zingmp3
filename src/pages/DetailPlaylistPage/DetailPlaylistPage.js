@@ -370,16 +370,9 @@ export default function DetailAlbumPage() {
               ) : (
                 <Nodata message="Không có bài hát nào trong playlist này" />
               )}
-              <div className="mt-4 mb-4 d-flex align-items-center justify-content-between">
-                <div className="d-flex flex-column">
-                  <h2 className="playlist-detail__title">Bài Hát Gợi Ý</h2>
-                  <p className="playlist-detail__subtitle">
-                    Dựa trên các bài hát trong playlist này
-                  </p>
-                </div>
-                <Button className="mt-3" small primary uppercase leftIcon={<BsArrowRepeat />}>
-                  Làm mới
-                </Button>
+              <div className="mt-4 mb-4 d-flex flex-column">
+                <h2 className="playlist-detail__title">Bài Hát Gợi Ý</h2>
+                <p className="playlist-detail__subtitle">Dựa trên các bài hát trong playlist này</p>
               </div>
               <MediaList
                 isShowActionsPlaylist

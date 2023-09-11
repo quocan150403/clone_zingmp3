@@ -44,3 +44,17 @@
     }
   }
 }
+
+.Toastify__toast-container {
+  bottom: calc(1rem + 90px);
+}
+
+.Toastify__toast-theme--light {
+  background-color: var(--layout-bg);
+  color: var(--text-color);
+  box-shadow: 0 1px 19px 0 rgba(0, 0, 0, 0.3), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
+}
+
+.Toastify__close-button--light {
+  color: var(--text-color);
+}

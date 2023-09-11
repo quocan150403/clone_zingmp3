@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import './Queue.scss';
 import { songApi } from 'api';
-import { MediaItem, Button, Tabs } from 'components';
+import { MediaItem, Button, Tabs, Nodata } from 'components';
 
 const TABS = [
   { id: 1, name: 'Danh sách phát' },
@@ -25,13 +25,12 @@ function Queue({ isShowQueue }) {
     .filter((item) => !recentSongs.some((recent) => recent._id === item._id))
     .slice(currentIndex)
     .concat(tracks.slice(0, currentIndex));
-  const historySongs = recentSongs.slice(-4);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { historySongs } = currentUser;
-        if (historySongs.length <= 0) return;
+        if (historySongs?.length <= 0) return;
         const newHistorySongs = historySongs.filter((item) => item !== currentSong._id);
         const resSongList = await songApi.getByIds({
           ids: newHistorySongs.toString(),
@@ -63,10 +62,9 @@ function Queue({ isShowQueue }) {
         {tab.id === 1 && (
           <>
             <div className="px-2">
-              {historySongs &&
-                historySongs.map((item, index) => (
-                  <MediaItem key={index} tracks={historySongs} data={item} grow isQueue active />
-                ))}
+              {currentSong && (
+                <MediaItem tracks={nextSongs} data={currentSong} grow isQueue active />
+              )}
             </div>
             <div className="queue-main">
               <h2>Tiếp theo</h2>
@@ -84,9 +82,13 @@ function Queue({ isShowQueue }) {
         )}
         {tab.id === 2 && (
           <div className="mx-2">
-            {songList.map((item, index) => (
-              <MediaItem key={index} tracks={songList} data={item} grow isQueue active />
-            ))}
+            {songList?.length ? (
+              songList.map((item, index) => (
+                <MediaItem key={index} tracks={songList} data={item} grow isQueue active />
+              ))
+            ) : (
+              <Nodata message="Đăng nhập để lưu lịch sử bài hát" />
+            )}
           </div>
         )}
       </div>

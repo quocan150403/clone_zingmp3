@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { fDate, fRelativeTimeAgo } from 'utils/formatTime';
 
@@ -23,9 +24,12 @@ export default function MediaItemInfo({
         <div className="media-description">
           {artists &&
             artists.map((artist, index) => (
-              <Link key={index} to={`/artist/${artist.slug}`}>
-                {artist.name}
-              </Link>
+              <Fragment key={index}>
+                {index > 0 && ', '}
+                <Link key={index} to={`/artist/${artist.slug}`}>
+                  {artist.name}
+                </Link>
+              </Fragment>
             ))}
         </div>
         {release && (

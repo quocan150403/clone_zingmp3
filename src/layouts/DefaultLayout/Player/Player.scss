@@ -336,21 +336,22 @@
 }
 
 .player-background__karaoke {
+  @include flexbox(center, center, column);
   height: 100%;
   width: 100%;
+  padding: 20px 0;
+}
 
-  ul {
-    height: 100%;
-    width: 100%;
-    @include flexbox(center, center, column);
-  }
+.player-background__text {
+  @extend %scrollbar;
+  color: var(--text-color);
+  font-weight: 700;
+  font-size: 60px;
+  text-align: center;
+  width: 100%;
 
-  li {
-    text-align: center;
-    color: var(--text-color);
-    font-weight: 700;
-    font-size: 60px;
-    padding: 20px 0;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -366,25 +367,3 @@
     display: none;
   }
 }
-
-// .lyrics {
-//   @include flexbox(center, flex-start, column);
-
-//   margin: 0;
-//   padding: 0;
-//   list-style: none;
-//
-
-//
-
-//   &__item {
-//     padding: 20px 0;
-//     letter-spacing: -1px;
-//     color: var(--white);
-//     font-weight: 700;
-//     font-size: 46px;
-//     line-height: inherit;
-//     line-height: 1.2;
-//     padding: 15px 0;
-//   }
-// }

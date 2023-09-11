@@ -32,6 +32,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
 import TippyHeadless from '@tippyjs/react/headless';
+import { openAuthForm } from 'app/features/userSlice';
 
 import './Sidebar.scss';
 import images from 'assets/images';
@@ -71,6 +72,10 @@ function Sidebar() {
     setIsShowOption(false);
     dispatch(setCurrentPlaylist(data));
     dispatch(openDeleteForm());
+  };
+
+  const handleShowAuthForm = () => {
+    dispatch(openAuthForm());
   };
 
   const isOpen = isToggle ? 'is-open' : '';
@@ -120,7 +125,10 @@ function Sidebar() {
       <div className="sidebar-separate d-none-mobile" />
 
       {!isAuth ? (
-        <div className="sidebar__login-btn rounded d-flex flex-column align-items-center justify-content-center d-none-mobile-tablet">
+        <div
+          onClick={handleShowAuthForm}
+          className="sidebar__login-btn rounded d-flex flex-column align-items-center justify-content-center d-none-mobile-tablet"
+        >
           <h5 className="sidebar__login-text">Đăng nhập để khám phá playlist dành riêng cho bạn</h5>
           <Button outlineBold>Đăng nhập</Button>
         </div>
@@ -159,7 +167,8 @@ function Sidebar() {
             title="Đã tải lên"
           />
 
-          <div className="sidebar-separate" />
+          {playlists?.length > 0 && <div className="sidebar-separate" />}
+
           <TippyHeadless
             visible={isShowOption}
             interactive={true}
