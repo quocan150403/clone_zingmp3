@@ -45,14 +45,14 @@ $width-search: 540px;
   border-radius: 20px;
   color: var(--white-color);
   border: 1px solid transparent;
-  background: var(--bg-content-color);
+  background-color: var(--bg-content-color);
   position: relative;
 
   &.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    background-color: var(--primary-bg);
-    box-shadow: 0 4px 6px 0 rgba(32, 33, 36, 0.28);
+    box-shadow: var(--box-shadow-queue);
+    background-color: var(--sidebar-popup-bg);
   }
 
   &__list {

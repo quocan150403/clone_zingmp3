@@ -47,7 +47,8 @@ export default function DetailArtistPage() {
           setNewAlbum(resNewAlbum[0]);
           setArtist(resArtist);
           setSongList(resSongList);
-          setHotAlbumList(resHotAlbums);
+          console.log(resHotAlbums);
+          // setHotAlbumList(resHotAlbums);
 
           const artistData = handleGetArtistsFromAlbums(resHotAlbums, _id);
           setArtistRelateList(artistData);
@@ -139,9 +140,11 @@ export default function DetailArtistPage() {
             </Col>
           </Row>
 
-          <Section className="mt-5" title="Album đã tham gia">
-            {hotAlbumList && <AlbumList albums={hotAlbumList} />}
-          </Section>
+          {hotAlbumList ?? (
+            <Section className="mt-5" title="Album đã tham gia">
+              <AlbumList albums={hotAlbumList} />
+            </Section>
+          )}
 
           <Section title="Có thể bạn thích">
             {artistRelate && <ArtistList artists={artistRelate} />}

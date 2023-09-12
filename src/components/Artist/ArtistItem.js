@@ -1,15 +1,13 @@
-import { Link, useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import { BsCheck2, BsFillPlayFill, BsPersonAdd, BsShuffle } from 'react-icons/bs';
-
-import { Button } from 'components';
-import { fNumberWithUnits } from 'utils/formatNumber';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { openAuthForm, updateUserField } from 'app/features/userSlice';
+
 import { commonApi } from 'api';
-import { updateUserField } from 'app/features/userSlice';
+import ArtistItemImage from './ArtistItemImage';
+import ArtistItemInfo from './ArtistItemInfo';
+import ArtistFollowBtn from './ArtistFollowBtn';
 
 export default function ArtistItem({ data, small }) {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentUser, isAuth } = useSelector((state) => state.user);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -24,7 +22,7 @@ export default function ArtistItem({ data, small }) {
 
   const handleFollowArtist = async () => {
     try {
-      if (!isAuth) return navigate('/login');
+      if (!isAuth) return dispatch(openAuthForm());
       const result = await commonApi.toggleFollowerArtist(data._id, currentUser._id);
       const { updatedFollowerCount, updatedFollowedArtists } = result;
       setFollowerCount(updatedFollowerCount);
@@ -35,43 +33,10 @@ export default function ArtistItem({ data, small }) {
   };
 
   return (
-    <div className="artist-item">
-      <Link to={`/artist/${data.slug}`} className="artist-item__wrap">
-        <div className="artist-item__img">
-          <img src={data.imageUrl} alt={data.name} />
-          <div className="artist-item__overlay"></div>
-          {!small && (
-            <span className="artist-item__icon">
-              <BsShuffle />
-            </span>
-          )}
-        </div>
-        {small && (
-          <span className="artist-item__play">
-            <BsFillPlayFill />
-          </span>
-        )}
-      </Link>
-      <div className="artist-item__info">
-        <h3 className="artist-item__name">{data.name}</h3>
-        {!small && (
-          <p className="artist-item__desc">
-            {fNumberWithUnits(followerCount || data.followers)} quan tâm
-          </p>
-        )}
-        {!small && (
-          <Button
-            onClick={handleFollowArtist}
-            uppercase
-            className="px-4"
-            primary
-            medium
-            leftIcon={isFollowing ? <BsCheck2 /> : <BsPersonAdd />}
-          >
-            {isFollowing ? 'Đã Quan tâm' : 'Quan tâm'}
-          </Button>
-        )}
-      </div>
+    <div className="artist__item">
+      <ArtistItemImage artist={data} small={small} />
+      <ArtistItemInfo small={small} artist={data} followerCount={followerCount} />
+      {!small && <ArtistFollowBtn isFollowing={isFollowing} onClickFollow={handleFollowArtist} />}
     </div>
   );
 }

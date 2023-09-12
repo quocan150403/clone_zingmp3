@@ -294,6 +294,8 @@
 .player-background {
   @include position(fixed, full);
   background-color: var(--primary-bg);
+  background-repeat: repeat;
+  background-size: 1920px auto;
   transition: 0.7s;
   transform: translateY(100%);
   padding: 0 20px;

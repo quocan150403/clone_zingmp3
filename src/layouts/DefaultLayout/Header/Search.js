@@ -29,9 +29,8 @@ function Search() {
           return;
         }
         setLoading(true);
-        const response = await commonApi.search(searchValue);
+        const response = await commonApi.search(URL);
         const { songs, albums, artists } = response;
-        console.log(response);
         setSongResult(songs);
         setAlbumResult(albums);
         setArtistResult(artists);

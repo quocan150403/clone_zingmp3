@@ -5,7 +5,7 @@
   font-weight: 400;
   min-width: 140px;
   border-radius: 100px;
-  color: var(--white-color);
+  color: var(--text-color);
   background-color: transparent;
   text-transform: inherit;
 
@@ -148,7 +148,7 @@
   }
 
   &.outline {
-    color: var(--white-color);
+    color: var(--text-color);
     background-color: transparent;
     border: 1px solid var(--border-primary);
     font-weight: 400;

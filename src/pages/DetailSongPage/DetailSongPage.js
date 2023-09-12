@@ -127,7 +127,7 @@ export default function DetailSongPage() {
                     render={(attrs) => (
                       <Wrapper {...attrs} tabIndex="-1" className="pb-3 pt-3 p-0">
                         <MenuItem
-                          small
+                          medium
                           option
                           icon={<BsTextWrap />}
                           title="Thêm vào danh sách phát"

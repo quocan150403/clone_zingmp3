@@ -1,8 +1,9 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 
 import ArtistItem from './ArtistItem';
 import './Artist.scss';
+
 function ArtistList({ artists, small }) {
   const classes = small
     ? 'col-4 col-sm-3 col-md-2-4 col-lg-2'
@@ -19,6 +20,9 @@ function ArtistList({ artists, small }) {
   );
 }
 
-ArtistList.propTypes = {};
+ArtistList.propTypes = {
+  small: PropTypes.bool,
+  artists: PropTypes.array,
+};
 
 export default ArtistList;

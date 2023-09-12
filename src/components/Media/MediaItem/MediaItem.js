@@ -9,7 +9,7 @@ import { setSong, playPause, setAlbum } from 'app/features/playerSlice';
 
 import './MediaItem.scss';
 import { songApi, userApi } from 'api';
-import { fMinutes, fSeconds } from 'utils/formatTime';
+import { fSeconds } from 'utils/formatTime';
 import MediaItemImage from './MediaItemImage';
 import MediaItemCheckbox from './MediaItemCheckbox';
 import MediaItemInfo from './MediaItemInfo';
